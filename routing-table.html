@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Routing Table | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>Routing Table | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -29,14 +31,14 @@
     const r = [];
     sites.forEach(function (s) {
       if (s.id === sid) r.push({ p: s.native, nh: "LAN（Native）", type: "Native", origin: s.name, st: "Active" });
-      else r.push({ p: s.native, nh: "Cato Cloud → " + s.name, type: "Cato", origin: s.name, st: s.status === "Connected" ? "Active" : "Withdrawn" });
+      else r.push({ p: s.native, nh: "Kato Cloud → " + s.name, type: "Kato", origin: s.name, st: s.status === "Connected" ? "Active" : "Withdrawn" });
     });
     if (sid === "s1") r.push({ p: "10.11.0.0/22", nh: "10.10.0.254（Core L3 SW）", type: "Routed", origin: me.name, st: "Active" }, { p: "192.168.100.0/24", nh: "BGP peer 10.10.0.254（AS 65010）", type: "BGP", origin: "旧MPLS網", st: "Active" });
-    else r.push({ p: "10.11.0.0/22", nh: "Cato Cloud → JP-TKY-HQ", type: "Cato", origin: "JP-TKY-HQ", st: "Active" });
-    r.push({ p: "10.250.0.0/16", nh: "Cato Cloud（SDP Users）", type: "Cato", origin: "SDP Range", st: "Active" }, { p: "0.0.0.0/0", nh: "Cato Cloud（Internet）", type: "Default", origin: "—", st: "Active" });
+    else r.push({ p: "10.11.0.0/22", nh: "Kato Cloud → JP-TKY-HQ", type: "Kato", origin: "JP-TKY-HQ", st: "Active" });
+    r.push({ p: "10.250.0.0/16", nh: "Kato Cloud（SDP Users）", type: "Kato", origin: "SDP Range", st: "Active" }, { p: "0.0.0.0/0", nh: "Kato Cloud（Internet）", type: "Default", origin: "—", st: "Active" });
     return r;
   }
-  const TIP = { Native: "この拠点自身の LAN。Socket に直接つながっています。", Routed: "L3 スイッチの先にあるネットワーク（Routed Range）。", BGP: "BGP で既存ルータから学習した経路（MPLS との並行稼働など）。", Cato: "Cato Cloud 経由で他の拠点・リモートユーザーへ届く経路。", Default: "どれにも当たらない宛先はインターネットへ（デフォルトルート）。" };
+  const TIP = { Native: "この拠点自身の LAN。Sokket に直接つながっています。", Routed: "L3 スイッチの先にあるネットワーク（Routed Range）。", BGP: "BGP で既存ルータから学習した経路（MPLS との並行稼働など）。", Kato: "Kato Cloud 経由で他の拠点・リモートユーザーへ届く経路。", Default: "どれにも当たらない宛先はインターネットへ（デフォルトルート）。" };
   function draw() {
     const sid = document.getElementById("site").value, q = document.getElementById("q").value.trim();
     let list = routes(sid);

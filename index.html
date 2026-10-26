@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -28,6 +30,8 @@
   .start-r .sub { color: var(--muted); margin-bottom: 22px; }
   .guide-link { height: 40px; justify-content: center; width: 100%; margin-top: 8px; font-size: 14px; }
   .start-r .btn-primary { height: 40px; justify-content: center; font-size: 14px; width: 100%; margin-top: 6px; }
+  .agree { margin: 10px 0 2px; font-size: 12.5px; align-items: flex-start; line-height: 1.6; }
+  .notice a { display: inline-block; margin-left: 4px; }
   .notice { margin-top: 22px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; line-height: 1.7; }
   .map { margin-top: 18px; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 6px 14px; font-size: 12.5px; }
   .map a { display: flex; gap: 6px; align-items: baseline; }
@@ -42,9 +46,9 @@
 <div class="start">
   <section class="start-l">
     <div class="ring-deco" aria-hidden="true"></div>
-    <div class="brand"><b>CMA TRAINER</b><small>CATO 管理画面 操作トレーニング（非公式）</small></div>
+    <div class="brand"><b>KMC TRAINER</b><small>SASE 管理画面 操作トレーニング（非公式・架空の製品）</small></div>
     <h1>実機に触る前に、<br>管理画面の操作を体で覚える。</h1>
-    <p>「Cato Cloud 管理画面（CMA）操作要領」の手順を、本番に影響しない練習用の画面で試せます。ルールを追加して Save し、Publish するまでの流れを、何度でもやり直せます。</p>
+    <p>「Kato Cloud 管理画面（KMC）操作要領」の手順を、本番に影響しない練習用の画面で試せます。ルールを追加して Save し、Publish するまでの流れを、何度でもやり直せます。</p>
     <ol class="flow">
       <li><span class="n">1</span><div><b>右のフォームで研修を開始</b><span>名前・メールアドレスは何を入れても進めます（保存はこのブラウザ内のみ）。</span></div></li>
       <li><span class="n">2</span><div><b>右上の［トレーニング］で、ガイドあり → ガイドなしの順に挑戦</b><span>チュートリアルでは次に押す場所がスポットライトで光ります。クリアしたら、チャットで課題が届く実践チャレンジへ。右下の「研修ミッション」でも練習できます。</span></div></li>
@@ -58,10 +62,11 @@
     <form id="startForm" novalidate>
       <div class="field"><label for="tName">研修者名</label><input class="input" id="tName" placeholder="例：研修 太郎" autocomplete="off"></div>
       <div class="field"><label for="tMail">メールアドレス（ログインIDの代わり）</label><input class="input" id="tMail" placeholder="例：trainee@example.com" autocomplete="off"></div>
+      <label class="check agree"><input type="checkbox" id="tAgree"><span><a href="disclaimer.html" target="_blank" rel="noopener">免責事項・ご利用条件</a>を読み、非公式の学習用サイトであることに同意します</span></label>
       <button class="btn btn-primary" type="submit">研修を開始</button>
       <a class="btn guide-link" href="guide.html" data-tip="図解の操作要領を開きます。「まず必須でやること」から読むのがおすすめです。">操作要領（図解）を見る</a>
     </form>
-    <p class="notice">このサイトは、Catoクラウドの管理画面を学ぶための<b>非公式の学習用シミュレーター</b>です。実際の Cato Management Application ではなく、入力した内容はどこにも送信されません。本物の管理画面のID・パスワードは入力しないでください。</p>
+    <p class="notice"><b>非公式の学習用シミュレーターです。</b>特定の製品ベンダー（Cato Networks Ltd. を含む）とは一切関係がなく、承認・監修も受けていません。名称・画面・機種名・番号はすべて架空のダミーで、実在の製品の画面を再現したものではありません。内容は実際の作業の判断根拠にせず、必ず公式ドキュメントを確認してください。入力内容はこのブラウザ内だけに保存され、外部には送信されません。<b>実在の管理画面のID・パスワードや機密情報は入力しないでください。</b><a href="disclaimer.html">免責事項・ご利用条件の全文 →</a></p>
     <div class="map" aria-label="画面一覧">
       <a href="topology.html">Topology <small>Monitoring</small></a>
       <a href="events.html">Events <small>Monitoring</small></a>
@@ -90,6 +95,8 @@
     if (me && me.name) { document.getElementById("tName").value = me.name === "研修 太郎" ? "" : me.name; }
     document.getElementById("startForm").addEventListener("submit", function (e) {
       e.preventDefault();
+      if (!document.getElementById("tAgree").checked) { App.toast("開始するには、免責事項・ご利用条件への同意にチェックを入れてください。", "ng", 5000, { title: "同意が必要です" }); document.getElementById("tAgree").focus(); return; }
+      App.db.set("agreed", Date.now());
       const name = document.getElementById("tName").value.trim() || "研修 太郎";
       const email = document.getElementById("tMail").value.trim() || "trainee@example.com";
       App.db.set("trainee", { name: name, email: email });

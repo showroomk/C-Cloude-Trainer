@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>操作要領 | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>操作要領 | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -68,7 +70,7 @@
 
 <header class="g-head">
   <div class="g-head-in">
-    <div><b>CMA TRAINER</b> <small>操作要領（図解版）</small></div>
+    <div><b>KMC TRAINER</b> <small>操作要領（図解版）</small></div>
     <div class="sp">
       <a class="btn ghost" href="index.html" data-tip="研修の開始画面に戻ります。">開始画面</a>
       <a class="btn" href="topology.html" data-tip="シミュレーター（管理画面）を開いて練習します。">シミュレーターを開く</a>
@@ -118,11 +120,11 @@
     <!-- ===== 1 画面の見方 ===== -->
     <section class="sec" id="layout" data-toc="画面の見方">
       <div class="sec-h"><span class="no">01</span><h2>画面の見方</h2></div>
-      <p class="lead">管理画面は「上部タブ → 左メニュー → 作業エリア」の3段で目的の画面にたどり着きます。メニュー名は英語なので、場所は「Monitoring > Topology」のように書きます。</p>
+      <p class="lead">管理画面は「上部タブ → 左メニュー → 作業エリア」の3段で目的の画面にたどり着きます。メニュー名は英語なので、場所は「Monitoring > トポロジー」のように書きます。</p>
       <figure class="fig"><div data-fig="layout"></div><figcaption>図1-1　画面の構成（番号は下の表に対応）</figcaption></figure>
       <table class="mini"><thead><tr><th style="width:44px">番号</th><th style="width:150px">場所</th><th>役割</th></tr></thead><tbody>
         <tr><td>①</td><td>上部タブ</td><td>Monitoring（監視）／ Network（拠点・経路）／ Access（ユーザー）／ Security（FW・TLS）／ Administration（管理者）</td></tr>
-        <tr><td>②</td><td>左メニュー</td><td>タブの中の画面。緑の線が付いているのが今いる画面</td></tr>
+        <tr><td>②</td><td>左メニュー</td><td>タブの中の画面。青い線が付いているのが今いる画面</td></tr>
         <tr><td>③</td><td>パンくず</td><td>今どこにいるか。「Accounts」で開始画面に戻る</td></tr>
         <tr><td>④</td><td>操作ボタン</td><td>New（追加）／ Save（保存）／ Publish（反映）。マウスを乗せると説明が出る</td></tr>
         <tr><td>⑤</td><td>一覧</td><td>行をクリックすると右側に編集パネルが開く</td></tr>
@@ -154,13 +156,13 @@
 
     <!-- ===== 4 拠点追加 ===== -->
     <section class="sec" id="site" data-toc="拠点を追加する">
-      <div class="sec-h"><span class="no">04</span><h2>拠点（サイト）を追加する</h2><span class="path">Network > Sites > New</span></div>
-      <p class="lead">先に管理画面でサイトを作っておけば、現地では Socket に回線と LAN をつないで電源を入れるだけで接続されます（ゼロタッチ）。</p>
+      <div class="sec-h"><span class="no">04</span><h2>拠点（サイト）を追加する</h2><span class="path">Network > サイト > New</span></div>
+      <p class="lead">先に管理画面でサイトを作っておけば、現地では Sokket に回線と LAN をつないで電源を入れるだけで接続されます（ゼロタッチ）。</p>
       <figure class="fig"><div data-fig="site"></div><figcaption>図4-1　Add Site パネルの入力項目（左）と、ゼロタッチ導入の流れ（右）</figcaption></figure>
       <table class="mini"><thead><tr><th style="width:44px">番号</th><th style="width:170px">項目</th><th>入力のポイント</th></tr></thead><tbody>
         <tr><td>①</td><td>Site Name</td><td>命名規則を決める（例：JP-TKY-HQ ＝ 国-都市-拠点）</td></tr>
-        <tr><td>②</td><td>Connection Type</td><td>Socket の型番・vSocket・IPsec。作成後は変えられないので正確に</td></tr>
-        <tr><td>③</td><td>Country / City / Time Zone</td><td>最寄り PoP と、Socket 自動アップグレードの時間帯に影響</td></tr>
+        <tr><td>②</td><td>Connection Type</td><td>Sokket の型番・vSokket・IPsec。作成後は変えられないので正確に</td></tr>
+        <tr><td>③</td><td>Country / City / Time Zone</td><td>最寄り PoP と、Sokket 自動アップグレードの時間帯に影響</td></tr>
         <tr><td>④</td><td>WAN 帯域</td><td>ライセンス帯域に合わせる。2本目の回線は Enable WAN2</td></tr>
         <tr><td>⑤</td><td>Native Range</td><td>拠点LANのサブネット（例 10.30.0.0/24）。<b>他拠点と重複させない</b></td></tr>
         <tr><td>⑥</td><td>License</td><td>地域・帯域に合ったライセンスを選び［Apply］</td></tr>
@@ -170,7 +172,7 @@
 
     <!-- ===== 5 監視 ===== -->
     <section class="sec" id="monitor" data-toc="拠点の状態を見る">
-      <div class="sec-h"><span class="no">05</span><h2>拠点の状態を見る</h2><span class="path">Monitoring > Topology</span><span class="path">Network > Sites > {拠点} > Snapshot / Network Analytics</span></div>
+      <div class="sec-h"><span class="no">05</span><h2>拠点の状態を見る</h2><span class="path">Monitoring > トポロジー</span><span class="path">Network > サイト > {拠点} > スナップショット / Network Analytics</span></div>
       <p class="lead">毎朝、Topology で赤い拠点がないかを確認します。気になる拠点はクリックして Snapshot（今の状態）と Network Analytics（24時間の推移）を見ます。</p>
       <figure class="fig"><div data-fig="monitor"></div><figcaption>図5-1　見る順番と、グラフの読み方</figcaption></figure>
       <a class="btn btn-primary practice" href="topology.html">Topology で練習する →</a>
@@ -178,12 +180,12 @@
 
     <!-- ===== 6 NAT ===== -->
     <section class="sec" id="nat" data-toc="固定IPで外に出す（NAT）">
-      <div class="sec-h"><span class="no">06</span><h2>固定IPで外に出す ― IP Allocation と NAT</h2><span class="path">Network > IP Allocation</span><span class="path">Network > Network Rules</span></div>
-      <p class="lead">Cato を通すと、送信元IPは PoP の共有IPに変わります。IPアドレスで接続制限している取引先・SaaS には、自社専用の <b>Allocated IP</b> から出すように設定します。</p>
+      <div class="sec-h"><span class="no">06</span><h2>固定IPで外に出す ― IP Allocation と NAT</h2><span class="path">Network > アイピー・アロケーション</span><span class="path">Network > ネットワーク・ルール</span></div>
+      <p class="lead">Kato を通すと、送信元IPは PoP の共有IPに変わります。IPアドレスで接続制限している取引先・SaaS には、自社専用の <b>Allocated IP</b> から出すように設定します。</p>
       <figure class="fig"><div data-fig="nat"></div><figcaption>図6-1　共有IP（上：拒否される）と Allocated IP（下：許可される）</figcaption></figure>
       <ol class="steps">
-        <li>Network > IP Allocation で Location（例：Tokyo）を選び［Allocate］→［Save］。割り当てられたIPを控える。</li>
-        <li>Network > Network Rules で［New］→ New Rule。Rule Type は <b>Internet</b>、App/Category で対象サービスを指定。</li>
+        <li>Network > アイピー・アロケーション で Location（例：Tokyo）を選び［Allocate］→［Save］。割り当てられたIPを控える。</li>
+        <li>Network > ネットワーク・ルール で［New］→ New Rule。Rule Type は <b>Internet</b>、App/Category で対象サービスを指定。</li>
         <li>Configuration の Route/NAT で <b>NAT</b> を選び、Allocated IP を指定 → Apply → Save → Publish。</li>
         <li>取引先・SaaS の管理者に、その IP を許可リストへ登録してもらう。</li>
       </ol>
@@ -192,7 +194,7 @@
 
     <!-- ===== 7 QoS ===== -->
     <section class="sec" id="qos" data-toc="Web会議を優先する（QoS）">
-      <div class="sec-h"><span class="no">07</span><h2>Web会議を優先する ― Bandwidth Priority</h2><span class="path">Network > Network Rules</span><span class="path">Network > Bandwidth Management</span></div>
+      <div class="sec-h"><span class="no">07</span><h2>Web会議を優先する ― Bandwidth Priority</h2><span class="path">Network > ネットワーク・ルール</span><span class="path">Network > バンドウィドス・マネジメント</span></div>
       <p class="lead">回線が混んだとき、どの通信を先に流すかを決めます。<b>数字が小さいほど優先</b>。ルールを作っただけでは既定の p255（最後）になります。</p>
       <figure class="fig"><div data-fig="qos"></div><figcaption>図7-1　混雑時の送り出しの順番</figcaption></figure>
       <a class="btn btn-primary practice" href="network-rules.html">Network Rules で練習する →</a>
@@ -200,7 +202,7 @@
 
     <!-- ===== 8 TLS ===== -->
     <section class="sec" id="tls" data-toc="TLS Inspection">
-      <div class="sec-h"><span class="no">08</span><h2>TLS Inspection（HTTPS の検査）</h2><span class="path">Security > TLS Inspection</span></div>
+      <div class="sec-h"><span class="no">08</span><h2>TLS Inspection（HTTPS の検査）</h2><span class="path">Security > ティーエルエス・インスペクション</span></div>
       <p class="lead">暗号化された通信を PoP で一度開けて検査し、もう一度暗号化して送ります。端末に<b>ルート証明書</b>が入っていないと証明書エラーになります。</p>
       <figure class="fig"><div data-fig="tls"></div><figcaption>図8-1　検査される通信（上）と、Bypass で検査しない通信（下）</figcaption></figure>
       <ol class="steps">
@@ -214,16 +216,16 @@
 
     <!-- ===== 9 users ===== -->
     <section class="sec" id="users" data-toc="ユーザーとリモート接続">
-      <div class="sec-h"><span class="no">09</span><h2>ユーザーとリモート接続</h2><span class="path">Access > Users</span><span class="path">Access > Directory Services</span><span class="path">Access > Client Connectivity Policy</span></div>
+      <div class="sec-h"><span class="no">09</span><h2>ユーザーとリモート接続</h2><span class="path">Access > ユーザー</span><span class="path">Access > ディレクトリ・サービス</span><span class="path">Access > クライアント・コネクティビティ・ポリシー</span></div>
       <p class="lead">ユーザーは IdP（Entra ID など）から SCIM で自動同期するのが基本です。リモート接続できるかは、SDP ライセンスの有無と Client Connectivity Policy で決まります。</p>
       <figure class="fig"><div data-fig="users"></div><figcaption>図9-1　ユーザーが同期されてから、接続が許可されるまで</figcaption></figure>
-      <div class="note"><b>退職者対応</b>は IdP 側でアカウントを無効化するのが原則です。SCIM で同期されたユーザーを Cato 側だけで消しても、次の同期で戻ります。</div>
+      <div class="note"><b>退職者対応</b>は IdP 側でアカウントを無効化するのが原則です。SCIM で同期されたユーザーを Kato 側だけで消しても、次の同期で戻ります。</div>
       <a class="btn btn-primary practice" href="client-connectivity.html">Client Connectivity Policy で練習する →</a>
     </section>
 
     <!-- ===== 10 events ===== -->
     <section class="sec" id="events" data-toc="Events で原因を探す">
-      <div class="sec-h"><span class="no">10</span><h2>Events で原因を探す</h2><span class="path">Monitoring > Events</span></div>
+      <div class="sec-h"><span class="no">10</span><h2>Events で原因を探す</h2><span class="path">Monitoring > イベント</span></div>
       <p class="lead">「このサイトが見られない」と言われたら、Events で<b>どのルールに止められたか</b>を確認します。</p>
       <figure class="fig"><div data-fig="events"></div><figcaption>図10-1　3ステップで絞り込む</figcaption></figure>
       <div class="note">イベントが表示されるまで約5分、まれに30分かかります。ルールの Track（記録）がオフだと、そのルールのイベントは残りません。</div>
@@ -239,7 +241,7 @@
 
     <!-- ===== 12 admin ===== -->
     <section class="sec" id="admin" data-toc="管理者と操作履歴">
-      <div class="sec-h"><span class="no">12</span><h2>管理者アカウントと操作履歴</h2><span class="path">Administration > Administrators</span><span class="path">Monitoring > Audit Trail</span></div>
+      <div class="sec-h"><span class="no">12</span><h2>管理者アカウントと操作履歴</h2><span class="path">Administration > アドミニストレーター</span><span class="path">Monitoring > オーディット・トレイル</span></div>
       <p class="lead">管理者は1人1アカウント。追加すると招待メールが届き、本人が有効化して MFA を設定すると Active になります。設定変更はすべて Audit Trail に記録されます。</p>
       <figure class="fig"><div data-fig="admin"></div><figcaption>図12-1　管理者アカウントの一生と、Audit Trail の使いどころ</figcaption></figure>
       <a class="btn btn-primary practice" href="administrators.html">Administrators で練習する →</a>
@@ -248,7 +250,7 @@
     <!-- ===== 13 more ===== -->
     <section class="sec" id="more" data-toc="そのほかの画面（地図）">
       <div class="sec-h"><span class="no">13</span><h2>そのほかの画面 ― 全画面の地図</h2></div>
-      <p class="lead">シミュレーターのすべての画面を、タブごとに並べた地図です。箱にマウスを乗せると「何をする画面か」、クリックするとその画面に移動します。緑の箱は研修ミッションに含まれる画面です。</p>
+      <p class="lead">シミュレーターのすべての画面を、タブごとに並べた地図です。箱にマウスを乗せると「何をする画面か」、クリックするとその画面に移動します。青い箱は研修ミッションに含まれる画面です。</p>
       <figure class="fig"><div data-fig="map"></div><figcaption>図13-1　全画面の地図（クリックで移動）</figcaption></figure>
       <table class="mini"><thead><tr><th style="width:190px">こんなとき</th><th style="width:200px">開く画面</th><th>見るところ</th></tr></thead><tbody>
         <tr><td>どの拠点の品質が悪い？</td><td><a href="sites-overview.html">Sites Overview</a> / <a href="network-dashboard.html">Network Dashboard</a></td><td>赤・黄色の値、回線品質マップの Poor のマス</td></tr>
@@ -264,7 +266,7 @@
       </tbody></table>
     </section>
 
-    <p class="foot-note">この操作要領は、Cato Networks の公開ドキュメントと添付いただいた実機画面をもとにした非公式の学習資料です。実機の画面・メニューはアップデートで変わることがあります。作業前に最新の公式ドキュメントを確認してください。</p>
+    <p class="foot-note">この操作要領は、架空の製品「Kato SASE Cloud」を題材に、SASE 管理画面の一般的な操作の流れを説明する非公式の学習資料です。特定の製品ベンダーとは一切関係がなく、実在の製品の画面・仕様と一致することを保証しません。実際の作業では、導入している製品の最新の公式ドキュメントを必ず確認してください。<a href="disclaimer.html">免責事項・ご利用条件</a></p>
   </main>
 </div>
 
@@ -274,7 +276,7 @@
 <script>
 (function () {
   /* ---------- SVG 作図ヘルパー ---------- */
-  const C = { green: "#1f8a5b", gsoft: "#eaf6ef", slate: "#6d86a2", ssoft: "#eef2f6", red: "#d6333b", rsoft: "#fdecec", orange: "#e58a00", osoft: "#fff5e1", blue: "#1a73e8", bsoft: "#e8f1fd", ink: "#2b2f33", muted: "#6b7178", line: "#c9ced4", white: "#ffffff" };
+  const C = { ok: "#2e9b5f", oksoft: "#e3f4ea", green: "#0b66f0", gsoft: "#e8f1ff", slate: "#6d86a2", ssoft: "#eef2f6", red: "#d6333b", rsoft: "#fdecec", orange: "#e58a00", osoft: "#fff5e1", blue: "#1a73e8", bsoft: "#e8f1fd", ink: "#2b2f33", muted: "#6b7178", line: "#c9ced4", white: "#ffffff" };
   function lines(t) { return String(t).split("\n"); }
   function T(x, y, t, o) {
     o = o || {};
@@ -303,7 +305,7 @@
   // ミニ管理画面の枠
   function frame(x, y, w, h, tab, sideItems, active) {
     let s = B(x, y, w, h, "", { f: "#f4f5f7", r: 6 }) + '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="26" rx="6" fill="#fff" stroke="' + C.line + '"/>' +
-      '<rect x="' + x + '" y="' + y + '" width="86" height="26" fill="' + C.green + '"/>' + T(x + 9, y + 17, "CMA TRAINER", { fs: 9.5, c: "#fff", b: true });
+      '<rect x="' + x + '" y="' + y + '" width="86" height="26" fill="' + C.green + '"/>' + T(x + 9, y + 17, "KMC TRAINER", { fs: 9.5, c: "#fff", b: true });
     const tabs = ["Monitoring", "Network", "Access", "Security", "Administration"];
     let tx = x + 96;
     tabs.forEach(function (t) { const on = t === tab; s += T(tx, y + 17, t, { fs: 9, c: on ? C.green : C.ink, b: on }); if (on) s += '<rect x="' + (tx - 2) + '" y="' + (y + 23) + '" width="' + (t.length * 5.6 + 4) + '" height="3" fill="' + C.green + '"/>'; tx += t.length * 5.6 + 14; });
@@ -311,7 +313,7 @@
     (sideItems || []).forEach(function (it, i) {
       const yy = y + 40 + i * 17;
       if (it === active) s += '<rect x="' + (x + 1) + '" y="' + (yy - 11) + '" width="85" height="16" fill="' + C.gsoft + '"/><rect x="' + (x + 1) + '" y="' + (yy - 11) + '" width="3" height="16" fill="' + C.green + '"/>';
-      s += T(x + 10, yy, it, { fs: 8.5 });
+      const kn = App.kana(it); s += T(x + 10, yy, kn, { fs: Math.min(8.5, 74 / Math.max(1, kn.length)) });
     });
     return s;
   }
@@ -325,15 +327,15 @@
     "2  Block Uncategorized": "2番目のルール：宛先が「未分類」なので一致 → Block で決定。ここで照合は終わります。",
     "3  Prompt Social Networks": "3番目以降は評価されません（先に2番目で決まったため）。",
     "Default  Any Any Allow": "既定ルール：どれにも一致しなかったときだけ使われます。",
-    "① 管理画面で": "Network > Sites > New でサイトを作成し、Apply。",
-    "② Socket を発送": "Socket のシリアルをサイトに紐づけて現地へ発送。PPPoE・固定IPなら回線情報も事前登録。",
+    "① 管理画面で": "Network > サイト > New でサイトを作成し、Apply。",
+    "② Sokket を発送": "Sokket のシリアルをサイトに紐づけて現地へ発送。PPPoE・固定IPなら回線情報も事前登録。",
     "③ 現地：回線とLANを": "現地では配線して電源を入れるだけ。専門の技術者は不要です。",
     "⑤ 確認": "Topology で緑表示、Snapshot で Link Up・RTT、疎通テストで開通確認。",
-    "Topology": "Monitoring > Topology：赤い拠点（切断）がないかを毎朝確認。",
-    "Snapshot": "Network > Sites > {拠点} > Snapshot：回線の Up/Down、遅延、接続履歴。",
-    "Network Analytics": "Network > Sites > {拠点} > Network Analytics：24時間のスループット・ロス・遅延・ジッタ。",
+    "Topology": "Monitoring > トポロジー：赤い拠点（切断）がないかを毎朝確認。",
+    "Snapshot": "Network > サイト > {拠点} > スナップショット：回線の Up/Down、遅延、接続履歴。",
+    "Network Analytics": "Network > サイト > {拠点} > ネットワーク・アナリティクス：24時間のスループット・ロス・遅延・ジッタ。",
     "スループットが契約帯域に張り付く": "帯域不足のサイン。増速するか、大容量通信の優先度を下げます。",
-    "ラストマイルのロスも高い": "Cato の外（ISP 側）でロスが起きています。回線事業者へ相談。",
+    "ラストマイルのロスも高い": "Kato の外（ISP 側）でロスが起きています。回線事業者へ相談。",
     "ジッタが大きい": "遅延の揺らぎ。Web会議や電話の音声が途切れる原因になります。",
     "Connected の時間が短い": "頻繁に切断・再接続しているサイン。Recent Connections を確認。",
     "社員の PC": "拠点内または在宅の社員の端末。通信は最寄りの PoP を経由します。",
@@ -351,18 +353,18 @@
     "再暗号化": "検査後にもう一度暗号化して宛先へ送ります。",
     "Web サイト\n（HTTPS）": "宛先の Web サイト。",
     "銀行・医療サイト": "プライバシーや証明書ピン留めの都合で、検査しない（Bypass）対象。",
-    "IdP\nEntra ID / Okta": "社員アカウントの元データ。ここで追加・無効化すると Cato に自動で反映されます。",
-    "Access > Users\nユーザー＋SDPライセンス": "同期されたユーザー一覧。SDP ライセンスがある人だけリモート接続できます。",
+    "IdP\nEntra ID / Okta": "社員アカウントの元データ。ここで追加・無効化すると Kato に自動で反映されます。",
+    "Access > ユーザー\nユーザー＋SDPライセンス": "同期されたユーザー一覧。SDP ライセンスがある人だけリモート接続できます。",
     "Client Connectivity\nPolicy\n上から順に判定": "接続してきた端末を、ルールに上から順に照合して接続の可否を決めます。",
     "Allow WAN and Internet": "社内システムとインターネットの両方に接続できる（WAN 側は WAN Firewall にも従う）。",
     "Allow Internet only": "インターネットだけ使える。社内システムには入れない。",
     "Block（既定ルール）": "どのルールにも一致しない端末は接続できません。",
-    "Cato 側・広域障害の可能性": "複数拠点が同時に落ちているなら Cato 側や広域の障害を疑い、障害情報を確認します。",
+    "Kato 側・広域障害の可能性": "複数拠点が同時に落ちているなら Kato 側や広域の障害を疑い、障害情報を確認します。",
     "現地の電源・ケーブル・ONU": "全回線が Down なら、まず現地の物理的な状態を確認します。",
     "冗長回線で継続中": "片方の回線だけ落ちている状態。通信は続いていますが、早めに回線事業者へ連絡します。",
-    "インスタンス停止・SG・": "vSocket はクラウド側の設定（停止・セキュリティグループ・ルート）が原因のことが多いです。",
-    "現地LANから Socket WebUI で": "管理画面から状態が見えないときは、現地で Socket に直接アクセスして確認します。",
-    "New\nEmail・Role を入力": "Administration > Administrators > New で作成。何を入力しても進めるのは研修版のみ。",
+    "インスタンス停止・SG・": "vSokket はクラウド側の設定（停止・セキュリティグループ・ルート）が原因のことが多いです。",
+    "現地LANから Sokket WebUI で": "管理画面から状態が見えないときは、現地で Sokket に直接アクセスして確認します。",
+    "New\nEmail・Role を入力": "Administration > アドミニストレーター > New で作成。何を入力しても進めるのは研修版のみ。",
     "Invited\n招待メール送信": "招待メールが届いた状態。本人が有効化するまで待ちます。",
     "Active\n本人が有効化\n＋MFA 設定": "利用中。MFA が設定されていることを確認します。",
     "棚卸し\n四半期ごと\n退職時は即削除": "不要な管理者が残らないよう定期的に見直します。",
@@ -387,7 +389,7 @@
     events: "Events の調べ方：3ステップで原因のルールを特定します。",
     trouble: "切り分けフロー：上から順に確認。ひし形にマウスを乗せると確認方法が出ます。",
     admin: "管理者アカウントの流れと Audit Trail。",
-    map: "全画面の地図：箱にマウスを乗せると説明、クリックでその画面へ移動。緑はミッションのある画面。"
+    map: "全画面の地図：箱にマウスを乗せると説明、クリックでその画面へ移動。青はミッションのある画面。"
   };
   /* ---------- 図 ---------- */
   const FIG = {
@@ -419,7 +421,7 @@
       st.forEach(function (p, i) {
         const x = 20 + i * 168;
         const key = i === 2;
-        s += G(["開始画面で名前を入力して［研修を開始］。何を入力しても進めます。", "右上の「?」で画面の見方を表示。ボタン・行・図にマウスを乗せると説明が出ます。", "Internet Firewall でルールを追加し Apply → Save → Publish。研修で一番大事なステップです。", "Monitoring > Topology で赤い拠点を開き、切断時の画面を確認します。", "右下の「研修ミッション」を上から順にすべて達成します。"][i], '<circle cx="' + (x + 60) + '" cy="58" r="40" fill="' + (key ? C.green : C.gsoft) + '" stroke="' + C.green + '" stroke-width="2"/>' +
+        s += G(["開始画面で名前を入力して［研修を開始］。何を入力しても進めます。", "右上の「?」で画面の見方を表示。ボタン・行・図にマウスを乗せると説明が出ます。", "Internet Firewall でルールを追加し Apply → Save → Publish。研修で一番大事なステップです。", "Monitoring > トポロジー で赤い拠点を開き、切断時の画面を確認します。", "右下の「研修ミッション」を上から順にすべて達成します。"][i], '<circle cx="' + (x + 60) + '" cy="58" r="40" fill="' + (key ? C.green : C.gsoft) + '" stroke="' + C.green + '" stroke-width="2"/>' +
           T(x + 60, 52, "STEP " + (i + 1), { a: "middle", fs: 10, c: key ? "#fff" : C.green, b: true }) + T(x + 60, 70, p[0], { a: "middle", fs: 12.5, c: key ? "#fff" : C.ink, b: true }) +
           T(x + 60, 120, p[1], { a: "middle", fs: 11.5, c: C.muted }));
         if (key) s += B(x + 8, 136, 104, 20, "最重要", { f: C.osoft, s: C.orange, fs: 11, c: "#8a5200", b: true, r: 10 });
@@ -439,13 +441,13 @@
       ["# On  Name                 Source   App/Category            Action", "1  ●   Block Risky Categories   Any   Gambling, Anonymizers   Block", "2  ●   Block Uncategorized      Any   Uncategorized           Block", "3  ●   Prompt Social Networks   全社員 Social Networks         Prompt", "    Default (implicit)           Any   Any                     Allow"].forEach(function (l, i) {
         s += '<rect x="111" y="' + (158 + i * 30) + '" width="722" height="30" fill="' + (i === 0 ? "#fafbfc" : i % 2 ? "#fff" : "#fbfcfd") + '"/>' + T(122, 177 + i * 30, l, { fs: 10, c: i === 0 ? C.muted : C.ink });
       });
-      s += N(1, 330, 14, null, "① 上部タブ：Monitoring・Network・Access・Security・Administration を切り替えます。") + N(2, 70, 100, null, "② 左メニュー：タブの中の画面を選びます。緑の線が今いる画面。") + N(3, 104, 46, null, "③ パンくず：今どこにいるか。Accounts で上位へ戻ります。") +
+      s += N(1, 330, 14, null, "① 上部タブ：Monitoring・Network・Access・Security・Administration を切り替えます。") + N(2, 70, 100, null, "② 左メニュー：タブの中の画面を選びます。青い線が今いる画面。") + N(3, 104, 46, null, "③ パンくず：今どこにいるか。Accounts で上位へ戻ります。") +
         N(4, 690, 140, null, "④ 操作ボタン：New（追加）→ Save（保存）→ Publish（反映）。") + N(5, 470, 230, null, "⑤ 一覧：上から順に評価されるルール。行をクリックすると右に編集パネルが開きます。") + N(6, 610, 14, null, "⑥ 操作要領と ?：手順書と、画面の見方の再表示。");
       return svg(860, 350, s, "画面の構成");
     },
     publish: function () {
       let s = "";
-      const st = [["編集中", "Apply した直後", C.osoft, C.orange, "黄：未保存の変更あり"], ["未公開リビジョン", "Save した後", C.bsoft, C.blue, "青：まだ全社に未反映"], ["公開中", "Publish した後", C.gsoft, C.green, "緑：全社に反映済み"]];
+      const st = [["編集中", "Apply した直後", C.osoft, C.orange, "黄：未保存の変更あり"], ["未公開リビジョン", "Save した後", C.bsoft, C.blue, "青：まだ全社に未反映"], ["公開中", "Publish した後", C.oksoft, C.ok, "緑：全社に反映済み"]];
       st.forEach(function (p, i) {
         const x = 30 + i * 280;
         s += G(["編集中：Apply した直後。帯は黄色。まだ保存されておらず、他の画面に移ると失われます。次は Save。", "未公開リビジョン：Save した後。帯は青。自分だけに見え、触ったルールはロックされます。次は Compare View で確認して Publish。", "公開中：Publish した後。帯は緑。全社の通信に反映済みで、取り消しはできません。"][i], B(x, 30, 220, 92, "", { f: p[2], s: p[3], sw: 2, r: 8 }) + T(x + 110, 64, p[0], { a: "middle", fs: 16, b: true, c: p[3] }) + T(x + 110, 88, p[1], { a: "middle", fs: 12, c: C.muted }));
@@ -482,17 +484,17 @@
     },
     site: function () {
       let s = B(20, 10, 330, 300, "", { f: "#fff", r: 6 }) + '<rect x="20" y="10" width="330" height="30" rx="6" fill="#fafbfc" stroke="' + C.line + '"/>' + T(34, 30, "Add Site", { fs: 13, b: true }) + T(336, 30, "×", { a: "end", fs: 14, c: C.muted });
-      const f = [["Site Name", "JP-NGO-BR02"], ["Connection Type", "Socket X1600 ▾"], ["Country / City / Time Zone", "Japan / Nagoya / Asia/Tokyo"], ["WAN1 Down / Up (Mbps)", "100 / 100   □ Enable WAN2"], ["Native Range", "10.30.0.0/24"], ["License", "Japan - 100 Mbps ▾"]];
+      const f = [["Site Name", "JP-NGO-BR02"], ["Connection Type", "Sokket S160 ▾"], ["Country / City / Time Zone", "Japan / Nagoya / Asia/Tokyo"], ["WAN1 Down / Up (Mbps)", "100 / 100   □ Enable WAN2"], ["Native Range", "10.30.0.0/24"], ["License", "Japan - 100 Mbps ▾"]];
       f.forEach(function (it, i) {
         const y = 52 + i * 40;
-        s += G(["① Site Name：命名規則（国-都市-拠点）で統一。", "② Connection Type：Socket の型番・vSocket・IPsec。作成後は変更できません。", "③ Country / City / Time Zone：最寄り PoP とメンテナンス時間帯に影響。", "④ WAN 帯域：ライセンスに合わせる。2本目の回線は Enable WAN2。", "⑤ Native Range：拠点 LAN のサブネット。他拠点と重複させない。", "⑥ License：地域・帯域に合ったライセンス。最後に Apply。"][i], T(36, y + 4, it[0], { fs: 9.5, c: C.muted }) + B(36, y + 9, 280, 20, "", { r: 3 }) + T(44, y + 23, it[1], { fs: 10.5 }) + N(i + 1, 330, y + 19));
+        s += G(["① Site Name：命名規則（国-都市-拠点）で統一。", "② Connection Type：Sokket の型番・vSokket・IPsec。作成後は変更できません。", "③ Country / City / Time Zone：最寄り PoP とメンテナンス時間帯に影響。", "④ WAN 帯域：ライセンスに合わせる。2本目の回線は Enable WAN2。", "⑤ Native Range：拠点 LAN のサブネット。他拠点と重複させない。", "⑥ License：地域・帯域に合ったライセンス。最後に Apply。"][i], T(36, y + 4, it[0], { fs: 9.5, c: C.muted }) + B(36, y + 9, 280, 20, "", { r: 3 }) + T(44, y + 23, it[1], { fs: 10.5 }) + N(i + 1, 330, y + 19));
       });
       s += B(214, 290 - 4, 50, 20, "Cancel", { fs: 10 }) + B(270, 286, 60, 20, "Apply", { f: C.green, s: C.green, c: "#fff", fs: 10 });
       // zero touch
       s += T(400, 28, "ゼロタッチ導入の流れ", { fs: 12, b: true });
-      s += B(400, 46, 130, 54, "① 管理画面で\nサイトを作成", { f: C.gsoft, s: C.green, fs: 11.5 }) + B(400, 136, 130, 54, "② Socket を発送\n（シリアルを紐づけ）", { f: C.ssoft, s: C.slate, fs: 11.5 }) + B(400, 226, 130, 64, "③ 現地：回線とLANを\nつないで電源ON\n（専門知識不要）", { f: C.osoft, s: C.orange, fs: 11 });
+      s += B(400, 46, 130, 54, "① 管理画面で\nサイトを作成", { f: C.gsoft, s: C.green, fs: 11.5 }) + B(400, 136, 130, 54, "② Sokket を発送\n（シリアルを紐づけ）", { f: C.ssoft, s: C.slate, fs: 11.5 }) + B(400, 226, 130, 64, "③ 現地：回線とLANを\nつないで電源ON\n（専門知識不要）", { f: C.osoft, s: C.orange, fs: 11 });
       s += A(465, 100, 465, 134) + A(465, 190, 465, 224);
-      s += B(640, 210, 200, 80, "", { f: "#fff", s: C.green, r: 8 }) + '<circle cx="740" cy="250" r="26" fill="none" stroke="' + C.green + '" stroke-width="10"/>' + T(740, 304, "PoP（Cato Cloud）", { a: "middle", fs: 11, c: C.green });
+      s += B(640, 210, 200, 80, "", { f: "#fff", s: C.green, r: 8 }) + '<circle cx="740" cy="250" r="26" fill="none" stroke="' + C.green + '" stroke-width="10"/>' + T(740, 304, "PoP（Kato Cloud）", { a: "middle", fs: 11, c: C.green });
       s += A(532, 258, 636, 252, { c: C.green, w: 2, t: "④ 自動で接続・設定取得", tc: C.green, dy: -10 });
       s += B(620, 60, 220, 100, "⑤ 確認\nTopology に緑で表示\nSnapshot で Link Up・RTT\n疎通テスト（Web・社内・DNS）", { f: "#fff", s: C.line, fs: 11 });
       s += A(740, 206, 740, 162, { c: C.green });
@@ -565,8 +567,8 @@
       let s = "";
       s += B(20, 30, 150, 64, "IdP\nEntra ID / Okta", { f: C.ssoft, s: C.slate, fs: 12 });
       s += A(172, 62, 248, 62, { c: C.slate, t: "SCIM 自動同期", tc: C.slate });
-      s += B(250, 30, 150, 64, "Access > Users\nユーザー＋SDPライセンス", { fs: 11 });
-      s += A(402, 62, 478, 62, { c: C.slate, t: "Cato Client で接続", tc: C.slate });
+      s += B(250, 30, 150, 64, "Access > ユーザー\nユーザー＋SDPライセンス", { fs: 11 });
+      s += A(402, 62, 478, 62, { c: C.slate, t: "Kato Client で接続", tc: C.slate });
       s += B(480, 18, 170, 88, "Client Connectivity\nPolicy\n上から順に判定", { f: C.gsoft, s: C.green, fs: 11.5 });
       const out = [["端末の条件を満たす\n（会社PC・AV稼働）", "Allow WAN and Internet", C.green, C.gsoft], ["条件を満たさない\n（私物・AV停止）", "Allow Internet only", C.orange, C.osoft], ["どのルールにも\n一致しない", "Block（既定ルール）", C.red, C.rsoft]];
       out.forEach(function (o, i) {
@@ -592,10 +594,10 @@
     },
     trouble: function () {
       let s = "";
-      const q = [["他の拠点も落ちている？", "Cato 側・広域障害の可能性\n→ 障害情報を確認・サポートへ"], ["Snapshot：全回線 Down？", "現地の電源・ケーブル・ONU\n回線事業者の障害を確認"], ["一部の回線だけ Down？", "冗長回線で継続中\n→ 回線事業者へ連絡"], ["vSocket（クラウド）？", "インスタンス停止・SG・\nルートテーブルを確認"], ["管理画面から見えない？", "現地LANから Socket WebUI で\nWAN の IP 取得を確認"]];
+      const q = [["他の拠点も落ちている？", "Kato 側・広域障害の可能性\n→ 障害情報を確認・サポートへ"], ["Snapshot：全回線 Down？", "現地の電源・ケーブル・ONU\n回線事業者の障害を確認"], ["一部の回線だけ Down？", "冗長回線で継続中\n→ 回線事業者へ連絡"], ["vSokket（クラウド）？", "インスタンス停止・SG・\nルートテーブルを確認"], ["管理画面から見えない？", "現地LANから Sokket WebUI で\nWAN の IP 取得を確認"]];
       q.forEach(function (r, i) {
         const y = 14 + i * 64;
-        s += G(["Monitoring > Topology で、他の拠点の状態を確認します。", "Network > Sites > {拠点} > Snapshot の Link Status を確認します。", "Snapshot で、回線ごとの Up / Down を確認します。", "Connection Type が vSocket（AWS / Azure など）かを確認します。", "Snapshot に何も表示されない、更新されない状態か確認します。"][i], '<polygon points="' + 230 + "," + y + " " + 420 + "," + (y + 24) + " " + 230 + "," + (y + 48) + " " + 40 + "," + (y + 24) + '" fill="#fff" stroke="' + C.slate + '" stroke-width="1.5"/>' + T(230, y + 28, r[0], { a: "middle", fs: 11.5, b: true }));
+        s += G(["Monitoring > トポロジー で、他の拠点の状態を確認します。", "Network > サイト > {拠点} > スナップショット の Link Status を確認します。", "Snapshot で、回線ごとの Up / Down を確認します。", "Connection Type が vSokket（AWS / Azure など）かを確認します。", "Snapshot に何も表示されない、更新されない状態か確認します。"][i], '<polygon points="' + 230 + "," + y + " " + 420 + "," + (y + 24) + " " + 230 + "," + (y + 48) + " " + 40 + "," + (y + 24) + '" fill="#fff" stroke="' + C.slate + '" stroke-width="1.5"/>' + T(230, y + 28, r[0], { a: "middle", fs: 11.5, b: true }));
         s += A(422, y + 24, 520, y + 24, { c: C.red, t: "はい", tc: C.red });
         s += B(522, y + 2, 300, 44, r[1], { f: C.rsoft, s: C.red, fs: 11 });
         if (i < 4) s += A(230, y + 48, 230, y + 62, { c: C.muted }) + T(240, y + 59, "いいえ", { fs: 10, c: C.muted });
@@ -612,7 +614,7 @@
         if (i < 3) s += A(x + 122, 65, x + 148, 65, { c: C.green });
       });
       s += B(320, 124, 120, 34, "Reset MFA", { f: C.osoft, s: C.orange, fs: 11 }) + A(380, 102, 380, 122, { c: C.orange }) + T(450, 146, "端末の紛失・機種変更時", { fs: 10.5, c: C.muted });
-      s += G("Monitoring > Audit Trail：誰が・いつ・どの画面で・何をしたかが記録されます。障害時は最初に確認します。", B(630, 20, 210, 150, "", { f: "#fff", s: C.slate, r: 8 }) + T(646, 44, "Audit Trail", { fs: 13, b: true }) + T(646, 68, "誰が：yamada.admin", { fs: 11 }) + T(646, 88, "いつ：10/22 09:12", { fs: 11 }) + T(646, 108, "どこ：Internet Firewall", { fs: 11 }) + T(646, 128, "何を：Publish Revision #4", { fs: 11 }) + T(646, 154, "障害時は最初にここを見る", { fs: 11, c: C.red, b: true }));
+      s += G("Monitoring > オーディット・トレイル：誰が・いつ・どの画面で・何をしたかが記録されます。障害時は最初に確認します。", B(630, 20, 210, 150, "", { f: "#fff", s: C.slate, r: 8 }) + T(646, 44, "Audit Trail", { fs: 13, b: true }) + T(646, 68, "誰が：yamada.admin", { fs: 11 }) + T(646, 88, "いつ：10/22 09:12", { fs: 11 }) + T(646, 108, "どこ：Internet Firewall", { fs: 11 }) + T(646, 128, "何を：Publish Revision #4", { fs: 11 }) + T(646, 154, "障害時は最初にここを見る", { fs: 11, c: C.red, b: true }));
       s += T(20, 196, "ロール：Editor ＝ 変更できる ／ Viewer ＝ 見るだけ（Events の CSV 出力は Editor が必要）", { fs: 11.5 });
       return svg(860, 210, s, "管理者");
     }

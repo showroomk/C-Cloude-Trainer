@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SDP Users Overview | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>SDP Users Overview | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -26,7 +28,7 @@
 (function () {
   const users = App.users().filter(function (u) { return u.sdp; });
   const rnd = App.rand(5);
-  const pops = ["Tokyo_DC4", "Tokyo_DC2", "Osaka"];
+  const pops = ["TYO-PoP-1", "TYO-PoP-2", "OSA-PoP-1"];
   users.forEach(function (u, i) { u.pop = u.connected ? pops[i % 3] : "—"; u.ver = u.os ? (i % 4 === 3 ? "5.9.2（旧）" : "5.12.1") : "—"; u.country = i === 6 ? "Singapore" : "Japan"; u.since = u.connected ? Date.now() - (1 + rnd() * 5) * 3600e3 : null; });
   function draw() {
     const conn = users.filter(function (u) { return u.connected; }).length;
@@ -34,20 +36,20 @@
     const old = users.filter(function (u) { return u.ver.indexOf("旧") >= 0; }).length;
     document.getElementById("tiles").innerHTML = App.tiles([
       { label: "SDP Licensed Users", value: users.length, tone: "brand", tip: "SDP ライセンスを持つユーザー数" },
-      { label: "Connected Now", value: conn, tone: "ok", tip: "いま Cato Client で接続中のユーザー" },
+      { label: "Connected Now", value: conn, tone: "ok", tip: "いま Kato Client で接続中のユーザー" },
       { label: "Never Connected", value: never, tone: never ? "warn" : "", tip: "ライセンスはあるが一度も接続していない人。Client 未導入の可能性" },
-      { label: "Outdated Client", value: old, tone: old ? "warn" : "", tip: "古いバージョンの Cato Client を使っている端末。更新を案内します" }]);
+      { label: "Outdated Client", value: old, tone: old ? "warn" : "", tip: "古いバージョンの Kato Client を使っている端末。更新を案内します" }]);
     const hrs = [], vals = [], full = [];
     const now = new Date().getHours();
     for (let i = 0; i < 25; i++) { const h = (now - 24 + i + 48) % 24; hrs.push(i % 4 === 0 ? h + ":00" : ""); full.push(h + ":00 台"); vals.push(h >= 8 && h <= 19 ? Math.round(3 + Math.sin((h - 8) / 11 * Math.PI) * 3 + rnd()) : Math.round(rnd())); }
-    document.getElementById("c1").innerHTML = App.card("接続ユーザー数（24時間）", App.lineChart([{ name: "接続ユーザー", data: vals, color: "#1f8a5b", fill: true }], { labels: hrs, full: full, unit: "users", title: "connected users" }), { tip: "時間ごとの同時接続ユーザー数。グラフにマウスを乗せると値が出ます。" });
+    document.getElementById("c1").innerHTML = App.card("接続ユーザー数（24時間）", App.lineChart([{ name: "接続ユーザー", data: vals, color: "#0b66f0", fill: true }], { labels: hrs, full: full, unit: "users", title: "connected users" }), { tip: "時間ごとの同時接続ユーザー数。グラフにマウスを乗せると値が出ます。" });
     const osc = {}; users.forEach(function (u) { const k = u.os ? u.os.split(" ")[0] : "未接続"; osc[k] = (osc[k] || 0) + 1; });
-    const colors = ["#1f8a5b", "#6d86a2", "#e58a00", "#1a73e8", "#9aa0a6"];
+    const colors = ["#0b66f0", "#6d86a2", "#e58a00", "#1a73e8", "#9aa0a6"];
     document.getElementById("c2").innerHTML = App.card("OS 別", App.donut(Object.entries(osc).map(function (kv, i) { return { label: kv[0], value: kv[1], color: colors[i % 5] }; }), String(users.length), "users"));
     const oc = document.getElementById("onlyConn").checked;
     document.getElementById("tbl").innerHTML = App.table(["User", "Status", "Connected Since / Last", "PoP", "OS", "Client Version", "Country"], users.filter(function (u) { return !oc || u.connected; }).map(function (u) {
       const st = u.connected ? "接続中" : u.lastConn ? "未接続（最終 " + App.fmtShort(u.lastConn) + "）" : "一度も接続していません";
-      return { tip: "【" + u.email + "】" + st + (u.ver.indexOf("旧") >= 0 ? "\nCato Client が古いバージョンです。更新を案内します。" : "") + (!u.lastConn ? "\nClient が未導入か、アクティベーションメールが未確認の可能性があります。" : ""),
+      return { tip: "【" + u.email + "】" + st + (u.ver.indexOf("旧") >= 0 ? "\nKato Client が古いバージョンです。更新を案内します。" : "") + (!u.lastConn ? "\nClient が未導入か、アクティベーションメールが未確認の可能性があります。" : ""),
         cells: [App.esc(u.last + " " + u.first) + '<br><span class="muted">' + App.esc(u.email) + "</span>", u.connected ? '<span class="dot ok"></span>Connected' : '<span class="dot gray"></span>Disconnected', u.connected ? App.fmtShort(u.since) + " から" : u.lastConn ? App.fmtShort(u.lastConn) : "—", App.esc(u.pop), App.esc(u.os || "—"), u.ver.indexOf("旧") >= 0 ? '<span class="badge b-warn">' + u.ver + "</span>" : u.ver, App.esc(u.country)] };
     }));
   }

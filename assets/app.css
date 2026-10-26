@@ -1,9 +1,9 @@
-/* Layout: 実機CMAに合わせた「上部タブ＋左サイドバー＋灰色の作業領域」。単一のライトテーマ（実機に合わせて意図的に固定） */
+/* Layout: 一般的なSASE管理画面の構成を参考にした「上部タブ＋左サイドバー＋灰色の作業領域」。単一のライトテーマ（実機に合わせて意図的に固定） */
 :root {
-  --brand: #1f8a5b;        /* ロゴ帯・アクティブ表示 */
-  --brand-dark: #156c46;
-  --brand-ring: #138a60;   /* Topology のリング */
-  --brand-soft: #eaf6ef;
+  --brand: #0b66f0;        /* ロゴ帯・アクティブ表示 */
+  --brand-dark: #0049b8;
+  --brand-ring: #1f7bff;   /* Topology のリング */
+  --brand-soft: #e8f1ff;
   --link: #1a73e8;
   --slate: #6d86a2;        /* Topology ヘッダーのアイコン帯 */
   --slate-soft: #eef2f6;
@@ -94,6 +94,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 }
 .side-item:hover { background: #f5f7f8; text-decoration: none; }
 .side-item .icon { width: 14px; height: 14px; color: var(--muted); }
+.side-item > span { min-width: 0; line-height: 1.35; overflow-wrap: anywhere; }
 .side-item.active { background: var(--brand-soft); border-left-color: var(--brand); }
 .side-item.active .icon { color: var(--brand); }
 .side-item.na { color: var(--muted); }
@@ -408,8 +409,8 @@ a.whatsnew { color: var(--text); text-decoration: none; }
 .toast .t-ico .icon { width: 18px; height: 18px; stroke-width: 2.2; }
 .toast.ok .t-ico { background: var(--ok); animation: pop .5s .1s cubic-bezier(.2, .9, .3, 1.6) both; }
 .toast.warn .t-ico { background: var(--warn); } .toast.ng .t-ico { background: var(--ng); } .toast.info .t-ico { background: var(--link); }
-.toast.mission { background: linear-gradient(135deg, #ffffff 0%, #eaf6ef 100%); border-color: #9fd6b8; }
-.toast.mission .t-ico { background: linear-gradient(135deg, #1f8a5b, #3fa6c2); animation: pop .6s .1s cubic-bezier(.2, .9, .3, 1.8) both; }
+.toast.mission { background: linear-gradient(135deg, #ffffff 0%, #e8f1ff 100%); border-color: #b5cdfb; }
+.toast.mission .t-ico { background: linear-gradient(135deg, #0b66f0, #3fa6c2); animation: pop .6s .1s cubic-bezier(.2, .9, .3, 1.8) both; }
 @keyframes pop { 0% { transform: scale(.3); } 70% { transform: scale(1.15); } 100% { transform: scale(1); } }
 .toast .t-title { display: block; font-weight: 700; font-size: 13.5px; margin-bottom: 2px; }
 .toast .t-msg { color: #45505a; line-height: 1.55; }
@@ -423,7 +424,7 @@ a.whatsnew { color: var(--text); text-decoration: none; }
 .toast .t-step { display: block; color: var(--ok); font-weight: 500; }
 .toast .t-next { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
 .toast .t-prog { height: 6px; background: #d8eee1; border-radius: 99px; overflow: hidden; margin: 6px 0 2px; }
-.toast .t-prog i { display: block; height: 100%; background: linear-gradient(90deg, #1f8a5b, #3fa6c2); border-radius: 99px; animation: grow .9s .2s ease-out both; transform-origin: left; }
+.toast .t-prog i { display: block; height: 100%; background: linear-gradient(90deg, #0b66f0, #3fa6c2); border-radius: 99px; animation: grow .9s .2s ease-out both; transform-origin: left; }
 @keyframes grow { from { transform: scaleX(0); } }
 .toast .t-list { margin: 6px 0 0; padding-left: 16px; display: grid; gap: 2px; font-size: 12px; }
 .confetti { position: fixed; inset: 0; z-index: 130; pointer-events: none; }
@@ -447,7 +448,7 @@ a.whatsnew { color: var(--text); text-decoration: none; }
 @keyframes glow { 0% { box-shadow: 0 0 0 0 rgba(31, 138, 91, .7); } 100% { box-shadow: 0 0 0 18px rgba(31, 138, 91, 0); } }
 
 /* この画面のミッション（ページ上部に表示） */
-.tracker { background: #fff; border: 1px solid #9fd6b8; border-left: 4px solid var(--brand); border-radius: 4px; padding: 10px 14px; margin-bottom: 12px; font-size: 12.5px; animation: tinY .3s ease-out; }
+.tracker { background: #fff; border: 1px solid #b5cdfb; border-left: 4px solid var(--brand); border-radius: 4px; padding: 10px 14px; margin-bottom: 12px; font-size: 12.5px; animation: tinY .3s ease-out; }
 @keyframes tinY { from { transform: translateY(-6px); opacity: 0; } to { transform: none; opacity: 1; } }
 .tracker.min { padding: 0; border: 0; background: none; }
 .tracker.cleared { border-color: var(--ok); background: #f2fbf6; }
@@ -465,7 +466,7 @@ a.whatsnew { color: var(--text); text-decoration: none; }
 .trk-steps li.next { color: var(--text); font-weight: 500; border-color: #f2c47a; background: #fff7e6; }
 .trk-steps li.next span { background: var(--warn); color: #fff; animation: coach 1.4s ease-in-out infinite; }
 .trk-coach { font-size: 11.5px; color: var(--muted); }
-.trk-pill { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #9fd6b8; background: #fff; color: var(--brand-dark); border-radius: 99px; padding: 5px 12px; cursor: pointer; font-size: 12px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.trk-pill { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #b5cdfb; background: #fff; color: var(--brand-dark); border-radius: 99px; padding: 5px 12px; cursor: pointer; font-size: 12px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .trk-pill .icon { width: 14px; height: 14px; }
 .coach-target { position: relative; z-index: 2; outline: 3px solid #f2a83b !important; outline-offset: 3px; border-radius: 4px; animation: coach 1.4s ease-in-out infinite; }
 @keyframes coach { 0%, 100% { box-shadow: 0 0 0 0 rgba(242, 168, 59, .55); } 50% { box-shadow: 0 0 0 9px rgba(242, 168, 59, 0); } }
@@ -512,7 +513,7 @@ a.whatsnew { color: var(--text); text-decoration: none; }
 :root { --tc-w: 352px; --line-green: #8de055; --chat-bg: #dfe8f1; }
 /* 上部バーのボタン */
 .tr-btn { position: relative; display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 11px; border-radius: 99px; border: 1px solid var(--brand); background: var(--brand-soft); color: var(--brand-dark); font-size: 12.5px; font-weight: 500; cursor: pointer; white-space: nowrap; }
-.tr-btn:hover { background: #d9efe2; }
+.tr-btn:hover { background: #d3e3ff; }
 .tr-btn.on { background: var(--brand); color: #fff; }
 .tr-btn .icon { width: 17px; height: 17px; }
 .tr-btn .top-badge { top: -5px; right: -5px; }
@@ -587,11 +588,11 @@ body.tr-on .tracker { display: none; }
 .tc-m.k-wrong .tc-b::before { content: "そこではないかも"; display: block; font-size: 10.5px; font-weight: 700; color: #a35f00; }
 .tc-m.k-hint .tc-b { background: #fffbe0; box-shadow: inset 3px 0 0 #f2c14e, 0 1px 1px rgba(0, 0, 0, .06); }
 .tc-m.k-task .tc-b { box-shadow: inset 3px 0 0 var(--brand), 0 1px 1px rgba(0, 0, 0, .06); }
-.tc-m.k-goal .tc-b { background: #eef7f1; }
+.tc-m.k-goal .tc-b { background: #edf3ff; }
 .tc-m.k-result .tc-b { max-width: 260px; }
 .tc-acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .tc-acts .btn { height: 28px; font-size: 12px; }
-.tc-res { background: linear-gradient(135deg, #fff8dc, #eaf6ef); border-radius: 10px; padding: 8px 10px; margin-bottom: 6px; text-align: center; }
+.tc-res { background: linear-gradient(135deg, #fff8dc, #e8f1ff); border-radius: 10px; padding: 8px 10px; margin-bottom: 6px; text-align: center; }
 .tc-stars { font-size: 24px; color: #f0a500; letter-spacing: 2px; line-height: 1.2; }
 .tc-stars span { color: #d5d9de; }
 .tc-res dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin: 6px 0 0; }
@@ -601,10 +602,10 @@ body.tr-on .tracker { display: none; }
 .tc-q button { flex-shrink: 0; border: 1px solid var(--line-strong); background: #fff; border-radius: 99px; padding: 5px 11px; font-size: 12px; cursor: pointer; color: var(--text); }
 .tc-q button:hover:not(:disabled) { border-color: var(--brand); color: var(--brand-dark); background: var(--brand-soft); }
 .tc-q button:disabled { opacity: .45; cursor: default; }
-.tc.done .tc-st { background: #f6fbf8; }
+.tc.done .tc-st { background: #f5f9ff; }
 .tc-peek { position: fixed; z-index: 99; display: flex; gap: 8px; align-items: flex-start; max-width: min(320px, calc(100vw - 16px)); text-align: left; background: #fff; border: 1px solid var(--line); border-radius: 14px; border-top-right-radius: 4px; box-shadow: 0 10px 28px rgba(20, 30, 40, .2); padding: 8px 12px 8px 8px; font-size: 12.5px; line-height: 1.55; cursor: pointer; animation: msgIn .25s ease-out; }
 .tc-peek.out { opacity: 0; transform: translateY(-6px); transition: .22s; }
-/* 開いている間は作業エリア・パネル・トーストを左に寄せて、CMA のボタンを隠さない */
+/* 開いている間は作業エリア・パネル・トーストを左に寄せて、管理画面のボタンを隠さない */
 @media (min-width: 901px) {
   body.tc-open .main { margin-right: var(--tc-w); }
   body.tc-open .panel { right: var(--tc-w); }
@@ -629,7 +630,7 @@ body.tr-on .tracker { display: none; }
 .trm { border-radius: 8px; padding: 10px 12px; font-size: 12.5px; }
 .trm b { display: block; font-size: 13.5px; margin-bottom: 2px; }
 .trm.g { background: #fff8e1; border: 1px solid #f2d27e; }
-.trm.c { background: #eef7f1; border: 1px solid #b9dfc8; }
+.trm.c { background: #edf3ff; border: 1px solid #b9d2ff; }
 .trm-arr { font-size: 22px; color: var(--brand); font-weight: 700; }
 .tr-now { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; background: var(--info-soft); border: 1px solid #c7dbf7; border-radius: 6px; padding: 9px 12px; margin-bottom: 8px; }
 .tr-now.welcome { background: #fff8e1; border-color: #f2d27e; }
@@ -642,7 +643,7 @@ body.tr-on .tracker { display: none; }
 .trc { flex: 1; min-width: 0; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; background: #fff; }
 .trc.g { border-top: 4px solid #f2c14e; }
 .trc.c { border-top: 4px solid var(--brand); }
-.trc.cleared { background: #fbfdfb; }
+.trc.cleared { background: #fafcff; }
 .trc.locked { background: #fafbfc; }
 .trc h4 { font-size: 13.5px; font-weight: 700; line-height: 1.45; }
 .trc p { font-size: 12px; color: var(--muted); flex: 1; }
@@ -660,11 +661,11 @@ body.tr-on .tracker { display: none; }
 .tr-foot .btn-text { margin-right: auto; }
 .tr-card.sm .tr-foot { justify-content: center; }
 .tr-card.sm .tr-foot .btn-text { margin-right: 0; }
-.tr-medal { width: 62px; height: 62px; margin: 0 auto 8px; border-radius: 50%; background: linear-gradient(135deg, #2fb070, #1f8a5b); color: #fff; font-size: 32px; display: grid; place-items: center; box-shadow: 0 0 0 6px #eaf6ef; animation: spIn .5s ease-out; }
+.tr-medal { width: 62px; height: 62px; margin: 0 auto 8px; border-radius: 50%; background: linear-gradient(135deg, #3d8bff, #0b66f0); color: #fff; font-size: 32px; display: grid; place-items: center; box-shadow: 0 0 0 6px #e8f1ff; animation: spIn .5s ease-out; }
 .tr-sub { color: var(--muted); margin-bottom: 10px; }
 .tr-outro { font-size: 12.5px; text-align: left; margin-top: 8px; }
 .tr-next { margin-top: 12px; text-align: left; border: 1px dashed var(--line-strong); border-radius: 8px; padding: 10px 12px; display: grid; gap: 3px; }
-.tr-next.step { border: 2px solid var(--brand); background: #f3faf6; }
+.tr-next.step { border: 2px solid var(--brand); background: #f2f7ff; }
 .tr-next-h { color: var(--brand-dark); font-weight: 700; font-size: 15px; }
 .tr-next span { font-size: 12.5px; }
 .tr-next small { color: var(--muted); font-size: 11.5px; }

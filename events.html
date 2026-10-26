@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Events | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>Events | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -85,7 +87,7 @@
   const users = ["suzuki@example.co.jp", "tanaka@example.co.jp", "yamada@example.co.jp", "sato@example.co.jp", "takahashi@example.co.jp", "vendor01@partner.example"];
   const sites = ["JP-TKY-HQ", "JP-OSA-BR01"];
   const EV = [];
-  function add(e) { e.id = EV.length; e.pop = e.pop || pick(["Tokyo_DC4", "Tokyo_DC2", "Osaka"]); EV.push(e); }
+  function add(e) { e.id = EV.length; e.pop = e.pop || pick(["TYO-PoP-1", "TYO-PoP-2", "OSA-PoP-1"]); EV.push(e); }
   for (let i = 0; i < 260; i++) {
     const t = now - Math.pow(r(), 1.4) * 168 * H - 6 * 60e3;
     const k = r();
@@ -102,7 +104,7 @@
     } else if (k < 0.58) {
       add({ t: t, type: "Security", sub: "WAN Firewall", action: r() < 0.5 ? "Block" : "Allow", site: "SDP", user: u, srcIp: "10.250.0." + Math.floor(r() * 120), dest: pick(["FileServer (10.10.0.20)", "10.10.0.35:3389", "ERP (172.16.1.10)"]), app: pick(["SMB", "RDP", "HTTPS"]), rule: pick(["Users to FileServer (SMB)", "Block RDP from SDP Users", "Default (Any Any Block)"]) });
     } else if (k < 0.72) {
-      add({ t: t, type: "Connectivity", sub: pick(["Client Connected", "Client Disconnected"]), action: "—", site: "SDP", user: u, srcIp: "—", dest: "—", app: "—", rule: "—", detail: pick(["Windows 11 / Cato Client 5.x", "macOS 15 / Cato Client 5.x", "iOS 18"]) });
+      add({ t: t, type: "Connectivity", sub: pick(["Client Connected", "Client Disconnected"]), action: "—", site: "SDP", user: u, srcIp: "—", dest: "—", app: "—", rule: "—", detail: pick(["Windows 11 / Kato Client 5.x", "macOS 15 / Kato Client 5.x", "iOS 18"]) });
     } else if (k < 0.8) {
       add({ t: t, type: "Connectivity", sub: "Link Quality", action: "—", site: "JP-OSA-BR01", user: "—", srcIp: "—", dest: "WAN1 (NTT West)", app: "—", rule: "—", detail: "Packet loss " + (1 + r() * 3).toFixed(1) + "% / Jitter " + (6 + r() * 10).toFixed(0) + " ms" });
     } else if (k < 0.86) {
@@ -112,20 +114,20 @@
     } else if (k < 0.97) {
       add({ t: t, type: "System", sub: "Directory Services", action: "—", site: "—", user: "—", srcIp: "—", dest: "Microsoft Entra ID (SCIM)", app: "—", rule: "—", detail: "SCIM sync completed (6 users)" });
     } else {
-      add({ t: t, type: "Sockets Management", sub: "Socket Upgrade", action: "—", site: pick(sites), user: "—", srcIp: "—", dest: "—", app: "—", rule: "—", detail: "Upgraded to 21.0.18xxx in maintenance window" });
+      add({ t: t, type: "Sokkets Management", sub: "Sokket Upgrade", action: "—", site: pick(sites), user: "—", srcIp: "—", dest: "—", app: "—", rule: "—", detail: "Upgraded to 9.9.0-TRN in maintenance window" });
     }
   }
   // シナリオ：鈴木さんが取引先ポータルを開けない（レシピ1）
   [0.4, 1.1, 1.3, 2.2, 5.5].forEach(function (h) {
-    add({ t: now - h * H, type: "Security", sub: "Internet Firewall", action: "Block", site: "JP-TKY-HQ", user: "suzuki@example.co.jp", srcIp: "10.10.0.48", dest: "partner-portal.example.net", app: "Uncategorized", rule: "Block Uncategorized", pop: "Tokyo_DC4" });
+    add({ t: now - h * H, type: "Security", sub: "Internet Firewall", action: "Block", site: "JP-TKY-HQ", user: "suzuki@example.co.jp", srcIp: "10.10.0.48", dest: "partner-portal.example.net", app: "Uncategorized", rule: "Block Uncategorized", pop: "TYO-PoP-1" });
   });
-  // シナリオ：AWS の vSocket が切断
-  add({ t: now - 2.6 * H, type: "Connectivity", sub: "Site Disconnected", action: "—", site: "AWS-TKY-VPC", user: "—", srcIp: "—", dest: "—", app: "—", rule: "—", detail: "Tunnel timeout (no keepalive from vSocket)" });
+  // シナリオ：AWS の vSokket が切断
+  add({ t: now - 2.6 * H, type: "Connectivity", sub: "Site Disconnected", action: "—", site: "AWS-TKY-VPC", user: "—", srcIp: "—", dest: "—", app: "—", rule: "—", detail: "Tunnel timeout (no keepalive from vSokket)" });
   add({ t: now - 2.62 * H, type: "Routing", sub: "BGP Session Down", action: "—", site: "JP-TKY-HQ", user: "—", srcIp: "—", dest: "AS 65010", app: "—", rule: "—", detail: "Route 172.16.0.0/16 withdrawn (AWS-TKY-VPC)" });
   EV.sort(function (a, b) { return b.t - a.t; });
 
   const FIELDS = [["type", "Event Type"], ["sub", "Sub-Type"], ["action", "Action"], ["user", "User"], ["site", "Site"], ["dest", "Destination"], ["rule", "Rule"], ["app", "App/Category"], ["pop", "PoP"]];
-  const TYPES = ["Security", "Connectivity", "Routing", "Posture", "System", "Sockets Management"];
+  const TYPES = ["Security", "Connectivity", "Routing", "Posture", "System", "Sokkets Management"];
   const st = { hidden: {}, filters: [], q: "", range: 48, open: { action: true }, shown: 50, expanded: {} };
 
   function base() {

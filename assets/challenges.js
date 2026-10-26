@@ -1,5 +1,5 @@
 /* =====================================================================
-   CMA Trainer トレーニング課題データ
+   KMC Trainer トレーニング課題データ
    ---------------------------------------------------------------------
    課題（チャレンジ）を追加・変更するときは、このファイルだけを編集します。
    動かす仕組みは assets/trainer.js にあります。
@@ -54,7 +54,7 @@
   const CIDR = "^\\d{1,3}(\\.\\d{1,3}){3}\\/(\\d|[12]\\d|3[01])$";
   const panelOpen = { exists: ".panel" };
 
-  window.CMA_CHALLENGES = {
+  window.KMC_CHALLENGES = {
     version: 1,
     tracks: [
       { id: "fw", title: "ファイアウォールのルール変更", lead: "Apply → Save → Publish の流れを体で覚える、いちばん大事なコースです。" },
@@ -69,10 +69,10 @@
         title: "Internet Firewall にブロックルールを追加して公開する",
         goal: "Internet Firewall に Action = Block のルールを作り、Save → Publish まで行う",
         intro: "光っている場所を順番に押すだけで、ルール変更の一連の流れを体験できます。",
-        outro: "Apply（一覧に反映）→ Save（自分の下書きに保存）→ Publish（全社に公開）の3段階が、Cato のポリシー変更の基本です。",
+        outro: "Apply（一覧に反映）→ Save（自分の下書きに保存）→ Publish（全社に公開）の3段階が、Kato のポリシー変更の基本です。",
         steps: [
-          { id: "open", nav: true, page: "internet-firewall.html", label: "Security > Internet Firewall を開く",
-            say: "上部の［Security］タブを押し、左メニューの［Internet Firewall］を開きます。", done: { page: "internet-firewall.html" } },
+          { id: "open", nav: true, page: "internet-firewall.html", label: "Security > インターネット・ファイアウォール を開く",
+            say: "上部の［Security］タブを押し、左メニューの［インターネット・ファイアウォール］を開きます。", done: { page: "internet-firewall.html" } },
           { id: "new", page: "internet-firewall.html", target: "#btnNew", focus: "［New］ボタン", label: "［New］で新しいルールを作る",
             say: "［New］を押すと、右から新しいルールの設定パネルが開きます。", done: { event: "policy:new", match: { key: "ifw" } } },
           { id: "name", page: "internet-firewall.html", target: "#f_name", label: "Name にルール名を入力", needs: panelOpen, back: "new", hold: 900,
@@ -100,7 +100,7 @@
         steps: [
           { id: "open", nav: true, page: "wan-firewall.html", label: "WAN Firewall を開く",
             say: "まずは、拠点どうしの通信を制御するファイアウォールの画面を開いてください。",
-            hint: "上部の［Security］タブ → 左メニュー「CATO FIREWALLS」の［WAN Firewall］です。", done: { page: "wan-firewall.html" } },
+            hint: "上部の［Security］タブ → 左メニュー「ファイアウォール」の［ワン・ファイアウォール］です。", done: { page: "wan-firewall.html" } },
           { id: "new", page: "wan-firewall.html", target: "#btnNew", focus: "［New］ボタン", label: "新しいルールを作り始める", allow: "tr.clickable",
             say: "新しいルールの作成を始めてください。", hint: "一覧の右上にあるボタン群の［New］です。",
             done: { any: [{ event: "policy:new", match: { key: "wan" } }, { event: "panel:open" }] } },
@@ -124,9 +124,9 @@
         title: "新しい拠点（サイト）を追加する",
         goal: "Sites で拠点を1つ追加する（Site Name と Native Range を入力）",
         intro: "ゼロタッチ導入の準備として、拠点を先に作っておく手順を体験します。",
-        outro: "作った拠点は Socket が接続されるまで Pending と表示されます。Native Range は他拠点と重複させないのが鉄則です。",
+        outro: "作った拠点は Sokket が接続されるまで Pending と表示されます。Native Range は他拠点と重複させないのが鉄則です。",
         steps: [
-          { id: "open", nav: true, page: "sites.html", label: "Network > Sites を開く",
+          { id: "open", nav: true, page: "sites.html", label: "Network > サイト を開く",
             say: "上部の［Network］タブを押すと、拠点の一覧（Sites）が開きます。", done: { page: "sites.html" } },
           { id: "new", page: "sites.html", target: "#btnNew", focus: "［＋ New］ボタン", label: "［New］で Add Site を開く",
             say: "［＋ New］で、拠点を追加するパネルを開きます。", done: { event: "panel:open", match: { title: "Add Site" } } },
@@ -147,7 +147,7 @@
         steps: [
           { id: "open", nav: true, page: "administrators.html", label: "管理者の一覧を開く",
             say: "まずは、管理画面にログインできる人（管理者）の一覧画面を開いてください。",
-            hint: "上部の［Administration］タブ →［Administrators］です。", done: { page: "administrators.html" } },
+            hint: "上部の［Administration］タブ →［アドミニストレーター］です。", done: { page: "administrators.html" } },
           { id: "new", page: "administrators.html", target: "#new", focus: "［＋ New］ボタン", label: "管理者の作成を始める",
             say: "新しい管理者の作成を始めてください。", hint: "一覧の右上にある［＋ New］です。", done: { event: "mission:new", match: { id: "admin_add" } } },
           { id: "apply", page: "administrators.html", target: ".panel [data-apply]", focus: "パネルの［Apply］", allow: ".panel", label: "管理者を作成", needs: panelOpen, back: "new",
@@ -155,7 +155,7 @@
             hint: "Role は最小権限が原則。迷ったら Viewer。最後にパネル右下の［Apply］です。", done: { event: "mission:done", match: { id: "admin_add" } } },
           { id: "audit", nav: true, page: "audit-trail.html", label: "Audit Trail で記録を確認",
             say: "作成できました。最後に、今の操作が監査ログに記録されたか確認しましょう。",
-            hint: "［Monitoring］タブ → 左メニュー「INVESTIGATION」の［Audit Trail］です。", done: { page: "audit-trail.html" } }
+            hint: "［Monitoring］タブ → 左メニュー「インベスティゲーション」の［オーディット・トレイル］です。", done: { page: "audit-trail.html" } }
         ]
       },
 
@@ -167,8 +167,8 @@
         intro: "「つながらない」と言われたときに最初に見る、Events の絞り込みを体験します。",
         outro: "Block のログを見れば、どのルールで止まったか（Rule 列）が分かります。問い合わせ対応の第一歩です。",
         steps: [
-          { id: "open", nav: true, page: "events.html", label: "Monitoring > Events を開く",
-            say: "上部の［Monitoring］タブから、左メニューの［Events］を開きます。", done: { page: "events.html" } },
+          { id: "open", nav: true, page: "events.html", label: "Monitoring > イベント を開く",
+            say: "上部の［Monitoring］タブから、左メニューの［イベント］を開きます。", done: { page: "events.html" } },
           { id: "field", page: "events.html", target: '[data-fld="action"]', label: "FIELDS の［Action］を開く",
             say: "左の FIELDS 一覧から［Action］を押して、値の一覧を開きます。", done: { exists: '[data-inc="action"][data-v="Block"]' } },
           { id: "plus", page: "events.html", target: '[data-inc="action"][data-v="Block"]', label: "Block の［+］で絞り込む", needs: { exists: '[data-inc="action"][data-v="Block"]' }, back: "field",
@@ -184,13 +184,13 @@
         steps: [
           { id: "open", nav: true, page: "topology.html", label: "全拠点の接続状態を表示",
             say: "全拠点の接続状態を、地図のように一覧できる画面を開いてください。",
-            hint: "［Monitoring］タブ →［Topology］です。", done: { page: "topology.html" } },
+            hint: "［Monitoring］タブ →［トポロジー］です。", done: { page: "topology.html" } },
           { id: "node", page: "topology.html", target: '.node[data-id="s3"]', focus: "赤く表示された拠点", label: "切断中の拠点を開く", allow: ".legend-row",
             say: "切断している拠点を探して、その拠点の詳細を開いてください。",
             hint: "赤い拠点（AWS-TKY-VPC）をクリックすると、拠点の詳細画面に移ります。", done: { event: "mission:done", match: { id: "topo_site" } } },
-          { id: "analytics", page: "site.html", target: '[data-view="analytics"]', focus: "左メニューの［Network Analytics］", label: "Network Analytics を開く",
+          { id: "analytics", page: "site.html", target: '[data-view="analytics"]', focus: "左メニューの［ネットワーク・アナリティクス］", label: "Network Analytics を開く",
             say: "詳細画面が開きました。回線の通信量や品質のグラフを表示してください。",
-            hint: "左メニューの［Network Analytics］です。", done: { exists: '[data-view="analytics"].active' } }
+            hint: "左メニューの［ネットワーク・アナリティクス］です。", done: { exists: '[data-view="analytics"].active' } }
         ]
       },
 
@@ -204,7 +204,7 @@
         steps: [
           { id: "open", nav: true, page: "network-rules.html", label: "ネットワークルールを開く",
             say: "通信の経路や優先度を決めるルールの画面を開いてください。",
-            hint: "［Network］タブ → 左メニュー「ROUTING & OPTIMIZATION」の［Network Rules］です。", done: { page: "network-rules.html" } },
+            hint: "［Network］タブ → 左メニュー「ルーティング・アンド・オプティマイゼーション」の［ネットワーク・ルール］です。", done: { page: "network-rules.html" } },
           { id: "edit", page: "network-rules.html", target: "row:Web Conferencing", focus: "「Web Conferencing」の行", label: "Web会議のルールを開く",
             say: "Web会議（Teams / Zoom）用の既存ルールを探して、編集画面を開いてください。",
             hint: "一覧の「Web Conferencing」の行をクリックします。新しく作る必要はありません。", done: { event: "panel:open", match: { title: "Edit Network Rule" } } },

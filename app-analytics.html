@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>App Analytics | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>App Analytics | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -31,7 +33,7 @@
       return { label: r.name, value: r.gb, text: r.gb + " GB", color: r.risk === "High" ? "var(--ng)" : r.cat === "Streaming Media" ? "var(--warn)" : "var(--brand)", tip: r.name + "：" + r.gb + " GB（全体の " + Math.round(r.gb / tot * 100) + "%）／ 利用者 " + r.users + " 人" + (r.cat === "Streaming Media" ? "\n業務外の動画が帯域を使っています。優先度を下げる対象です。" : "") + (r.risk === "High" ? "\nリスクの高いアプリです。Application Control で制御を検討します。" : "") };
     })), { tip: "通信量の多いアプリ。オレンジ＝動画、赤＝高リスク。" });
     const cats = {}; rows.forEach(function (r) { cats[r.cat] = (cats[r.cat] || 0) + r.gb; });
-    const cols = ["#1f8a5b", "#6d86a2", "#e58a00", "#1a73e8", "#7a5bc0", "#d6333b", "#9aa0a6", "#3fa6c2"];
+    const cols = ["#0b66f0", "#6d86a2", "#e58a00", "#1a73e8", "#7a5bc0", "#d6333b", "#9aa0a6", "#3fa6c2"];
     document.getElementById("c2").innerHTML = App.card("カテゴリ別", App.donut(Object.entries(cats).sort(function (a, b) { return b[1] - a[1]; }).map(function (kv, i) { return { label: kv[0], value: kv[1], color: cols[i % 8], tip: kv[0] + "：" + kv[1] + " GB（" + Math.round(kv[1] / tot * 100) + "%）" }; }), tot + "", "GB"));
     document.getElementById("tbl").innerHTML = App.table(["Application", "Category", "Traffic", "Users", "Risk"], rows.map(function (r) {
       return { cls: "clickable", attr: 'data-app="' + App.esc(r.name) + '"', tip: "【" + r.name + "】" + r.cat + " ／ " + r.gb + " GB ／ " + r.users + " 人 ／ リスク " + r.risk + "\nクリックで詳細を表示します。",

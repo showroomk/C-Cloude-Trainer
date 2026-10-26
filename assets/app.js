@@ -1,5 +1,5 @@
 /* =====================================================================
-   CMA Trainer 共通スクリプト
+   KMC Trainer 共通スクリプト
    - 画面の枠（上部タブ・左メニュー）の描画
    - 学習データの保存（localStorage。使えない環境ではページ内メモリ）
    - トースト / モーダル / 右パネル / ポップアップメニュー
@@ -31,7 +31,7 @@
   App.uid = uid;
 
   /* ---------------- 保存 ---------------- */
-  const PREFIX = "cmaTrainer.v1.";
+  const PREFIX = "kmcTrainer.v2.";
   const mem = {};
   App.db = {
     get(key, seed) {
@@ -137,7 +137,7 @@
         ["posture", "Device Posture", "device-posture.html", "check"]] }
     ] },
     security: { label: "Security", home: "internet-firewall.html", sections: [
-      { t: "CATO FIREWALLS", items: [
+      { t: "KATO FIREWALLS", items: [
         ["internet-firewall", "Internet Firewall", "internet-firewall.html", "fire"],
         ["wan-firewall", "WAN Firewall", "wan-firewall.html", "fire"]] },
       { t: "THREAT PROTECTION", items: [
@@ -155,6 +155,12 @@
     ] }
   };
   App.NAV = NAV;
+  /* 左ナビの表示名（カタカナ）。データ上は英語名のまま持ち、表示とツールチップで使い分ける */
+  const KANA = {"INVESTIGATION": "インベスティゲーション", "DASHBOARDS": "ダッシュボード", "PRACTICES ASSESSMENT": "プラクティス・アセスメント", "DETECTION & RESPONSE": "ディテクション・アンド・レスポンス", "SITES": "サイト", "ROUTING & OPTIMIZATION": "ルーティング・アンド・オプティマイゼーション", "USERS": "ユーザー", "CLIENT POLICIES": "クライアント・ポリシー", "THREAT PROTECTION": "スレット・プロテクション", "ASSETS": "アセット", "ADMINISTRATION": "アドミニストレーション", "TRAINING": "トレーニング", "SITE MONITORING": "サイト・モニタリング", "SITE CONFIGURATION": "サイト・コンフィギュレーション", "Topology": "トポロジー", "Events": "イベント", "Sites Overview": "サイト・オーバービュー", "SDP Users Overview": "エスディーピーユーザー・オーバービュー", "App Analytics": "アプリ・アナリティクス", "Routing Table": "ルーティング・テーブル", "Audit Trail": "オーディット・トレイル", "Security Threats": "セキュリティ・スレット", "MITRE ATT&CK": "マイター・アタック", "Cloud Apps": "クラウド・アプリ", "DLP": "ディーエルピー", "SaaS Security API": "サース・セキュリティ・エーピーアイ", "SDP Users": "エスディーピーユーザー", "Network Dashboard": "ネットワーク・ダッシュボード", "Best Practices": "ベスト・プラクティス", "Stories Dashboard": "ストーリーズ・ダッシュボード", "Stories Workbench": "ストーリーズ・ワークベンチ", "Sites": "サイト", "Groups": "グループ", "Network Rules": "ネットワーク・ルール", "Bandwidth Management": "バンドウィドス・マネジメント", "IP Allocation": "アイピー・アロケーション", "DNS Settings": "ディーエヌエス・セッティング", "Users": "ユーザー", "Directory Services": "ディレクトリ・サービス", "Client Connectivity Policy": "クライアント・コネクティビティ・ポリシー", "Device Posture": "デバイス・ポスチャー", "Internet Firewall": "インターネット・ファイアウォール", "WAN Firewall": "ワン・ファイアウォール", "TLS Inspection": "ティーエルエス・インスペクション", "Threat Prevention": "スレット・プリベンション", "Application Control": "アプリケーション・コントロール", "Data Protection": "データ・プロテクション", "Device Inventory": "デバイス・インベントリー", "Administrators": "アドミニストレーター", "License": "ライセンス", "API Keys": "エーピーアイ・キー", "What's New": "ワッツ・ニュー", "All Sites": "オール・サイト", "Snapshot": "スナップショット", "Network Analytics": "ネットワーク・アナリティクス", "Real-Time": "リアルタイム", "General": "ジェネラル", "Sokket": "ソケット", "Networks": "ネットワーク", "High Availability": "ハイ・アベイラビリティ", "KATO FIREWALLS": "ファイアウォール"};
+  App.KANA = KANA;
+  App.kana = (label) => KANA[label] || label;
+  const sideTip = (label) => { const t = (typeof TIPS !== "undefined" && TIPS[label]) || ""; return (t ? t + "\n" : "") + "（英語表記：" + label + "）"; };
+  App.sideTip = sideTip;
 
   function renderShell() {
     const body = document.body;
@@ -167,7 +173,7 @@
     top.className = "topbar";
     top.innerHTML = `
       <button class="top-ico menu-btn" id="menuBtn" type="button" aria-label="メニューを開く">${App.icon("menu")}</button>
-      <a class="logo" href="topology.html" title="CMA Trainer（学習用）"><b>CMA TRAINER</b><small>学習用シミュレーター</small></a>
+      <a class="logo" href="topology.html" title="KMC Trainer（学習用）"><b>KMC TRAINER</b><small>学習用シミュレーター</small></a>
       <button class="apps-btn" type="button" id="appsBtn" aria-label="アプリ一覧" data-tip="すべての画面への近道を表示します。">${App.icon("grid")}</button>
       <nav class="tabs" aria-label="メインメニュー">
         ${Object.entries(NAV).map(([k, v]) => `<a href="${v.home}" class="${k === tab ? "active" : ""}">${v.label}</a>`).join("")}
@@ -188,10 +194,10 @@
     const custom = typeof App.customSidebar === "function" ? App.customSidebar() : null;
     side.innerHTML = `<button class="side-toggle" type="button" id="sideToggle" aria-label="メニューを閉じる">${App.icon("menu")}</button>` +
       (custom || NAV[tab].sections.map((s) => `
-        <div class="side-sec"><h6>${esc(s.t)}</h6>
+        <div class="side-sec"><h6 title="${esc(s.t)}">${esc(App.kana(s.t))}</h6>
           ${s.items.map(([id, label, href, ic]) => href
-            ? `<a class="side-item ${id === page ? "active" : ""}" href="${href}">${App.icon(ic)}${esc(label)}</a>`
-            : `<button type="button" class="side-item na" data-na="${esc(label)}">${App.icon(ic)}${esc(label)}</button>`).join("")}
+            ? `<a class="side-item ${id === page ? "active" : ""}" href="${href}" data-tip="${esc(sideTip(label))}">${App.icon(ic)}<span>${esc(App.kana(label))}</span></a>`
+            : `<button type="button" class="side-item na" data-na="${esc(App.kana(label))}" data-tip="${esc(sideTip(label))}">${App.icon(ic)}<span>${esc(App.kana(label))}</span></button>`).join("")}
         </div>`).join(""));
     body.insertBefore(side, main);
 
@@ -205,7 +211,7 @@
     }
     const note = document.createElement("p");
     note.className = "foot-note";
-    note.textContent = "CMA Trainer は実機に触る前の操作練習用に作った非公式のシミュレーターです。実際の Cato Management Application ではありません。画面・項目は実機のアップデートで変わることがあります。";
+    note.innerHTML = "KMC Trainer は操作の流れを学ぶための<b>非公式・非営利の学習用シミュレーター</b>です。特定の製品ベンダーとは一切関係がなく、承認・監修も受けていません。名称・画面・番号・データはすべて架空のダミーです。実際の作業の判断根拠にせず、必ず公式ドキュメントを確認してください。<a href=\"disclaimer.html\">免責事項・ご利用条件</a>";
     main.appendChild(note);
 
     document.addEventListener("click", (e) => {
@@ -213,10 +219,10 @@
       if (na) { e.preventDefault(); App.toast(`「${na.dataset.na || na.textContent.trim() || "この機能"}」は研修版では未収録です（実機には存在します）。`, "warn"); }
     });
     $("#helpBtn").addEventListener("click", () => App.tour());
-    $("#appsBtn").addEventListener("click", (e) => App.flyout(e.currentTarget, "すべての画面", Object.values(NAV).map((v) => `<div class="fly-sec"><b>${v.label}</b>${v.sections.flatMap((s) => s.items).map(([, l, h]) => `<a href="${h}">${esc(l)}</a>`).join("")}</div>`).join(""), "wide"));
+    $("#appsBtn").addEventListener("click", (e) => App.flyout(e.currentTarget, "すべての画面", Object.values(NAV).map((v) => `<div class="fly-sec"><b>${v.label}</b>${v.sections.flatMap((s) => s.items).map(([, l, h]) => `<a href="${h}">${esc(App.kana(l))}</a>`).join("")}</div>`).join(""), "wide"));
     const down = App.sites().filter((x) => x.status !== "Connected");
     if (down.length) { $("#alertBadge").hidden = false; $("#alertBadge").textContent = down.length; }
-    $("#alertBtn").addEventListener("click", (e) => App.flyout(e.currentTarget, "Account Alerts", down.length ? down.map((x) => `<a class="fly-item" href="site.html" data-sel="${x.id}"><span class="dot ${x.status === "Disconnected" ? "ng" : "warn"}"></span><span><b>${esc(x.name)}</b> は ${x.status === "Disconnected" ? "切断中です" : "Socket 未接続です"}<small>${x.status === "Disconnected" ? "Snapshot で原因を確認してください" : "現地で Socket を接続してください"}</small></span></a>`).join("") : '<p class="muted" style="padding:10px 14px">重要なお知らせはありません。</p>'));
+    $("#alertBtn").addEventListener("click", (e) => App.flyout(e.currentTarget, "Account Alerts", down.length ? down.map((x) => `<a class="fly-item" href="site.html" data-sel="${x.id}"><span class="dot ${x.status === "Disconnected" ? "ng" : "warn"}"></span><span><b>${esc(x.name)}</b> は ${x.status === "Disconnected" ? "切断中です" : "Sokket 未接続です"}<small>${x.status === "Disconnected" ? "Snapshot で原因を確認してください" : "現地で Sokket を接続してください"}</small></span></a>`).join("") : '<p class="muted" style="padding:10px 14px">重要なお知らせはありません。</p>'));
     $("#bellBtn").addEventListener("click", (e) => openBell(e.currentTarget));
     updateBell();
     document.addEventListener("click", (e) => { const a = e.target.closest("[data-sel]"); if (a) App.db.set("selectedSite", a.dataset.sel); });
@@ -262,7 +268,7 @@
     c.className = "confetti"; c.width = innerWidth; c.height = innerHeight;
     document.body.appendChild(c);
     const g = c.getContext("2d");
-    const cols = ["#1f8a5b", "#3fa6c2", "#e58a00", "#f2c14e", "#6d86a2", "#d6333b", "#7a5bc0"];
+    const cols = ["#0b66f0", "#3fa6c2", "#e58a00", "#f2c14e", "#6d86a2", "#d6333b", "#7a5bc0"];
     if (x == null) { x = innerWidth / 2; y = innerHeight / 3; }
     const ps = Array.from({ length: n }, () => {
       const a = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.2 * spread, v = 5 + Math.random() * 7;
@@ -477,20 +483,20 @@
   const rowOf = (txt) => () => $$("tbody tr.clickable").find((tr) => tr.textContent.includes(txt));
   App.MISSIONS = [
     { id: "start", t: "研修を開始する", href: "index.html", steps: [["done", "名前を入力して［研修を開始］", "#startForm button[type=submit]"]] },
-    { id: "topo_site", t: "Topology から切断中の拠点を開く", href: "topology.html", steps: [["visit", "Monitoring > Topology を開く"], ["done", "赤い拠点（AWS-TKY-VPC）をクリック", '.node[data-id="s3"]']] },
-    { id: "events_block", t: "Events を Action = Block で絞り込む", href: "events.html", steps: [["visit", "Monitoring > Events を開く"], ["done", "左の FIELDS で Action の Block に［+］", () => $('[data-inc="action"][data-v="Block"]') || $('[data-fld="action"]')]] },
-    { id: "ifw_allow", t: "Internet Firewall に Allow ルールを追加して Publish", href: "internet-firewall.html", steps: [["visit", "Security > Internet Firewall を開く"], ["new", "［New］でパネルを開く", "#btnNew"], ["apply", "名前を入れ Action = Allow で［Apply］", ".panel [data-apply]"], ["save", "［Save］で未公開リビジョンに保存", "#btnSave"], ["done", "［Publish］→ 確認画面でも［Publish］", () => $(".modal [data-o]") || $("#btnPublish")]] },
-    { id: "wan_rule", t: "WAN Firewall に許可ルールを追加して Publish", href: "wan-firewall.html", steps: [["visit", "Security > WAN Firewall を開く"], ["new", "［New］でパネルを開く", "#btnNew"], ["apply", "Action = Allow のルールを［Apply］", ".panel [data-apply]"], ["save", "［Save］", "#btnSave"], ["done", "［Publish］→［Publish］", () => $(".modal [data-o]") || $("#btnPublish")]] },
-    { id: "tls_bypass", t: "TLS Inspection を有効化し、Bypass ルールを追加して Publish", href: "tls-inspection.html", steps: [["visit", "Security > TLS Inspection を開く"], ["enable", "「Enable TLS Inspection」をオン", ".enable-row .switch"], ["apply", "［New］→ Action = Bypass で［Apply］", () => $(".panel [data-apply]") || $("#btnNew")], ["save", "［Save］", "#btnSave"], ["done", "［Publish］→［Publish］", () => $(".modal [data-o]") || $("#btnPublish")]] },
-    { id: "ip_alloc", t: "固定の送信元IPを割り当てる", href: "ip-allocation.html", steps: [["visit", "Network > IP Allocation を開く"], ["add", "Location を選んで［Allocate］", "#add"], ["done", "［Save］でIPを確定", "#save"]] },
-    { id: "nr_nat", t: "Network Rule で NAT に Allocated IP を指定して Publish", href: "network-rules.html", steps: [["visit", "Network > Network Rules を開く"], ["new", "［New］→ New Rule", () => $(".pop button") || $("#btnNew")], ["apply", "Internet ルールで Route/NAT = NAT にして［Apply］", ".panel [data-apply]"], ["save", "［Save］", "#btnSave"], ["done", "［Publish］→［Publish］", () => $(".modal [data-o]") || $("#btnPublish")]] },
-    { id: "nr_qos", t: "Web会議ルールの Bandwidth Priority を上げて Publish", href: "network-rules.html", steps: [["visit", "Network > Network Rules を開く"], ["apply", "「Web Conferencing」を開き p255 以外にして［Apply］", () => $(".panel [data-apply]") || rowOf("Web Conferencing")()], ["save", "［Save］", "#btnSave"], ["done", "［Publish］→［Publish］", () => $(".modal [data-o]") || $("#btnPublish")]] },
-    { id: "site_add", t: "新しい拠点（サイト）を追加する", href: "sites.html", steps: [["visit", "Network > Sites を開く"], ["new", "［New］で Add Site を開く", "#btnNew"], ["done", "Site Name と Native Range を入れて［Apply］", ".panel [data-apply]"]] },
-    { id: "admin_add", t: "管理者アカウントを追加する", href: "administrators.html", steps: [["visit", "Administration > Administrators を開く"], ["new", "［New］で Create Administrator を開く", "#new"], ["done", "［Apply］（研修版は何を入れても可）", ".panel [data-apply]"]] },
-    { id: "ccp_rule", t: "Client Connectivity Policy にルールを追加して Publish", href: "client-connectivity.html", steps: [["visit", "Access > Client Connectivity Policy を開く"], ["new", "［New］でパネルを開く", "#btnNew"], ["apply", "条件と Action を決めて［Apply］", ".panel [data-apply]"], ["save", "［Save］", "#btnSave"], ["done", "［Publish］→［Publish］", () => $(".modal [data-o]") || $("#btnPublish")]] },
-    { id: "audit_check", t: "Audit Trail で自分の変更を確認する", href: "audit-trail.html", steps: [["change", "どこかの画面で設定を1つ変更（Save など）"], ["done", "Monitoring > Audit Trail を開いて確認"]] },
-    { id: "dns_fwd", t: "社内ドメインの DNS 転送先を設定する", href: "dns-settings.html", steps: [["visit", "Network > DNS Settings を開く"], ["add", "Domain と DNS Server を入れて［＋ Add］", "#add"], ["done", "［Save］", "#save"]] },
-    { id: "bp_check", t: "Best Practices の未対応項目を1つ開いて対処する", href: "best-practices.html", steps: [["visit", "Monitoring > Best Practices を開く"], ["done", "Failed の項目の［対処する］", "[data-fix]"]] }
+    { id: "topo_site", t: "Topology から切断中の拠点を開く", href: "topology.html", steps: [["visit", "Monitoring > トポロジー を開く"], ["done", "赤い拠点（AWS-TKY-VPC）をクリック", '.node[data-id="s3"]']] },
+    { id: "events_block", t: "Events を Action = Block で絞り込む", href: "events.html", steps: [["visit", "Monitoring > イベント を開く"], ["done", "左の FIELDS で Action の Block に［+］", () => $('[data-inc="action"][data-v="Block"]') || $('[data-fld="action"]')]] },
+    { id: "ifw_allow", t: "Internet Firewall に Allow ルールを追加して Publish", href: "internet-firewall.html", steps: [["visit", "Security > インターネット・ファイアウォール を開く"], ["new", "［New］でパネルを開く", "#btnNew"], ["apply", "名前を入れ Action = Allow で［Apply］", ".panel [data-apply]"], ["save", "［Save］で未公開リビジョンに保存", "#btnSave"], ["done", "［Publish］→ 確認画面でも［Publish］", () => $(".modal [data-o]") || $("#btnPublish")]] },
+    { id: "wan_rule", t: "WAN Firewall に許可ルールを追加して Publish", href: "wan-firewall.html", steps: [["visit", "Security > ワン・ファイアウォール を開く"], ["new", "［New］でパネルを開く", "#btnNew"], ["apply", "Action = Allow のルールを［Apply］", ".panel [data-apply]"], ["save", "［Save］", "#btnSave"], ["done", "［Publish］→［Publish］", () => $(".modal [data-o]") || $("#btnPublish")]] },
+    { id: "tls_bypass", t: "TLS Inspection を有効化し、Bypass ルールを追加して Publish", href: "tls-inspection.html", steps: [["visit", "Security > ティーエルエス・インスペクション を開く"], ["enable", "「Enable TLS Inspection」をオン", ".enable-row .switch"], ["apply", "［New］→ Action = Bypass で［Apply］", () => $(".panel [data-apply]") || $("#btnNew")], ["save", "［Save］", "#btnSave"], ["done", "［Publish］→［Publish］", () => $(".modal [data-o]") || $("#btnPublish")]] },
+    { id: "ip_alloc", t: "固定の送信元IPを割り当てる", href: "ip-allocation.html", steps: [["visit", "Network > アイピー・アロケーション を開く"], ["add", "Location を選んで［Allocate］", "#add"], ["done", "［Save］でIPを確定", "#save"]] },
+    { id: "nr_nat", t: "Network Rule で NAT に Allocated IP を指定して Publish", href: "network-rules.html", steps: [["visit", "Network > ネットワーク・ルール を開く"], ["new", "［New］→ New Rule", () => $(".pop button") || $("#btnNew")], ["apply", "Internet ルールで Route/NAT = NAT にして［Apply］", ".panel [data-apply]"], ["save", "［Save］", "#btnSave"], ["done", "［Publish］→［Publish］", () => $(".modal [data-o]") || $("#btnPublish")]] },
+    { id: "nr_qos", t: "Web会議ルールの Bandwidth Priority を上げて Publish", href: "network-rules.html", steps: [["visit", "Network > ネットワーク・ルール を開く"], ["apply", "「Web Conferencing」を開き p255 以外にして［Apply］", () => $(".panel [data-apply]") || rowOf("Web Conferencing")()], ["save", "［Save］", "#btnSave"], ["done", "［Publish］→［Publish］", () => $(".modal [data-o]") || $("#btnPublish")]] },
+    { id: "site_add", t: "新しい拠点（サイト）を追加する", href: "sites.html", steps: [["visit", "Network > サイト を開く"], ["new", "［New］で Add Site を開く", "#btnNew"], ["done", "Site Name と Native Range を入れて［Apply］", ".panel [data-apply]"]] },
+    { id: "admin_add", t: "管理者アカウントを追加する", href: "administrators.html", steps: [["visit", "Administration > アドミニストレーター を開く"], ["new", "［New］で Create Administrator を開く", "#new"], ["done", "［Apply］（研修版は何を入れても可）", ".panel [data-apply]"]] },
+    { id: "ccp_rule", t: "Client Connectivity Policy にルールを追加して Publish", href: "client-connectivity.html", steps: [["visit", "Access > クライアント・コネクティビティ・ポリシー を開く"], ["new", "［New］でパネルを開く", "#btnNew"], ["apply", "条件と Action を決めて［Apply］", ".panel [data-apply]"], ["save", "［Save］", "#btnSave"], ["done", "［Publish］→［Publish］", () => $(".modal [data-o]") || $("#btnPublish")]] },
+    { id: "audit_check", t: "Audit Trail で自分の変更を確認する", href: "audit-trail.html", steps: [["change", "どこかの画面で設定を1つ変更（Save など）"], ["done", "Monitoring > オーディット・トレイル を開いて確認"]] },
+    { id: "dns_fwd", t: "社内ドメインの DNS 転送先を設定する", href: "dns-settings.html", steps: [["visit", "Network > ディーエヌエス・セッティング を開く"], ["add", "Domain と DNS Server を入れて［＋ Add］", "#add"], ["done", "［Save］", "#save"]] },
+    { id: "bp_check", t: "Best Practices の未対応項目を1つ開いて対処する", href: "best-practices.html", steps: [["visit", "Monitoring > ベスト・プラクティス を開く"], ["done", "Failed の項目の［対処する］", "[data-fix]"]] }
   ];
   const MBY = (id) => App.MISSIONS.find((m) => m.id === id);
   const curPage = () => (location.pathname.split("/").pop() || "index.html").replace(/\?.*$/, "") || "index.html";
@@ -558,7 +564,7 @@
     const mins = ts.length ? Math.max(1, Math.round((ts[ts.length - 1] - ts[0]) / 60000)) : 0;
     App.confetti(innerWidth * 0.25, innerHeight * 0.5, 140); App.confetti(innerWidth * 0.75, innerHeight * 0.5, 140);
     App.modal({ title: "研修修了おめでとうございます！", ok: "閉じる", cancel: "",
-      body: `<div class="cert"><p class="cert-eyebrow">CMA TRAINER 修了証</p><p class="cert-name">${esc(me.name)} さん</p><p>Cato 管理画面の基本操作 ${App.MISSIONS.length} ミッションをすべて達成しました。</p>
+      body: `<div class="cert"><p class="cert-eyebrow">KMC TRAINER 修了証</p><p class="cert-name">${esc(me.name)} さん</p><p>Kato 管理画面の基本操作 ${App.MISSIONS.length} ミッションをすべて達成しました。</p>
         <dl><div><dt>所要時間</dt><dd>約 ${mins} 分</dd></div><div><dt>達成日</dt><dd>${App.fmt(Date.now()).slice(0, 10)}</dd></div></dl>
         <p class="muted">次は実機の画面で、操作要領PDFの「まず必須でやること」から始めましょう。</p></div>` });
   };
@@ -725,7 +731,7 @@
     if (!force && (seen[page] || App.db.get("pageHelpOff", false) || trainingOn())) return;
     $$(".page-help").forEach((x) => x.remove());
     const h1 = $(".page-title h1, .site-head h1, #main h1");
-    const title = (h1 ? h1.textContent.replace(/\s+/g, " ").replace(/この画面の使い方$/, "").trim() : document.title.replace(/\s*\|\s*CMA Trainer$/, ""));
+    const title = (h1 ? h1.textContent.replace(/\s+/g, " ").replace(/この画面の使い方$/, "").trim() : document.title.replace(/\s*\|\s*KMC Trainer$/, ""));
     const tip = $("#main .tip");
     const ms = App.MISSIONS.filter((m) => m.href === curPage());
     const el = document.createElement("aside");
@@ -787,11 +793,11 @@
   App.sites = () => App.db.get("sites", seedSites);
   function seedSites() {
     return [
-      { id: "s1", name: "JP-TKY-HQ", type: "Headquarters", conn: "Socket X1700", country: "Japan", city: "Tokyo", tz: "Asia/Tokyo", status: "Connected", pop: "Tokyo_DC4", native: "10.10.0.0/24", localIp: "10.10.0.1", ha: true,
+      { id: "s1", name: "JP-TKY-HQ", type: "Headquarters", conn: "Sokket S170", country: "Japan", city: "Tokyo", tz: "Asia/Tokyo", status: "Connected", pop: "TYO-PoP-1", native: "10.10.0.0/24", localIp: "10.10.0.1", ha: true,
         wan1: { name: "WAN1", isp: "NTT East（光）", down: 500, up: 500, role: "Active" }, wan2: { name: "WAN2", isp: "KDDI（光）", down: 300, up: 300, role: "Active" }, license: "Japan - 500 Mbps", connectedSince: Date.now() - 19 * 864e5 },
-      { id: "s2", name: "JP-OSA-BR01", type: "Branch", conn: "Socket X1600 LTE", country: "Japan", city: "Osaka", tz: "Asia/Tokyo", status: "Connected", pop: "Osaka", native: "10.20.0.0/24", localIp: "10.20.0.1", ha: false,
+      { id: "s2", name: "JP-OSA-BR01", type: "Branch", conn: "Sokket S160 LTE", country: "Japan", city: "Osaka", tz: "Asia/Tokyo", status: "Connected", pop: "OSA-PoP-1", native: "10.20.0.0/24", localIp: "10.20.0.1", ha: false,
         wan1: { name: "WAN1", isp: "NTT West（光）", down: 200, up: 200, role: "Active" }, wan2: { name: "LTE", isp: "docomo（LTE）", down: 50, up: 20, role: "Last Resort" }, license: "Japan - 200 Mbps", connectedSince: Date.now() - 6 * 864e5 },
-      { id: "s3", name: "AWS-TKY-VPC", type: "Cloud Data Center", conn: "vSocket AWS", country: "Japan", city: "Tokyo", tz: "Asia/Tokyo", status: "Disconnected", pop: "—", native: "172.16.0.0/16", localIp: "172.16.0.10", ha: false,
+      { id: "s3", name: "AWS-TKY-VPC", type: "Cloud Data Center", conn: "vSokket AWS", country: "Japan", city: "Tokyo", tz: "Asia/Tokyo", status: "Disconnected", pop: "—", native: "172.16.0.0/16", localIp: "172.16.0.10", ha: false,
         wan1: { name: "WAN1", isp: "AWS", down: 100, up: 100, role: "Active" }, wan2: null, license: "Japan - 100 Mbps", disconnectedAt: Date.now() - 2.6 * 3600e3 }
     ];
   }
@@ -838,7 +844,7 @@
         ind: ["Dropbox へ 2.1 GB", "DLP：クレジットカード番号を検知"], tl: [[26, "Dropbox へのアップロード開始", 0], [25.5, "DLP がカード番号を検知しブロック", 1]],
         rec: "上長に業務上の必要性を確認。不要なら Application Control で個人ストレージへのアップロードを禁止。" },
       { id: "ST-1020", title: "社外端末の不審な国からの接続", sev: "Low", status: "Closed", owner: "yamada.admin@example.co.jp", user: "vendor01@partner.example", host: "VENDOR-LT01", t: now - 70 * h, verdict: "Benign",
-        ind: ["Singapore からの接続"], tl: [[70, "Singapore から Cato Client で接続", 0]], rec: "出張のため問題なし（確認済み）。" }
+        ind: ["Singapore からの接続"], tl: [[70, "Singapore から Kato Client で接続", 0]], rec: "出張のため問題なし（確認済み）。" }
     ];
   });
 
@@ -935,7 +941,7 @@
           <span class="muted">${showing.enabled ? (cfg.enabledText || "有効") : `<span style="color:var(--ng)">${cfg.disabledText || "無効"}</span>`}</span>${cfg.enableExtra || ""}</div>` : ""}
         <div class="tbl-wrap"><table class="tbl"><thead><tr><th style="width:36px">#</th><th style="width:52px">On</th>${cols.map((c) => `<th>${c.h}</th>`).join("")}<th style="width:36px"></th></tr></thead><tbody>
         ${(cfg.lockedTop || []).length ? `<tr class="sec-row"><td colspan="${colspan}">${esc(cfg.lockedTopTitle || "Default Rules")}</td></tr>` +
-          cfg.lockedTop.map((r) => `<tr class="locked" data-locked data-tip="${esc("【既定の除外ルール】" + r.name + "\nCato が管理するルールで、一番上で評価されます。編集・削除はできません。")}"><td>${App.icon("lock")}</td><td></td>${cols.map((c) => `<td>${c.v(r)}</td>`).join("")}<td></td></tr>`).join("") : ""}
+          cfg.lockedTop.map((r) => `<tr class="locked" data-locked data-tip="${esc("【既定の除外ルール】" + r.name + "\nKato が管理するルールで、一番上で評価されます。編集・削除はできません。")}"><td>${App.icon("lock")}</td><td></td>${cols.map((c) => `<td>${c.v(r)}</td>`).join("")}<td></td></tr>`).join("") : ""}
         ${cfg.userSectionTitle ? `<tr class="sec-row"><td colspan="${colspan}">${esc(cfg.userSectionTitle)}</td></tr>` : ""}
         ${rows.length ? rows.map(({ r, i }) => `<tr class="clickable ${r.enabled ? "" : "disabled-rule"} ${lastChanged === r.id ? "flash" : ""}" data-i="${i}" data-tip="${esc(ruleTip(r, i, showing))}">
             <td class="num">${i + 1}</td>
@@ -1058,7 +1064,7 @@
         if (viewPublished && st.draft) { App.toast("公開中のリビジョンは閲覧専用です。", "warn"); return; }
         openRule(+tr.dataset.i);
       }));
-      $$("tr[data-locked]", root).forEach((tr) => tr.addEventListener("click", () => App.toast("Cato が管理する既定ルールのため編集できません。", "warn")));
+      $$("tr[data-locked]", root).forEach((tr) => tr.addEventListener("click", () => App.toast("Kato が管理する既定ルールのため編集できません。", "warn")));
       $$("[data-en]", root).forEach((c) => c.addEventListener("change", () => { const r = work.rules[+c.dataset.en]; r.enabled = c.checked; markDirty(r.id); }));
       $$("[data-more]", root).forEach((b) => b.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -1094,7 +1100,7 @@
     // 上部タブ
     "Monitoring": "監視とログ。Topology（全体図）、Events（ログ）、Audit Trail（操作履歴）があります。",
     "Network": "拠点（Sites）、経路と優先度（Network Rules）、帯域、固定IP の設定です。",
-    "Access": "ユーザー管理と、リモート接続（Cato Client）を許可する条件の設定です。",
+    "Access": "ユーザー管理と、リモート接続（Kato Client）を許可する条件の設定です。",
     "Security": "Internet / WAN Firewall と TLS Inspection などのセキュリティ設定です。",
     "Assets": "端末の一覧（Device Inventory）など、資産の情報を確認します。",
     "Administration": "管理者アカウントの追加・権限・MFA リセットを行います。",
@@ -1108,7 +1114,7 @@
     "IP Allocation": "自社専用の固定送信元IP（Allocated IP）を割り当てます。",
     "Users": "ユーザー一覧と SDP ライセンス（リモート接続の権利）を確認します。",
     "Directory Services": "SCIM / LDAP で IdP や AD からユーザーを同期する設定です。",
-    "Client Connectivity Policy": "Cato Client でのリモート接続を許可する条件（端末の状態など）を決めます。",
+    "Client Connectivity Policy": "Kato Client でのリモート接続を許可する条件（端末の状態など）を決めます。",
     "Internet Firewall": "インターネット向け通信の許可・ブロック。最後は「全部許可」の既定ルール。",
     "WAN Firewall": "社内（拠点・ユーザー・クラウド）間の通信制御。最後は「全部遮断」の既定ルール。",
     "TLS Inspection": "HTTPS を復号して検査する設定と、検査しない（Bypass）ルールです。",
@@ -1134,16 +1140,16 @@
     "Threat Prevention": "IPS・アンチマルウェア・DNS 保護などの脅威防御を設定します。",
     "Application Control": "SaaS の操作（アップロード等）を許可・ブロックするルール（CASB）。",
     "Data Protection": "機密データ（カード番号など）の持ち出しを検知・ブロックするルール（DLP）。",
-    "Device Inventory": "Cato が把握している端末の一覧（OS・利用者・状態）。",
+    "Device Inventory": "Kato が把握している端末の一覧（OS・利用者・状態）。",
     "License": "契約しているライセンスの内容と使用状況を確認します。",
     "API Keys": "API・自動化（Terraform など）用のキーを発行・管理します。",
     "What's New": "研修サイトの更新内容と、実機の新機能の確認方法。",
     "Real-Time": "この拠点の通信を1秒ごとにリアルタイム表示します。",
-    "High Availability": "Socket 2台構成（HA）の状態と切り替え試験。",
-    "Snapshot": "Socket の状態、回線の Up/Down、遅延、接続履歴を確認します。",
+    "High Availability": "Sokket 2台構成（HA）の状態と切り替え試験。",
+    "Snapshot": "Sokket の状態、回線の Up/Down、遅延、接続履歴を確認します。",
     "Network Analytics": "スループット、パケットロス、遅延、ジッタのグラフを確認します。",
     "General": "サイト名・種別・ライセンス・タイムゾーンなどの基本設定です。",
-    "Socket": "Socket 本体の情報と、Socket WebUI・再起動・RMA 交換などの操作です。",
+    "Sokket": "Sokket 本体の情報と、Sokket WebUI・再起動・RMA 交換などの操作です。",
     "Networks": "Native Range（拠点のLAN）と Routed Range（L3スイッチの先）を確認します。",
     // ポリシー画面の操作
     "New": "新しいルール（項目）を追加します。右側に入力パネルが開きます。",
@@ -1160,8 +1166,8 @@
     // 各画面
     "Export Events": "絞り込んだイベントを CSV に出力します（研修版では出力しません）。",
     "Clear all": "すべてのフィルターを外します。",
-    "Socket WebUI": "Socket のローカル管理画面を開きます（実機では自動ログイン）。",
-    "Actions ▾": "選択中の項目に対する操作（MFA リセット、Socket WebUI など）を選びます。",
+    "Sokket WebUI": "Sokket のローカル管理画面を開きます（実機では自動ログイン）。",
+    "Actions ▾": "選択中の項目に対する操作（MFA リセット、Sokket WebUI など）を選びます。",
     "＋ Allocate": "選んだロケーションの固定IPを1つ追加します。［Save］で確定します。",
     "Download Root Certificate": "TLS Inspection 用のルート証明書を取得します。全端末に配布が必要です。",
     "New SCIM App": "IdP（Entra ID など）と SCIM で連携する設定を追加します。",
@@ -1186,21 +1192,21 @@
     "Time": "日時、またはルールが有効な時間帯。",
     "Rule Type": "WAN＝社内間の通信、Internet＝インターネット向けの通信。",
     "Bandwidth Priority": "混雑時の優先度。数字が小さいほど先に流れます（既定は p255）。",
-    "Transport": "Primary / Secondary の経路。通常は Cato（バックボーン経由）。",
+    "Transport": "Primary / Secondary の経路。通常は Kato（バックボーン経由）。",
     "Route/NAT": "インターネットへの出口。Route Via＝指定 PoP から、NAT＝自社専用 IP から出す。",
     "Status": "拠点・管理者などの現在の状態。",
     "Site Type": "拠点の種類（アイコンが変わるだけ）。",
-    "Connection Type": "接続方式（Socket の型番・vSocket・IPsec）。",
+    "Connection Type": "接続方式（Sokket の型番・vSokket・IPsec）。",
     "Location": "拠点の所在地。最寄り PoP とメンテナンス時間帯に影響。",
-    "Connected PoP": "今つながっている Cato の接続拠点。",
+    "Connected PoP": "今つながっている Kato の接続拠点。",
     "Native Range": "拠点 LAN のアドレス範囲。他拠点と重複不可。",
     "License": "拠点に割り当てた帯域ライセンス。",
     "Users/Groups": "ルールの対象ユーザー・グループ。",
     "Platforms": "対象 OS。",
     "Countries": "接続元の国。",
     "Device Posture Profiles": "端末の状態条件（会社PC・AV 稼働など）。",
-    "SDP License": "リモート接続の権利。Assigned でないと Cato Client で接続できません。",
-    "Client Status": "Cato Client の接続状態。",
+    "SDP License": "リモート接続の権利。Assigned でないと Kato Client で接続できません。",
+    "Client Status": "Kato Client の接続状態。",
     "Last Connected": "最後にリモート接続した日時。",
     "Origin": "ユーザーの登録元。SCIM＝IdP から自動同期、Manual＝手動作成。",
     "Role": "権限。Editor＝変更可、Viewer＝閲覧のみ。回線の場合は Active / Last Resort。",
@@ -1221,16 +1227,16 @@
     "Priority": "優先度（2〜254）。数字が小さいほど優先。",
     "Limits": "帯域制限のかけ方。",
     "Upload Limit": "上り方向の上限。", "Download Limit": "下り方向の上限。",
-    "Interface": "Socket の回線ポート。", "ISP": "回線事業者。",
+    "Interface": "Sokket の回線ポート。", "ISP": "回線事業者。",
     "Link Status": "回線の Up / Down。", "Media Connected": "ケーブルが挿さっているか。",
     "RTT": "PoP までの往復遅延（小さいほど良い）。", "Bandwidth (Down/Up)": "設定している回線帯域。", "Speed / Duplex": "リンク速度と全二重/半二重。",
     "Email": "ログインID・連絡先のメールアドレス。", "Groups": "所属グループ（IdP から同期）。", "OS": "接続端末の OS。",
     "Identity Provider": "連携している IdP。", "Last Sync": "最後に同期した日時。", "Synced Users": "同期されたユーザー数。",
-    "Serial": "Socket 本体のシリアル番号。", "Model": "Socket の型番。", "Version": "Socket のソフトウェアバージョン。",
-    "Subnet": "アドレス範囲。", "Local IP": "Socket の LAN 側 IP。", "DHCP": "DHCP の動作（サーバ／リレー）。",
+    "Serial": "Sokket 本体のシリアル番号。", "Model": "Sokket の型番。", "Version": "Sokket のソフトウェアバージョン。",
+    "Subnet": "アドレス範囲。", "Local IP": "Sokket の LAN 側 IP。", "DHCP": "DHCP の動作（サーバ／リレー）。",
     "Site": "拠点（サイト）の名前。", "Health": "回線品質から判定した拠点の状態（良好／品質注意／切断中）。", "Bandwidth Usage": "契約帯域に対する使用率。85% 以上は増速の検討対象。",
-    "Packet Loss (%)": "パケットロス率。1% 以上は要注意。", "RTT (ms)": "PoP までの往復遅延。", "Jitter (ms)": "遅延の揺らぎ。5ms 以上は Web会議・電話に影響。", "Active Hosts": "通信している端末数。", "Top App": "通信量が一番多いアプリ。", "PoP": "接続している Cato の PoP。",
-    "User": "ユーザー（メールアドレス）。", "Connected Since / Last": "接続開始時刻、または最後に接続した時刻。", "Client Version": "Cato Client のバージョン。古いものは更新を案内。", "Country": "接続元の国。",
+    "Packet Loss (%)": "パケットロス率。1% 以上は要注意。", "RTT (ms)": "PoP までの往復遅延。", "Jitter (ms)": "遅延の揺らぎ。5ms 以上は Web会議・電話に影響。", "Active Hosts": "通信している端末数。", "Top App": "通信量が一番多いアプリ。", "PoP": "接続している Kato の PoP。",
+    "User": "ユーザー（メールアドレス）。", "Connected Since / Last": "接続開始時刻、または最後に接続した時刻。", "Client Version": "Kato Client のバージョン。古いものは更新を案内。", "Country": "接続元の国。",
     "Application": "アプリ・サービス名。", "Category": "アプリやチェック項目の分類。", "Traffic": "通信量。", "Users": "利用者数。", "Risk": "リスクの高さ。", "Risk Score": "リスクの高さ（10 が最も高い）。",
     "Prefix": "宛先のアドレス範囲。", "Next Hop": "次に通る場所。", "Type": "種類。", "Origin": "どこから来た経路・登録元か。",
     "Threats": "脅威の件数。", "Main Type": "主な脅威の種類。", "Signature": "検知した攻撃パターンの名前。", "Severity": "重大度（Critical が最も高い）。", "Count": "件数。",
@@ -1242,16 +1248,16 @@
     "Engine": "脅威防御のエンジン。", "What it does": "エンジンの役割。", "Mode": "Block＝止める、Monitor＝記録のみ、Off＝無効。", "Reason": "例外にした理由・申請番号。",
     "Hostname": "端末名。", "Posture": "端末の状態チェックの結果。", "Service": "セキュリティサービス。", "Note": "補足。", "Assigned": "割り当て状況。",
     "Permission": "API キーの権限。View＝読み取り、Edit＝変更可。", "Allowed IPs": "API キーを使える接続元 IP。", "Expires": "有効期限。", "Last Used": "最後に使われた日時。", "Data Profile": "検知するデータの種類。", "Activity": "SaaS 内の操作（アップロードなど）。",
-    "Host": "端末。", "Main App": "主なアプリ。", "Mbps": "いまの通信量。", "Interface": "Socket の回線ポート。",
+    "Host": "端末。", "Main App": "主なアプリ。", "Mbps": "いまの通信量。", "Interface": "Sokket の回線ポート。",
     "番号": "図中の番号に対応します。", "場所": "画面上の場所。", "役割": "その場所でできること。", "項目": "入力項目。", "入力のポイント": "間違えやすい点。"
   };
   /* 表の中の状態語 → 現状の説明 */
   const STATES = [
-    ["Disconnected", "切断中：Cato Cloud に接続していません。Snapshot で回線と接続履歴を確認します。"],
-    ["Pending", "未接続：サイトは作成済みですが、Socket がまだ接続されていません。"],
+    ["Disconnected", "切断中：Kato Cloud に接続していません。Snapshot で回線と接続履歴を確認します。"],
+    ["Pending", "未接続：サイトは作成済みですが、Sokket がまだ接続されていません。"],
     ["Invited", "招待中：招待メール送信済み。本人が有効化すると Active になります。"],
     ["Waiting for IdP", "IdP 側でプロビジョニングを開始するのを待っています。"],
-    ["Offline", "Socket がオフラインです。"],
+    ["Offline", "Sokket がオフラインです。"],
     ["Down", "回線が切れています。"],
     ["Standby", "待機中：予備回線（Last Resort）として、他の回線が全部切れたときだけ使われます。"],
     ["Disabled", "無効化されたユーザーです。接続できません。"],
@@ -1259,7 +1265,7 @@
     ["Prompt", "警告：ユーザーが同意すれば続行できます。"],
     ["Bypass", "検査しない（TLS 復号の対象外）。"],
     ["Inspect", "TLS を復号して検査します。"],
-    ["Connected", "接続中：正常に Cato Cloud とつながっています。"],
+    ["Connected", "接続中：正常に Kato Cloud とつながっています。"],
     ["Active", "有効：正常に利用中です。"],
     ["Assigned", "SDP ライセンスあり：リモート接続できます。"],
     ["Allow", "許可：この通信・ルールは許可です。"],
@@ -1305,14 +1311,14 @@
     if (el.matches && el.matches(".kv > div")) {
       const dt = el.querySelector("dt"), dd = el.querySelector("dd");
       const k = dt ? dt.textContent.trim() : "";
-      const KV = { "Connection Type": "接続方式。", "Connected": "PoP に連続して接続している時間。短いと頻繁に切れている可能性があります。", "Connected PoP": "今つながっている PoP。", "Socket Version": "Socket のソフトウェアのバージョン（自動更新）。", "Last Update": "Socket が PoP から最後に更新を受けてからの時間。", "Native Range": "拠点 LAN のアドレス範囲。" };
+      const KV = { "Connection Type": "接続方式。", "Connected": "PoP に連続して接続している時間。短いと頻繁に切れている可能性があります。", "Connected PoP": "今つながっている PoP。", "Sokket Version": "Sokket のソフトウェアのバージョン（自動更新）。", "Last Update": "Sokket が PoP から最後に更新を受けてからの時間。", "Native Range": "拠点 LAN のアドレス範囲。" };
       return "【現状】" + k + "：" + (dd ? dd.textContent.trim() : "") + (KV[k] ? "\n" + KV[k] : "");
     }
     if (TIPS[txt]) return TIPS[txt];
     const first = txt.split(" ")[0];
     if (!txt && el.getAttribute && el.getAttribute("aria-label")) return el.getAttribute("aria-label");
     if (el.classList && el.classList.contains("mission-fab")) return "練習の課題リストを開きます。操作するとチェックが付きます。";
-    if (el.closest && el.closest(".switch")) return "オン（緑）で有効、オフ（灰色）で無効です。";
+    if (el.closest && el.closest(".switch")) return "オン（青）で有効、オフ（灰色）で無効です。";
     return TIPS[first] && first.length > 2 ? TIPS[first] : "";
   }
   function showTip(el, text) {
@@ -1380,20 +1386,20 @@
         <svg viewBox="0 0 420 250" class="tour-fig" role="img" aria-label="画面の構成図">
           <rect x="1" y="1" width="418" height="248" rx="6" fill="#f4f5f7" stroke="#c9ced4"/>
           <rect x="1" y="1" width="418" height="30" rx="6" fill="#fff" stroke="#e1e4e8"/>
-          <rect x="1" y="1" width="78" height="30" fill="#1f8a5b"/><text x="10" y="20" font-size="10" fill="#fff" font-weight="700">CMA TRAINER</text>
-          <text x="96" y="20" font-size="9.5" fill="#1f8a5b" font-weight="700">Monitoring</text><rect x="94" y="27" width="52" height="3" fill="#1f8a5b"/>
+          <rect x="1" y="1" width="78" height="30" fill="#0b66f0"/><text x="10" y="20" font-size="10" fill="#fff" font-weight="700">KMC TRAINER</text>
+          <text x="96" y="20" font-size="9.5" fill="#0b66f0" font-weight="700">Monitoring</text><rect x="94" y="27" width="52" height="3" fill="#0b66f0"/>
           <text x="154" y="20" font-size="9.5" fill="#2b2f33">Network  Access  Security  …</text>
-          <rect x="318" y="9" width="58" height="14" rx="7" fill="#eaf6ef" stroke="#1f8a5b"/><text x="347" y="19" font-size="8.5" text-anchor="middle" fill="#1f8a5b">操作要領</text>
+          <rect x="318" y="9" width="58" height="14" rx="7" fill="#e8f1ff" stroke="#0b66f0"/><text x="347" y="19" font-size="8.5" text-anchor="middle" fill="#0b66f0">操作要領</text>
           <circle cx="398" cy="16" r="7" fill="none" stroke="#2b2f33"/><text x="398" y="19.5" font-size="9" text-anchor="middle">?</text>
           <rect x="1" y="31" width="78" height="218" fill="#fff" stroke="#e1e4e8"/>
-          <text x="9" y="50" font-size="7.5" fill="#6b7178">INVESTIGATION</text>
-          <rect x="1" y="56" width="78" height="16" fill="#eaf6ef"/><rect x="1" y="56" width="3" height="16" fill="#1f8a5b"/><text x="12" y="67" font-size="8.5">Topology</text>
-          <text x="12" y="85" font-size="8.5">Events</text><text x="12" y="101" font-size="8.5">Audit Trail</text>
+          <text x="9" y="50" font-size="7.5" fill="#6b7178">インベスティゲーション</text>
+          <rect x="1" y="56" width="78" height="16" fill="#e8f1ff"/><rect x="1" y="56" width="3" height="16" fill="#0b66f0"/><text x="12" y="67" font-size="8.5">トポロジー</text>
+          <text x="12" y="85" font-size="8.5">イベント</text><text x="12" y="101" font-size="7.5">オーディット・トレイル</text>
           <rect x="92" y="44" width="314" height="24" rx="2" fill="#fffbea" stroke="#f1df9b"/><text x="100" y="60" font-size="8.5" fill="#6c5300">ヒント：この画面で注意するポイント</text>
           <rect x="92" y="76" width="314" height="150" rx="2" fill="#fff" stroke="#e1e4e8"/>
           <rect x="256" y="84" width="34" height="14" rx="2" fill="#fff" stroke="#c9ced4"/><text x="273" y="94" font-size="8" text-anchor="middle">New</text>
           <rect x="294" y="84" width="34" height="14" rx="2" fill="#fff" stroke="#c9ced4"/><text x="311" y="94" font-size="8" text-anchor="middle">Save</text>
-          <rect x="332" y="84" width="44" height="14" rx="2" fill="#1f8a5b"/><text x="354" y="94" font-size="8" text-anchor="middle" fill="#fff">Publish</text>
+          <rect x="332" y="84" width="44" height="14" rx="2" fill="#0b66f0"/><text x="354" y="94" font-size="8" text-anchor="middle" fill="#fff">Publish</text>
           <rect x="300" y="100" width="98" height="20" rx="2" fill="#2b2f33"/><text x="349" y="113" font-size="7.5" text-anchor="middle" fill="#fff">マウスを乗せると説明</text>
           <path d="M311 98l4 3h-8z" fill="#2b2f33"/>
           ${[0, 1, 2, 3].map((k) => `<rect x="100" y="${128 + k * 22}" width="290" height="14" fill="${k % 2 ? "#fff" : "#f6f8fa"}"/>`).join("")}

@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Administrators | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>Administrators | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -58,7 +60,7 @@
         { title: "General", open: true, fields: [
           { key: "first", label: "First name", placeholder: "例：太郎" },
           { key: "last", label: "Last name", placeholder: "例：研修" },
-          { key: "email", label: "Email（CMA のログインID になります）", placeholder: "例：new.admin@example.co.jp" }
+          { key: "email", label: "Email（KMC のログインID になります）", placeholder: "例：new.admin@example.co.jp" }
         ], summary: function (m) { return m.email || ""; } },
         { title: "Role", open: true, fields: [
           { key: "role", label: "Role", type: "select", options: ROLES, help: "Editor＝変更可、Viewer＝閲覧のみ。Events の CSV エクスポートには Editor 権限が必要です。" }

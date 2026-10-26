@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sites | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>Sites | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -40,22 +42,22 @@
       tr.addEventListener("click", function (e) { e.preventDefault(); App.db.set("selectedSite", tr.dataset.id); location.href = "site.html"; });
     });
   }
-  const CONN = ["Socket X1500", "Socket X1600", "Socket X1600 LTE", "Socket X1700", "vSocket AWS", "vSocket Azure", "vSocket ESX", "vSocket GCP", "IPsec IKEv2", "IPsec IKEv1 (Cato-initiated)"];
+  const CONN = ["Sokket S150", "Sokket S160", "Sokket S160 LTE", "Sokket S170", "vSokket AWS", "vSokket Azure", "vSokket ESX", "vSokket GCP", "IPsec IKEv2", "IPsec IKEv1 (Kato-initiated)"];
   const CITY = { Japan: ["Tokyo", "Osaka", "Nagoya", "Fukuoka", "Sapporo", "Sendai"], Singapore: ["Singapore"], "United States": ["Los Angeles", "New York", "Chicago"] };
   function openNew() {
     const isSock = function (m) { return m.conn.indexOf("IPsec") < 0; };
     App.panel({
       title: "Add Site",
-      model: { name: "", type: "Branch", conn: "Socket X1600", country: "Japan", city: "Tokyo", tz: "Asia/Tokyo", wan2: false, w1d: 100, w1u: 100, w2d: 50, w2u: 50, native: "", license: "Japan - 100 Mbps" },
-      intro: "ゼロタッチ導入の準備です。ここで作ったサイトに Socket のシリアルを紐づけておけば、現地では回線とLANをつないで電源を入れるだけで PoP に接続します。",
+      model: { name: "", type: "Branch", conn: "Sokket S160", country: "Japan", city: "Tokyo", tz: "Asia/Tokyo", wan2: false, w1d: 100, w1u: 100, w2d: 50, w2u: 50, native: "", license: "Japan - 100 Mbps" },
+      intro: "ゼロタッチ導入の準備です。ここで作ったサイトに Sokket のシリアルを紐づけておけば、現地では回線とLANをつないで電源を入れるだけで PoP に接続します。",
       sections: [
         { title: "General", open: true, fields: [
           { key: "name", label: "Site Name", req: true, placeholder: "例：JP-NGO-BR02（国-都市-拠点）" },
           { key: "type", label: "Site Type", type: "select", options: ["Branch", "Headquarters", "Data Center", "Cloud Data Center"], help: "Topology 上のアイコンが変わるだけです。" },
-          { key: "conn", label: "Connection Type", type: "select", options: CONN, rerender: true, help: "使える機能が変わります。Socket の型番・接続方式を正確に選びます。" },
+          { key: "conn", label: "Connection Type", type: "select", options: CONN, rerender: true, help: "使える機能が変わります。Sokket の型番・接続方式を正確に選びます。" },
           { key: "country", label: "Country", type: "select", options: Object.keys(CITY), rerender: true },
           { key: "city", label: "City", type: "select", options: function (m) { return CITY[m.country] || ["—"]; }, help: "最寄りの PoP の選択に使われます。一覧にない場合は最寄りの都市を選びます。" },
-          { key: "tz", label: "Time Zone", type: "select", options: ["Asia/Tokyo", "Asia/Singapore", "America/Los_Angeles"], help: "Socket の自動アップグレード（メンテナンス時間帯）の基準になります。" }
+          { key: "tz", label: "Time Zone", type: "select", options: ["Asia/Tokyo", "Asia/Singapore", "America/Los_Angeles"], help: "Sokket の自動アップグレード（メンテナンス時間帯）の基準になります。" }
         ], summary: function (m) { return m.conn; } },
         { title: "WAN Interface Settings", showIf: isSock, fields: [
           { key: "wan2", label: "Enable WAN2（2本目の回線がある場合）", type: "toggle", rerender: true },
@@ -85,7 +87,7 @@
         App.db.set("sites", sites);
         App.audit("Sites", "Create", m.name.trim(), m.conn + " / " + m.city + " / " + m.native.trim());
         App.complete("site_add");
-        App.toast("サイト「" + App.esc(m.name.trim()) + "」を追加しました。Socket が接続されるまでは Pending と表示されます。", "ok", 6000);
+        App.toast("サイト「" + App.esc(m.name.trim()) + "」を追加しました。Sokket が接続されるまでは Pending と表示されます。", "ok", 6000);
         flashId = id; draw();
       }
     });

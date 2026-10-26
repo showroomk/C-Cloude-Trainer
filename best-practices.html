@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Best Practices | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>Best Practices | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -32,7 +34,7 @@
     ["Access", "全管理者が MFA を設定済み", function () { const a = App.db.get("admins", null); return !a || a.every(function (x) { return x.mfa === "Enabled"; }); }, "administrators.html", "MFA 未設定の管理者アカウントは乗っ取りのリスクがあります。"],
     ["Network", "社内ドメインの DNS 転送先を設定", function () { const d = App.db.get("dns", null); return !!(d && d.fwd.length); }, "dns-settings.html", "未設定だと、リモートユーザーが社内サーバの名前を引けません。"],
     ["Network", "固定の送信元 IP（Allocated IP）を確保", function () { return App.db.get("ipalloc", []).length > 0; }, "ip-allocation.html", "IP 制限のある外部サービスを使うなら必要です。"],
-    ["Network", "本社・DC の Socket が HA 構成", function () { return App.sites().filter(function (s) { return s.type === "Headquarters"; }).every(function (s) { return s.ha; }); }, "sites.html", "止められない拠点は Socket を2台にします。"]
+    ["Network", "本社・DC の Sokket が HA 構成", function () { return App.sites().filter(function (s) { return s.type === "Headquarters"; }).every(function (s) { return s.ha; }); }, "sites.html", "止められない拠点は Sokket を2台にします。"]
   ];
   function draw() {
     const res = CHECKS.map(function (c) { return { cat: c[0], name: c[1], ok: c[2](), href: c[3], why: c[4] }; });

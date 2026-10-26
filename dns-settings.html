@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>DNS Settings | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>DNS Settings | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -14,7 +16,7 @@
   <div class="page-title"><h1>DNS Settings</h1><span class="muted">DNS サーバと社内ドメインの転送先</span></div>
   <div class="tip"><span><b>よくある問い合わせ「在宅だと社内サーバの名前が引けない」の対処画面です。</b>社内ドメイン（例：corp.example.local）を社内の DNS サーバ（例：10.10.0.10）へ転送する設定を <b>Domain Forwarding</b> に追加し、［Save］します。</span></div>
   <div class="card"><div class="card-h"><h2>DNS Servers</h2></div><div class="card-b" style="max-width:640px">
-    <div class="field"><span class="lbl">Primary DNS</span><label class="check" data-tip="Cato の DNS を使います（推奨）。DNS 保護も効きます。"><input type="radio" name="dnsmode" value="cato" id="mCato">Cato DNS（10.254.254.1）</label><label class="check" data-tip="自社で指定した DNS サーバを使います。"><input type="radio" name="dnsmode" value="custom" id="mCustom">Custom DNS</label></div>
+    <div class="field"><span class="lbl">Primary DNS</span><label class="check" data-tip="Kato の DNS を使います（推奨）。DNS 保護も効きます。"><input type="radio" name="dnsmode" value="kato" id="mKato">Kato DNS（10.255.255.53）</label><label class="check" data-tip="自社で指定した DNS サーバを使います。"><input type="radio" name="dnsmode" value="custom" id="mCustom">Custom DNS</label></div>
     <div class="row2"><div class="field"><label for="d1">Custom Primary</label><input class="input" id="d1" placeholder="例：8.8.8.8"></div><div class="field"><label for="d2">Custom Secondary</label><input class="input" id="d2" placeholder="例：1.1.1.1"></div></div>
   </div></div>
   <div class="card"><div class="card-h"><h2>Domain Forwarding（条件付き転送）</h2><span class="muted">このドメインの問い合わせは、指定の DNS サーバへ</span></div>
@@ -29,7 +31,7 @@
 <script src="assets/trainer.js"></script>
 <script>
 (function () {
-  let D = App.db.get("dns", { mode: "cato", d1: "", d2: "", fwd: [] });
+  let D = App.db.get("dns", { mode: "kato", d1: "", d2: "", fwd: [] });
   let dirty = false;
   function draw() {
     document.getElementById("tbl").innerHTML = App.table(["Domain", "DNS Server", ""], D.fwd.map(function (f, i) {
@@ -42,7 +44,7 @@
     document.querySelectorAll("[data-del]").forEach(function (x) { x.onclick = function () { D.fwd.splice(+x.dataset.del, 1); dirty = true; draw(); }; });
   }
   document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById(D.mode === "cato" ? "mCato" : "mCustom").checked = true;
+    document.getElementById(D.mode === "kato" ? "mKato" : "mCustom").checked = true;
     document.getElementById("d1").value = D.d1; document.getElementById("d2").value = D.d2;
     document.querySelectorAll('input[name="dnsmode"], #d1, #d2').forEach(function (el) { el.addEventListener("input", function () { dirty = true; draw(); }); el.addEventListener("change", function () { dirty = true; draw(); }); });
     document.getElementById("add").onclick = function () {

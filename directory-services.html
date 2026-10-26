@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Directory Services | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>Directory Services | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -35,18 +37,18 @@
         cfg.scim.map(function (s, i) {
           return "<tr><td>" + App.esc(s.idp) + "</td><td>" + (s.status === "Active" ? '<span class="badge b-ok">Active</span>' : '<span class="badge b-warn">' + App.esc(s.status) + "</span>") + '</td><td class="num">' + (s.lastSync ? App.fmt(s.lastSync) : "—") + '</td><td class="num">' + s.users + '</td><td><button class="btn" type="button" data-sync="' + i + '">Sync Status</button></td></tr>';
         }).join("") + "</tbody></table></div>" +
-        '<p class="muted" style="margin-top:12px">同期エラーは Monitoring > Events の Event Type = <b>System</b> で確認できます。</p>';
+        '<p class="muted" style="margin-top:12px">同期エラーは Monitoring > イベント の Event Type = <b>System</b> で確認できます。</p>';
     },
     ldap: function () {
       return '<div style="max-width:620px"><label class="switch" style="margin-bottom:14px"><input type="checkbox" id="lEn" ' + (cfg.ldap.enabled ? "checked" : "") + '><span class="track"></span>Enable LDAP Sync</label>' +
         '<div class="field"><label for="lDom">Domain Name</label><input class="input" id="lDom" value="' + App.esc(cfg.ldap.domain) + '" placeholder="例：corp.example.co.jp"></div>' +
-        '<div class="field"><label for="lBind">Bind DN</label><input class="input" id="lBind" value="' + App.esc(cfg.ldap.bind) + '" placeholder="例：CN=cato-sync,OU=Service,DC=corp,DC=example,DC=co,DC=jp"></div>' +
-        '<div class="field"><label for="lBase">Base DN</label><input class="input" id="lBase" value="' + App.esc(cfg.ldap.base) + '" placeholder="例：OU=Users,DC=corp,DC=example,DC=co,DC=jp"><span class="help">同期は 24 時間ごと（0:00 GMT）。オンプレ AD の場合、Cato からの LDAP 受信を許可する FW ルールが必要です。</span></div>' +
+        '<div class="field"><label for="lBind">Bind DN</label><input class="input" id="lBind" value="' + App.esc(cfg.ldap.bind) + '" placeholder="例：CN=kato-sync,OU=Service,DC=corp,DC=example,DC=co,DC=jp"></div>' +
+        '<div class="field"><label for="lBase">Base DN</label><input class="input" id="lBase" value="' + App.esc(cfg.ldap.base) + '" placeholder="例：OU=Users,DC=corp,DC=example,DC=co,DC=jp"><span class="help">同期は 24 時間ごと（0:00 GMT）。オンプレ AD の場合、Kato からの LDAP 受信を許可する FW ルールが必要です。</span></div>' +
         '<button class="btn btn-primary" id="lSave" type="button">Save</button></div>';
     },
     prov: function () {
       return '<div style="max-width:620px"><label class="switch"><input type="checkbox" id="onb" ' + (cfg.onboarding ? "checked" : "") + '><span class="track"></span>Send activation (onboarding) email to new SDP users</label>' +
-        '<p class="muted" style="margin:10px 0 14px">SDP ライセンスを持つユーザーにだけ、Cato Client の導入案内メールが送られます。MDM（Intune など）で Client を一括配布する場合はオフにすることもあります。</p>' +
+        '<p class="muted" style="margin:10px 0 14px">SDP ライセンスを持つユーザーにだけ、Kato Client の導入案内メールが送られます。MDM（Intune など）で Client を一括配布する場合はオフにすることもあります。</p>' +
         '<button class="btn btn-primary" id="pSave" type="button">Save</button></div>';
     }
   };

@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Site Monitoring | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>Site Monitoring | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -34,16 +36,16 @@
   let view = "snapshot";
   const V = [
     ["SITE MONITORING", [["snapshot", "Snapshot", "target"], ["analytics", "Network Analytics", "bars"], ["realtime", "Real-Time", "gauge"], ["events", "Events", "list", false, "events.html"]]],
-    ["SITE CONFIGURATION", [["general", "General", "site"], ["socket", "Socket", "socket"], ["networks", "Networks", "route"], ["ha", "High Availability", "nodes"]]]
+    ["SITE CONFIGURATION", [["general", "General", "site"], ["socket", "Sokket", "socket"], ["networks", "Networks", "route"], ["ha", "High Availability", "nodes"]]]
   ];
   App.customSidebar = function () {
-    return '<a class="side-item" href="sites.html">' + App.icon("back") + "All Sites</a>" +
+    return '<a class="side-item" href="sites.html">' + App.icon("back") + "<span>" + App.kana("All Sites") + "</span></a>" +
       '<div class="side-site"><b>' + App.esc(site.name) + '</b><span class="dot ' + (site.status === "Connected" ? "ok" : site.status === "Disconnected" ? "ng" : "warn") + '"></span>' + App.esc(site.status) + "</div>" +
       V.map(function (sec) {
-        return '<div class="side-sec"><h6>' + sec[0] + "</h6>" + sec[1].map(function (it) {
-          if (it[4]) return '<a class="side-item" href="' + it[4] + '">' + App.icon(it[2]) + it[1] + "</a>";
-          if (it[3]) return '<button type="button" class="side-item na" data-na="' + it[1] + '">' + App.icon(it[2]) + it[1] + "</button>";
-          return '<button type="button" class="side-item" data-view="' + it[0] + '">' + App.icon(it[2]) + it[1] + "</button>";
+        return '<div class="side-sec"><h6 title="' + sec[0] + '">' + App.kana(sec[0]) + "</h6>" + sec[1].map(function (it) {
+          if (it[4]) return '<a class="side-item" href="' + it[4] + '" data-tip="' + App.esc(App.sideTip(it[1])) + '">' + App.icon(it[2]) + "<span>" + App.kana(it[1]) + "</span></a>";
+          if (it[3]) return '<button type="button" class="side-item na" data-na="' + App.kana(it[1]) + '">' + App.icon(it[2]) + "<span>" + App.kana(it[1]) + "</span></button>";
+          return '<button type="button" class="side-item" data-view="' + it[0] + '" data-tip="' + App.esc(App.sideTip(it[1])) + '">' + App.icon(it[2]) + "<span>" + App.kana(it[1]) + "</span></button>";
         }).join("") + "</div>";
       }).join("");
   };
@@ -51,8 +53,8 @@
   function header(title) {
     return '<div class="site-head"><h1>' + App.esc(site.name) + ' <span class="muted">/ ' + title + "</span></h1>" +
       (site.status === "Connected" ? '<span class="badge b-ok">Connected</span>' : site.status === "Disconnected" ? '<span class="badge b-ng">Disconnected</span>' : '<span class="badge b-warn">Pending</span>') + "</div>" +
-      (site.status === "Disconnected" ? '<div class="alert-bar">' + App.icon("alert") + '<div><b>この拠点は ' + App.fmt(site.disconnectedAt) + " から Cato Cloud に接続していません。</b><br>切り分けの順番：① 他の拠点も落ちていないか（Topology）② Link Status と Recent Connections ③ 現地の電源・ケーブル・回線事業者 ④ vSocket の場合はクラウド側（インスタンス停止・セキュリティグループ・ルートテーブル）</div></div>" : "") +
-      (site.status === "Pending" ? '<div class="alert-bar" style="background:var(--warn-soft);color:#8a5200;border-color:#f1d49a">' + App.icon("alert") + "<div><b>まだ Socket が接続されていません。</b>現地で Socket に回線とLANをつないで電源を入れると、自動で PoP に接続します（ゼロタッチ）。</div></div>" : "");
+      (site.status === "Disconnected" ? '<div class="alert-bar">' + App.icon("alert") + '<div><b>この拠点は ' + App.fmt(site.disconnectedAt) + " から Kato Cloud に接続していません。</b><br>切り分けの順番：① 他の拠点も落ちていないか（Topology）② Link Status と Recent Connections ③ 現地の電源・ケーブル・回線事業者 ④ vSokket の場合はクラウド側（インスタンス停止・セキュリティグループ・ルートテーブル）</div></div>" : "") +
+      (site.status === "Pending" ? '<div class="alert-bar" style="background:var(--warn-soft);color:#8a5200;border-color:#f1d49a">' + App.icon("alert") + "<div><b>まだ Sokket が接続されていません。</b>現地で Sokket に回線とLANをつないで電源を入れると、自動で PoP に接続します（ゼロタッチ）。</div></div>" : "");
   }
 
   function linkRows() {
@@ -61,7 +63,7 @@
       const lr = w.role === "Last Resort";
       return "<tr><td>" + App.esc(w.name) + "</td><td>" + App.esc(w.isp) + "</td><td>" + App.esc(w.role) + "</td>" +
         "<td>" + (up ? (lr ? '<span class="badge b-gray">Standby</span>' : '<span class="badge b-ok">Up</span>') : '<span class="badge b-ng">Down</span>') + "</td>" +
-        "<td>" + (up ? "Yes" : site.conn.indexOf("vSocket") >= 0 ? "—" : "Yes") + '</td><td class="num">' + (up && !lr ? (site.pop === "Osaka" ? "6 ms" : "4 ms") : "—") + "</td>" +
+        "<td>" + (up ? "Yes" : site.conn.indexOf("vSokket") >= 0 ? "—" : "Yes") + '</td><td class="num">' + (up && !lr ? (site.pop === "Osaka" ? "6 ms" : "4 ms") : "—") + "</td>" +
         '<td class="num">' + w.down + " / " + w.up + " Mbps</td><td>" + (up ? "Auto / Full" : "—") + "</td></tr>";
     }).join("");
   }
@@ -75,24 +77,24 @@
         '<div class="tip"><span>Real-Time は「いま遅い」と言われたときに、どの端末・アプリが帯域を使っているかをその場で確認する画面です。1秒ごとに更新されます。</span></div>');
     },
     ha: function () {
-      if (!site.ha) return header("High Availability") + '<div class="card"><div class="card-b"><p><b>この拠点は HA（Socket 2台構成）ではありません。</b></p><p class="muted" style="margin-top:6px">Socket が故障すると拠点の通信が止まります。本社・データセンターなど止められない拠点は、Socket を2台にして HA を構成します（同じ型番の Socket をもう1台追加し、LAN・WAN を両方に接続）。</p></div></div>';
-      const ha = App.db.get("ha." + site.id, { primary: "CS-X17-0A1B2C", secondary: "CS-X17-0A1B2D", last: Date.now() - 41 * 864e5 });
+      if (!site.ha) return header("High Availability") + '<div class="card"><div class="card-b"><p><b>この拠点は HA（Sokket 2台構成）ではありません。</b></p><p class="muted" style="margin-top:6px">Sokket が故障すると拠点の通信が止まります。本社・データセンターなど止められない拠点は、Sokket を2台にして HA を構成します（同じ型番の Sokket をもう1台追加し、LAN・WAN を両方に接続）。</p></div></div>';
+      const ha = App.db.get("ha." + site.id, { primary: "DUMMY-SN-0001", secondary: "DUMMY-SN-0002", last: Date.now() - 41 * 864e5 });
       return header("High Availability") + '<div class="grid2">' +
-        App.card("Primary（Active）", '<p class="mono" style="font-size:15px">' + ha.primary + '</p><p><span class="badge b-ok">Active</span> 現在すべての通信を処理中</p><p class="muted" style="margin-top:6px">Web Management IP：10.10.0.2</p>', { tip: "Active 側の Socket。通常はこちらが通信を処理します。" }) +
-        App.card("Secondary（Standby）", '<p class="mono" style="font-size:15px">' + ha.secondary + '</p><p><span class="badge b-gray">Ready</span> 待機中（設定は同期済み）</p><p class="muted" style="margin-top:6px">Web Management IP：10.10.0.3</p>', { tip: "Standby 側の Socket。Primary が故障すると自動で引き継ぎます。" }) +
+        App.card("Primary（Active）", '<p class="mono" style="font-size:15px">' + ha.primary + '</p><p><span class="badge b-ok">Active</span> 現在すべての通信を処理中</p><p class="muted" style="margin-top:6px">Web Management IP：10.10.0.2</p>', { tip: "Active 側の Sokket。通常はこちらが通信を処理します。" }) +
+        App.card("Secondary（Standby）", '<p class="mono" style="font-size:15px">' + ha.secondary + '</p><p><span class="badge b-gray">Ready</span> 待機中（設定は同期済み）</p><p class="muted" style="margin-top:6px">Web Management IP：10.10.0.3</p>', { tip: "Standby 側の Sokket。Primary が故障すると自動で引き継ぎます。" }) +
         "</div>" + App.card("Failover Test", '<p>最後の切替：<b>' + App.fmt(ha.last) + '</b></p><p class="muted" style="margin:6px 0 12px">定期的に（例：半年に1回）、業務時間外に切替試験を行い、本当に引き継げるか確認します。切替中は数秒〜数十秒、通信が途切れます。</p><button class="btn btn-primary" id="haTest" type="button" data-tip="研修用の擬似操作：Primary と Secondary を入れ替えます。">Test Failover</button>');
     },
     snapshot: function () {
       if (site.id === "s3" || site.status === "Disconnected") App.complete("topo_site");
       const since = site.status === "Connected" ? Math.floor((Date.now() - site.connectedSince) / 864e5) + "d " + Math.floor(((Date.now() - site.connectedSince) % 864e5) / 3600e3) + "h" : "—";
       const recent = site.status === "Disconnected"
-        ? [[site.disconnectedAt, "Disconnected", "Tunnel timeout（応答なし）"], [site.disconnectedAt - 3 * 864e5, "Connected", "Tokyo_DC4"], [site.disconnectedAt - 3.1 * 864e5, "Disconnected", "Maintenance (Socket upgrade)"]]
-        : [[site.connectedSince || Date.now(), "Connected", site.pop], [(site.connectedSince || Date.now()) - 60e3 * 4, "Disconnected", "Socket upgrade（メンテナンス時間帯）"], [(site.connectedSince || Date.now()) - 9 * 864e5, "Connected", site.pop]];
+        ? [[site.disconnectedAt, "Disconnected", "Tunnel timeout（応答なし）"], [site.disconnectedAt - 3 * 864e5, "Connected", "TYO-PoP-1"], [site.disconnectedAt - 3.1 * 864e5, "Disconnected", "Maintenance (Sokket upgrade)"]]
+        : [[site.connectedSince || Date.now(), "Connected", site.pop], [(site.connectedSince || Date.now()) - 60e3 * 4, "Disconnected", "Sokket upgrade（メンテナンス時間帯）"], [(site.connectedSince || Date.now()) - 9 * 864e5, "Connected", site.pop]];
       return header("Snapshot") +
-        '<div class="card"><div class="card-h"><h2>Device Overview</h2><span class="muted">' + (site.ha ? "HA構成（Primary / Secondary）" : "Single Socket") + "</span>" +
-        '<div class="btn-group" style="margin-left:auto"><button class="btn" id="webui" type="button">Socket WebUI</button></div></div>' +
+        '<div class="card"><div class="card-h"><h2>Device Overview</h2><span class="muted">' + (site.ha ? "HA構成（Primary / Secondary）" : "Single Sokket") + "</span>" +
+        '<div class="btn-group" style="margin-left:auto"><button class="btn" id="webui" type="button">Sokket WebUI</button></div></div>' +
         '<dl class="kv" style="margin:0"><div><dt>Connection Type</dt><dd>' + App.esc(site.conn) + "</dd></div><div><dt>Connected</dt><dd>" + since + "</dd></div><div><dt>Connected PoP</dt><dd>" + App.esc(site.pop) + "</dd></div>" +
-        "<div><dt>Socket Version</dt><dd>" + (site.status === "Pending" ? "—" : "21.0.18xxx") + "</dd></div><div><dt>Last Update</dt><dd>" + (site.status === "Connected" ? "5 sec ago" : "—") + "</dd></div><div><dt>Native Range</dt><dd class=\"mono\">" + App.esc(site.native) + "</dd></div></dl></div>" +
+        "<div><dt>Sokket Version</dt><dd>" + (site.status === "Pending" ? "—" : "9.9.0-TRN") + "</dd></div><div><dt>Last Update</dt><dd>" + (site.status === "Connected" ? "5 sec ago" : "—") + "</dd></div><div><dt>Native Range</dt><dd class=\"mono\">" + App.esc(site.native) + "</dd></div></dl></div>" +
         '<div class="card"><div class="card-h"><h2>Link State（WAN）</h2></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Interface</th><th>ISP</th><th>Role</th><th>Link Status</th><th>Media Connected</th><th>RTT</th><th>Bandwidth (Down/Up)</th><th>Speed / Duplex</th></tr></thead><tbody>' + linkRows() + "</tbody></table></div></div>" +
         '<div class="card"><div class="card-h"><h2>Recent Connections</h2><span class="muted">過去の接続履歴。頻繁に切れていないかを見る</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Time</th><th>Status</th><th>Detail</th></tr></thead><tbody>' +
         recent.map(function (r) { return "<tr><td class=\"num\">" + App.fmt(r[0]) + "</td><td>" + (r[1] === "Connected" ? '<span class="badge b-ok">Connected</span>' : '<span class="badge b-ng">Disconnected</span>') + "</td><td>" + App.esc(r[2]) + "</td></tr>"; }).join("") +
@@ -136,7 +138,7 @@
       return header("Network Analytics") +
         '<div class="btn-group" style="margin-bottom:12px"><span class="muted">Time Range</span><div class="range">' + [["1h", "1 Hour"], ["24h", "24 Hours"], ["7d", "7 Days"]].map(function (r) { return '<button type="button" data-range="' + r[0] + '" aria-pressed="' + (anaRange === r[0]) + '" data-tip="表示期間を ' + r[1] + ' に切り替えます。">' + r[1] + "</button>"; }).join("") + '</div></div>' +
         '<div class="charts">' +
-        card("Throughput（WAN1）", [{ name: "Down", data: down, color: "#1f8a5b", fill: true }, { name: "Up", data: up, color: "#6d86a2" }], "Mbps", [["Downstream", "#1f8a5b"], ["Upstream", "#6d86a2"]], "契約帯域（" + cap + " Mbps）に張り付いている時間が長ければ増速を検討します。", "tp") +
+        card("Throughput（WAN1）", [{ name: "Down", data: down, color: "#0b66f0", fill: true }, { name: "Up", data: up, color: "#6d86a2" }], "Mbps", [["Downstream", "#0b66f0"], ["Upstream", "#6d86a2"]], "契約帯域（" + cap + " Mbps）に張り付いている時間が長ければ増速を検討します。", "tp") +
         card("Packet Loss", [{ name: "トンネル内", data: loss, color: "#d6333b" }, { name: "ラストマイル", data: lastMile, color: "#e58a00" }], "%", [["Inside tunnel", "#d6333b"], ["Last Mile（ISP側）", "#e58a00"]], "14時台にロスが増えています。Last Mile も高いため、回線事業者側の品質低下が疑われます。", "loss") +
         card("Round-Trip Latency", [{ name: "遅延", data: lat, color: "#1a73e8" }], "ms", [["Site ⇔ PoP", "#1a73e8"]], "", "lat") +
         card("Jitter", [{ name: "ジッタ", data: jit, color: "#7a5bc0" }], "ms", [["Jitter", "#7a5bc0"]], "ジッタが大きいと Web会議・電話の音声が途切れます。QoS（Bandwidth Priority）の見直し対象です。", "jit") +
@@ -149,16 +151,16 @@
         '<div class="row2"><div class="field"><label>Connection Type</label><input class="input" value="' + App.esc(site.conn) + '" readonly><span class="help">作成後は変更できません（変更は作り直し）。</span></div>' +
         '<div class="field"><label>License</label><input class="input" value="' + App.esc(site.license) + '" readonly></div></div>' +
         '<div class="row2"><div class="field"><label>Country / City</label><input class="input" value="' + App.esc(site.country + " / " + site.city) + '" readonly></div>' +
-        '<div class="field"><label>Time Zone</label><input class="input" value="' + App.esc(site.tz) + '" readonly><span class="help">Socket のアップグレード時間帯（メンテナンス時間帯）に影響します。</span></div></div>' +
+        '<div class="field"><label>Time Zone</label><input class="input" value="' + App.esc(site.tz) + '" readonly><span class="help">Sokket のアップグレード時間帯（メンテナンス時間帯）に影響します。</span></div></div>' +
         '<button class="btn btn-primary" id="gSave" type="button">Save</button></div></div>';
     },
     socket: function () {
-      return header("Socket") + '<div class="card"><div class="card-h"><h2>Sockets</h2></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Role</th><th>Serial</th><th>Model</th><th>Status</th><th>Version</th><th></th></tr></thead><tbody>' +
-        (site.ha ? [["Primary", "CS-X17-0A1B2C"], ["Secondary", "CS-X17-0A1B2D"]] : [["Primary", site.conn.indexOf("vSocket") >= 0 ? "vSocket-aws-7f3e" : "CS-" + site.id.toUpperCase() + "-9F21"]]).map(function (r, i) {
-          return "<tr><td>" + r[0] + '</td><td class="mono">' + r[1] + "</td><td>" + App.esc(site.conn) + "</td><td>" + (site.status === "Connected" ? '<span class="badge b-ok">' + (i ? "Ready" : "Active") + "</span>" : '<span class="badge b-ng">Offline</span>') + "</td><td>21.0.18xxx</td>" +
+      return header("Sokket") + '<div class="card"><div class="card-h"><h2>Sokkets</h2></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Role</th><th>Serial</th><th>Model</th><th>Status</th><th>Version</th><th></th></tr></thead><tbody>' +
+        (site.ha ? [["Primary", "DUMMY-SN-0001"], ["Secondary", "DUMMY-SN-0002"]] : [["Primary", site.conn.indexOf("vSokket") >= 0 ? "DUMMY-VSN-0001" : "DUMMY-SN-" + site.id.toUpperCase() + "00"]]).map(function (r, i) {
+          return "<tr><td>" + r[0] + '</td><td class="mono">' + r[1] + "</td><td>" + App.esc(site.conn) + "</td><td>" + (site.status === "Connected" ? '<span class="badge b-ok">' + (i ? "Ready" : "Active") + "</span>" : '<span class="badge b-ng">Offline</span>') + "</td><td>9.9.0-TRN</td>" +
             '<td><button class="btn" type="button" data-actions>Actions ▾</button></td></tr>';
         }).join("") + "</tbody></table></div></div>" +
-        '<div class="tip" style="margin-top:14px"><span><b>Socket WebUI：</b>Actions ▸ Socket WebUI で、Socket のローカル管理画面に自動ログインできます（対象サイトの編集権限が必要、10分操作がないとログアウト）。CMA につながらない障害時は、現地LANから https://' + App.esc(site.localIp) + ' に直接アクセスします。</span></div>';
+        '<div class="tip" style="margin-top:14px"><span><b>Sokket WebUI：</b>Actions ▸ Sokket WebUI で、Sokket のローカル管理画面に自動ログインできます（対象サイトの編集権限が必要、10分操作がないとログアウト）。KMC につながらない障害時は、現地LANから https://' + App.esc(site.localIp) + ' に直接アクセスします。</span></div>';
     },
     networks: function () {
       return header("Networks") + '<div class="card"><div class="card-h"><h2>LAN Interfaces / Ranges</h2></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Name</th><th>Type</th><th>Subnet</th><th>Local IP</th><th>DHCP</th></tr></thead><tbody>' +
@@ -181,7 +183,7 @@
       dn.shift(); up.shift(); dn.push(Math.round(Math.max(20, dn[dn.length - 1] + (rnd() - 0.48) * 40))); up.push(Math.round(Math.max(8, up[up.length - 1] + (rnd() - 0.5) * 12)));
       lab.length = 0; full.length = 0; for (let i = 0; i < 60; i++) { lab.push(i % 15 === 0 ? "-" + (60 - i) + "s" : ""); full.push((60 - i) + " 秒前"); }
       const el = document.getElementById("rtChart"); if (!el) { clearInterval(rtTimer); return; }
-      el.innerHTML = App.lineChart([{ name: "Down", data: dn, color: "#1f8a5b", fill: true }, { name: "Up", data: up, color: "#6d86a2" }], { labels: lab, full: full, unit: "Mbps", title: "realtime", note: function (i) { return Math.round(dn[i] / site.wan1.down * 100) + "% of " + site.wan1.down + " Mbps"; } });
+      el.innerHTML = App.lineChart([{ name: "Down", data: dn, color: "#0b66f0", fill: true }, { name: "Up", data: up, color: "#6d86a2" }], { labels: lab, full: full, unit: "Mbps", title: "realtime", note: function (i) { return Math.round(dn[i] / site.wan1.down * 100) + "% of " + site.wan1.down + " Mbps"; } });
       document.getElementById("rtNow").textContent = "Down " + dn[59] + " / Up " + up[59] + " Mbps（" + new Date().toLocaleTimeString() + "）";
       const hv = hosts.map(function (h, i) { return [h[0], h[1], Math.round(dn[59] * [0.34, 0.27, 0.18, 0.14, 0.02][i] * (0.85 + rnd() * 0.3))]; });
       document.getElementById("rtHosts").innerHTML = App.table(["Host", "Main App", "Mbps"], hv.map(function (h) { return { tip: h[0] + " がいま " + h[2] + " Mbps 使用中（主に " + h[1] + "）" + (h[1] === "YouTube" ? "\n業務外の動画です。" : h[1] === "Windows Update" ? "\n更新の一斉配信が帯域を使っています。" : ""), cells: [App.esc(h[0]), App.esc(h[1]), '<span class="num">' + h[2] + "</span>"] }; }));
@@ -200,7 +202,7 @@
     if (w) w.onclick = webui;
     document.querySelectorAll("[data-actions]").forEach(function (b) {
       b.onclick = function () {
-        App.pop(b, [{ label: "Socket WebUI", run: webui }, { label: "Reboot", run: function () { App.toast("研修版のため再起動は行いません。実機では通信が数分途切れます。", "warn"); } }, { label: "Replace Socket (RMA)", run: function () { App.toast("RMA交換：交換品のシリアルをこのサイトに紐づけ直すと、元の設定で動きます。", "ok", 6000); } }]);
+        App.pop(b, [{ label: "Sokket WebUI", run: webui }, { label: "Reboot", run: function () { App.toast("研修版のため再起動は行いません。実機では通信が数分途切れます。", "warn"); } }, { label: "Replace Sokket (RMA)", run: function () { App.toast("RMA交換：交換品のシリアルをこのサイトに紐づけ直すと、元の設定で動きます。", "ok", 6000); } }]);
       };
     });
     rtStart();
@@ -208,7 +210,7 @@
     const ht = document.getElementById("haTest");
     if (ht) ht.onclick = function () {
       App.modal({ title: "Test Failover", body: "Primary と Secondary を入れ替えます。実機では数秒〜数十秒、拠点の通信が途切れます。業務時間外に実施してください。", ok: "実行", onOk: function () {
-        const ha = App.db.get("ha." + site.id, { primary: "CS-X17-0A1B2C", secondary: "CS-X17-0A1B2D", last: 0 });
+        const ha = App.db.get("ha." + site.id, { primary: "DUMMY-SN-0001", secondary: "DUMMY-SN-0002", last: 0 });
         App.db.set("ha." + site.id, { primary: ha.secondary, secondary: ha.primary, last: Date.now() });
         App.audit("Sites", "HA Failover Test", site.name, ha.secondary + " が Active に");
         App.toast("切替が完了しました。" + ha.secondary + " が Active になりました。", "ok"); show("ha");
@@ -225,7 +227,7 @@
       App.toast("サイト設定を保存しました。", "ok"); show("general");
     };
   }
-  function webui() { App.toast("研修版では Socket WebUI は開きません。実機では新しいタブが開き、自動でログインします。", "warn", 6000); }
+  function webui() { App.toast("研修版では Sokket WebUI は開きません。実機では新しいタブが開き、自動でログインします。", "warn", 6000); }
 
   document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("crumbSite").textContent = site.name;

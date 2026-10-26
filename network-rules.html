@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Network Rules | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>Network Rules | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -25,11 +27,11 @@
   App.policy({
     mount: "#pol", key: "nr", title: "Network Rules", ruleNoun: "Network Rule", newMenu: true,
     seed: function () { return { enabled: true, rules: [
-      { id: "n1", name: "Web Conferencing", enabled: true, ruleType: "Internet", source: [], dest: [], app: ["App: Microsoft Teams", "App: Zoom"], prio: "p255", primary: "Cato", secondary: "None", routeNat: "None", routeVia: "Tokyo", natIp: "" },
-      { id: "n2", name: "Microsoft 365", enabled: true, ruleType: "Internet", source: [], dest: [], app: ["App: Microsoft 365"], prio: "p30", primary: "Cato", secondary: "None", routeNat: "None", routeVia: "Tokyo", natIp: "" },
-      { id: "n3", name: "WAN - Default", enabled: true, ruleType: "WAN", source: [], dest: [], app: [], prio: "p20", primary: "Cato", secondary: "Automatic", routeNat: "None", routeVia: "Tokyo", natIp: "" }
+      { id: "n1", name: "Web Conferencing", enabled: true, ruleType: "Internet", source: [], dest: [], app: ["App: Microsoft Teams", "App: Zoom"], prio: "p255", primary: "Kato", secondary: "None", routeNat: "None", routeVia: "Tokyo", natIp: "" },
+      { id: "n2", name: "Microsoft 365", enabled: true, ruleType: "Internet", source: [], dest: [], app: ["App: Microsoft 365"], prio: "p30", primary: "Kato", secondary: "None", routeNat: "None", routeVia: "Tokyo", natIp: "" },
+      { id: "n3", name: "WAN - Default", enabled: true, ruleType: "WAN", source: [], dest: [], app: [], prio: "p20", primary: "Kato", secondary: "Automatic", routeNat: "None", routeVia: "Tokyo", natIp: "" }
     ] }; },
-    newRule: function () { return { name: "", enabled: true, ruleType: "Internet", source: [], dest: [], app: [], prio: "p255", primary: "Cato", secondary: "None", routeNat: "None", routeVia: "Tokyo", natIp: allocated()[0] || "" }; },
+    newRule: function () { return { name: "", enabled: true, ruleType: "Internet", source: [], dest: [], app: [], prio: "p255", primary: "Kato", secondary: "None", routeNat: "None", routeVia: "Tokyo", natIp: allocated()[0] || "" }; },
     columns: [
       { h: "Name", v: function (r) { return App.esc(r.name) + (r._new ? ' <span class="badge b-info">New</span>' : ""); } },
       { h: "Rule Type", v: function (r) { return '<span class="badge ' + (r.ruleType === "WAN" ? "b-gray" : "b-info") + '">' + r.ruleType + "</span>"; } },
@@ -47,16 +49,16 @@
       { title: "App/Category", fields: [{ key: "app", label: "App/Category", type: "picker", options: App.opt.apps }] },
       { title: "Configuration", open: true, summary: function (m) { return m.prio + (m.ruleType === "Internet" && m.routeNat !== "None" ? " / " + m.routeNat : ""); }, fields: [
         { key: "prio", label: "Bandwidth Priority", type: "select", options: prios, help: "数字が小さいほど優先。Web会議・電話は高い優先度（小さい数字）に。" },
-        { key: "primary", label: "Primary Transport", type: "select", options: ["Cato", "Internet (Off-Cloud)", "Automatic"] },
-        { key: "secondary", label: "Secondary Transport", type: "select", options: ["None", "Automatic", "Cato", "Internet (Off-Cloud)"] },
+        { key: "primary", label: "Primary Transport", type: "select", options: ["Kato", "Internet (Off-Cloud)", "Automatic"] },
+        { key: "secondary", label: "Secondary Transport", type: "select", options: ["None", "Automatic", "Kato", "Internet (Off-Cloud)"] },
         { key: "routeNat", label: "Route/NAT（Internet ルールのみ）", type: "select", options: ["None", "Route Via", "NAT"], rerender: true, showIf: function (m) { return m.ruleType === "Internet"; } },
         { key: "routeVia", label: "Route Via - Locations", type: "select", options: App.opt.locations, showIf: function (m) { return m.ruleType === "Internet" && m.routeNat === "Route Via"; } },
         { key: "natIp", label: "NAT - Allocated IPs", type: "select", options: function () { const a = allocated(); return a.length ? a : [["", "（割り当て済みIPがありません）"]]; }, showIf: function (m) { return m.ruleType === "Internet" && m.routeNat === "NAT"; },
-          help: "Network > IP Allocation で先に固定IPを割り当てておきます。" }
+          help: "Network > アイピー・アロケーション で先に固定IPを割り当てておきます。" }
       ] }
     ],
     validate: function (m) {
-      if (m.ruleType === "Internet" && m.routeNat === "NAT" && !m.natIp) return "NAT に使う Allocated IP がありません。先に Network > IP Allocation で割り当ててください。";
+      if (m.ruleType === "Internet" && m.routeNat === "NAT" && !m.natIp) return "NAT に使う Allocated IP がありません。先に Network > アイピー・アロケーション で割り当ててください。";
       if (m.ruleType === "Internet" && m.routeNat !== "None" && !m.source.length && !m.app.length) App.toast("ベストプラクティス：Route Via / NAT のルールは Source か App/Category を具体的に指定しましょう。", "warn", 6000);
       if (m.ruleType !== "WAN") m.dest = [];
       return null;

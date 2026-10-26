@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Cloud Apps | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>Cloud Apps | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -33,7 +35,7 @@
       { label: "Sanctioned", value: cnt("Sanctioned"), tone: "ok", tip: "会社が利用を認めたサービス" }, { label: "Unsanctioned", value: cnt("Unsanctioned"), tone: "ng", tip: "利用を認めていないサービス" },
       { label: "Unreviewed", value: cnt("Unreviewed"), tone: "warn", tip: "まだ判断していないサービス（シャドーIT の候補）。棚卸しします" }]);
     const bins = [0, 0, 0]; apps.forEach(function (a) { bins[a.r >= 7 ? 2 : a.r >= 4 ? 1 : 0]++; });
-    document.getElementById("c1").innerHTML = App.card("Risk Score 分布", App.donut([{ label: "Low（1-3）", value: bins[0], color: "#1f8a5b" }, { label: "Medium（4-6）", value: bins[1], color: "#e58a00" }, { label: "High（7-10）", value: bins[2], color: "#d6333b", tip: "高リスク：" + bins[2] + " 件。データ持ち出しの経路になりやすいサービスです。" }], String(apps.length), "apps"));
+    document.getElementById("c1").innerHTML = App.card("Risk Score 分布", App.donut([{ label: "Low（1-3）", value: bins[0], color: "#0b66f0" }, { label: "Medium（4-6）", value: bins[1], color: "#e58a00" }, { label: "High（7-10）", value: bins[2], color: "#d6333b", tip: "高リスク：" + bins[2] + " 件。データ持ち出しの経路になりやすいサービスです。" }], String(apps.length), "apps"));
     document.getElementById("c2").innerHTML = App.card("Top Unreviewed（利用者数）", App.bars(apps.filter(function (a) { return a.s !== "Sanctioned"; }).sort(function (a, b) { return b.u - a.u; }).slice(0, 5).map(function (a) { return { label: a.n, value: a.u, text: a.u + " 人", color: a.r >= 7 ? "var(--ng)" : "var(--warn)", tip: a.n + "：" + a.u + " 人が利用（リスク " + a.r + "/10）\n業務で必要か確認し、承認するか制御するかを決めます。" }; })));
     document.getElementById("tbl").innerHTML = App.table(["Application", "Category", "Users", "Risk Score", "Status"], apps.filter(function (a) { return !f || a.s === f; }).map(function (a) {
       return { tip: "【" + a.n + "】" + a.c + " ／ 利用者 " + a.u + " 人 ／ リスク " + a.r + "/10\n状態：" + { Sanctioned: "承認済み", Unsanctioned: "未承認（制御の対象）", Unreviewed: "未判断" }[a.s] + "。右の選択で変更できます。",

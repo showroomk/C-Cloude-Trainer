@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SDP Users Dashboard | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>SDP Users Dashboard | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -26,8 +28,8 @@
     const users = App.users(), lic = 10, used = users.filter(function (u) { return u.sdp; }).length;
     document.getElementById("tiles").innerHTML = App.tiles([{ label: "License Usage", value: used + " / " + lic, tone: used / lic > 0.9 ? "ng" : "brand", sub: Math.round(used / lic * 100) + "% 使用", tip: "SDP ライセンスの割り当て数 / 契約数。90% を超えたら追加購入を検討します。" },
       { label: "Peak Concurrent", value: 5, tip: "同時接続の最大数（7日間）" }, { label: "Avg Session", value: "6.2h", tip: "1回の接続の平均時間" }, { label: "Countries", value: 2, tone: "warn", tip: "接続元の国の数。想定外の国からの接続がないか確認します。" }]);
-    document.getElementById("c1").innerHTML = App.card("Client Version", App.donut([{ label: "5.12.1（最新）", value: 5, color: "#1f8a5b" }, { label: "5.9.2（旧）", value: 1, color: "#e58a00", tip: "旧バージョン：1 台。自動更新が止まっていないか確認し、更新を案内します。" }], "6", "clients"));
-    document.getElementById("c2").innerHTML = App.card("Connection Origin", App.donut([{ label: "Japan", value: 5, color: "#1f8a5b" }, { label: "Singapore", value: 1, color: "#e58a00", tip: "Singapore からの接続：1 件（vendor01@partner.example）\n出張などで説明がつくか確認します。想定外なら Client Connectivity Policy の Countries で制限できます。" }], "6", "users"));
+    document.getElementById("c1").innerHTML = App.card("Client Version", App.donut([{ label: "5.12.1（最新）", value: 5, color: "#0b66f0" }, { label: "5.9.2（旧）", value: 1, color: "#e58a00", tip: "旧バージョン：1 台。自動更新が止まっていないか確認し、更新を案内します。" }], "6", "clients"));
+    document.getElementById("c2").innerHTML = App.card("Connection Origin", App.donut([{ label: "Japan", value: 5, color: "#0b66f0" }, { label: "Singapore", value: 1, color: "#e58a00", tip: "Singapore からの接続：1 件（vendor01@partner.example）\n出張などで説明がつくか確認します。想定外なら Client Connectivity Policy の Countries で制限できます。" }], "6", "users"));
     document.getElementById("c3").innerHTML = App.card("Platform", App.donut([{ label: "Windows", value: 4, color: "#1a73e8" }, { label: "macOS", value: 1, color: "#6d86a2" }, { label: "iOS", value: 1, color: "#9aa0a6" }], "6", "devices"));
     const d = [1, 0, 0, 0, 0, 1, 2, 3, 5, 5, 4, 4, 3, 5, 5, 4, 3, 2, 2, 1, 1, 1, 0, 0];
     document.getElementById("c4").innerHTML = App.card("時間帯別の同時接続数（平日平均）", App.bars(d.map(function (v, h) { return { label: h + ":00", value: v, text: v + " 人", color: v >= 5 ? "var(--warn)" : "var(--brand)", tip: h + ":00〜" + (h + 1) + ":00 の平均同時接続：" + v + " 人" + (v >= 5 ? "\nピーク時間帯です。" : "") }; })));

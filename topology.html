@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Topology | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>Topology | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -47,12 +49,12 @@
     <div class="topo-head">
       <div class="topo-title">Topology</div>
       <div class="ico-blk">${site}</div>
-      <div class="stat" data-tip="登録されている拠点（サイト）の数。正常時の数（ベースライン）と比べます。"><b id="nSites">0</b> Sites</div>
+      <div class="stat" data-tip="登録されている拠点（サイト）の数。正常時の数（ベースライン）と比べます。"><b id="nSites">0</b> サイト</div>
       <div class="stat-sep" aria-hidden="true"></div>
       <div class="stat ok" data-tip="接続中の拠点数。"><b id="nConn">0</b> Connected</div>
       <div class="stat ng" data-tip="切断中の拠点数。0 でなければ赤い拠点をクリックして原因を確認します。"><b id="nDisc">0</b> Disconnected</div>
       <div class="ico-blk">${users}</div>
-      <div class="stat" data-tip="いま Cato Client で接続しているリモートユーザーの数。"><b id="nSdp">0</b> Connected SDP Users</div>
+      <div class="stat" data-tip="いま Kato Client で接続しているリモートユーザーの数。"><b id="nSdp">0</b> Connected SDP Users</div>
       <div class="topo-search">${search}<input class="input" id="topoSearch" placeholder="Search" aria-label="サイトを検索"></div>
       <button class="topo-refresh" id="refresh" type="button" aria-label="更新">${refresh}</button>
     </div>
@@ -64,10 +66,10 @@
         <button type="button" id="zFit" aria-label="全体を表示">${shrink}</button>
         <button type="button" id="zRefresh" aria-label="再描画">${refresh}</button>
       </div>
-      <svg id="topo" viewBox="0 0 1200 640" role="img" aria-label="拠点とCatoクラウドの接続状況"></svg>
+      <svg id="topo" viewBox="0 0 1200 640" role="img" aria-label="拠点とKatoクラウドの接続状況"></svg>
       <div class="hover-card" id="hover" hidden></div>
     </div>
-    <div class="legend-row"><span><span class="dot ok"></span>Connected（接続中）</span><span><span class="dot ng"></span>Disconnected（切断）</span><span><span class="dot warn"></span>Pending（Socket未接続の新規サイト）</span><span>中央の緑のリング＝Cato SASE Cloud（PoP とバックボーン）</span></div>
+    <div class="legend-row"><span><span class="dot ok"></span>Connected（接続中）</span><span><span class="dot ng"></span>Disconnected（切断）</span><span><span class="dot warn"></span>Pending（Sokket未接続の新規サイト）</span><span>中央の青いリング＝Kato SASE Cloud（PoP とバックボーン）</span></div>
   </div>
 </main>
 
@@ -124,11 +126,11 @@
       const a = (35 + k * 22) * Math.PI / 180;
       const x = cx + Math.cos(a) * 165, y = cy + Math.sin(a) * 150;
       sdp += '<line x1="' + (cx + Math.cos(a) * (R + 18)) + '" y1="' + (cy + Math.sin(a) * (R + 16)) + '" x2="' + x + '" y2="' + y + '" stroke="#cfd6dd"/>' +
-        '<g data-tip="【接続中のリモートユーザー】Cato Client で接続している SDP ユーザーです。詳細は Access > Users で確認します。" transform="translate(' + x + ',' + y + ')"><circle r="12" fill="#fff" stroke="#6d86a2" stroke-width="1.5"/><circle cy="-3" r="3.4" fill="none" stroke="#6d86a2" stroke-width="1.5"/><path d="M-6 7c0-3.5 2.7-5.5 6-5.5s6 2 6 5.5" fill="none" stroke="#6d86a2" stroke-width="1.5"/></g>';
+        '<g data-tip="【接続中のリモートユーザー】Kato Client で接続している SDP ユーザーです。詳細は Access > ユーザー で確認します。" transform="translate(' + x + ',' + y + ')"><circle r="12" fill="#fff" stroke="#6d86a2" stroke-width="1.5"/><circle cy="-3" r="3.4" fill="none" stroke="#6d86a2" stroke-width="1.5"/><path d="M-6 7c0-3.5 2.7-5.5 6-5.5s6 2 6 5.5" fill="none" stroke="#6d86a2" stroke-width="1.5"/></g>';
     }
     svg.innerHTML = '<g id="world" transform="translate(' + tx + ',' + ty + ') translate(' + cx + ',' + cy + ') scale(' + scale + ') translate(' + (-cx) + ',' + (-cy) + ')">' +
       sdp + sites.map(nodeSVG).join("") +
-      '<g data-tip="【Cato SASE Cloud】PoP（接続拠点）とプライベートバックボーンを表します。拠点やユーザーは最寄りの PoP に自動で接続します。"><circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="none" stroke="#138a60" stroke-width="30"/></g>' +
+      '<g data-tip="【Kato SASE Cloud】PoP（接続拠点）とプライベートバックボーンを表します。拠点やユーザーは最寄りの PoP に自動で接続します。"><circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="none" stroke="#1f7bff" stroke-width="30"/></g>' +
       '</g>';
     if (q) svg.querySelectorAll(".node").forEach(function (n) {
       const s = sites.find(function (x) { return x.id === n.dataset.id; });

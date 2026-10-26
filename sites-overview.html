@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sites Overview | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>Sites Overview | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -41,7 +43,7 @@
       { label: "Sites", value: data.length, tone: "brand", tip: "登録されている拠点の数" },
       { label: "Healthy", value: c.ok, tone: "ok", tip: "接続中で、ロス・ジッタ・帯域使用率が正常な拠点" },
       { label: "Degraded", value: c.warn, tone: "warn", tip: "接続中だが、ロス1%以上・ジッタ5ms以上・帯域85%以上のいずれかに当たる拠点" },
-      { label: "Disconnected / Pending", value: c.ng, tone: "ng", tip: "切断中または Socket 未接続の拠点" }]);
+      { label: "Disconnected / Pending", value: c.ng, tone: "ng", tip: "切断中または Sokket 未接続の拠点" }]);
     const val = function (d) { return { name: d.s.name, util: d.util, loss: d.loss == null ? -1 : d.loss, rtt: d.rtt == null ? -1 : d.rtt, jit: d.jit == null ? -1 : d.jit, users: d.users }[sortKey]; };
     const rows = data.slice().sort(function (a, b) { const x = val(a), y = val(b); return (x > y ? 1 : x < y ? -1 : 0) * (asc ? 1 : -1); });
     const colr = function (v, warn) { return v == null ? '<span class="muted">—</span>' : v >= warn ? '<b style="color:var(--ng);font-weight:500">' + v + "</b>" : v; };

@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Users | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>Users | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -12,7 +14,7 @@
 <body data-tab="access" data-page="users" data-crumb="Users">
 <main class="main" id="main">
   <div class="page-title"><h1>Users</h1><span class="muted" id="cnt"></span></div>
-  <div class="tip"><span><b>おすすめは SCIM 連携：</b>Entra ID / Okta などで社員を追加・無効化すると、ほぼリアルタイムで Cato にも反映されます。<b>退職者対応は IdP 側で無効化</b>するのが原則で、SCIM 由来のユーザーをここで直接消しても、次の同期で戻ってしまいます。リモート接続には SDP ライセンスの割り当てが必要です。</span></div>
+  <div class="tip"><span><b>おすすめは SCIM 連携：</b>Entra ID / Okta などで社員を追加・無効化すると、ほぼリアルタイムで Kato にも反映されます。<b>退職者対応は IdP 側で無効化</b>するのが原則で、SCIM 由来のユーザーをここで直接消しても、次の同期で戻ってしまいます。リモート接続には SDP ライセンスの割り当てが必要です。</span></div>
   <div class="card">
     <div class="subtabs" role="tablist" id="utabs"><button role="tab" aria-selected="true" type="button" data-t="dir" data-tip="ユーザーの一覧">Users Directory</button><button role="tab" aria-selected="false" type="button" data-t="grp" data-tip="IdP から同期されたグループと人数">User Groups</button></div>
     <div id="grpView" hidden></div>
@@ -50,7 +52,7 @@
     App.panel({
       title: "Edit User",
       model: { name: u.last + " " + u.first, email: u.email, sdp: u.sdp, disabled: !!u.disabled },
-      intro: scim ? "このユーザーは <b>SCIM（IdP）から同期</b>されています。氏名・グループ・有効/無効は IdP 側で変更します。ここで変更できるのはライセンスなど Cato 側の設定だけです。" : null,
+      intro: scim ? "このユーザーは <b>SCIM（IdP）から同期</b>されています。氏名・グループ・有効/無効は IdP 側で変更します。ここで変更できるのはライセンスなど Kato 側の設定だけです。" : null,
       sections: [{ title: "User", open: true, fields: [
         { key: "name", label: "Name", help: scim ? "IdP 管理のため変更不可" : "" },
         { key: "email", label: "Email" },

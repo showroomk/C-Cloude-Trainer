@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Network Dashboard | CMA Trainer</title>
-<meta name="description" content="Cato Management Application の操作を練習する非公式の学習用シミュレーター">
+<title>Network Dashboard | KMC Trainer</title>
+<meta name="description" content="SASE 管理画面の操作の流れを練習する非公式・非営利の学習用シミュレーター（架空の製品）">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
@@ -29,7 +31,7 @@
     document.getElementById("tiles").innerHTML = App.tiles([{ label: "Total Traffic (24h)", value: "1.84 TB", tone: "brand", tip: "全拠点・全ユーザーの合計通信量" }, { label: "Peak Throughput", value: "612 Mbps", tip: "最大の同時スループット（14:00 頃）" }, { label: "Avg Packet Loss", value: "0.31%", tone: "ok", tip: "全回線の平均ロス。1% 未満なら概ね良好" }, { label: "Links Degraded", value: 1, tone: "warn", tip: "品質注意の回線（JP-OSA-BR01 WAN1）" }]);
     const rnd = App.rand(31), lab = [], full = [], a = [], b = [];
     for (let i = 0; i < 25; i++) { const h = (new Date().getHours() - 24 + i + 48) % 24; lab.push(i % 4 === 0 ? h + ":00" : ""); full.push(h + ":00 台"); const w = h >= 9 && h <= 18 ? 1 : 0.2; a.push(Math.round(420 * w + rnd() * 60)); b.push(Math.round(150 * w + rnd() * 30)); }
-    document.getElementById("c1").innerHTML = App.card("Throughput（全体）", App.lineChart([{ name: "Down", data: a, color: "#1f8a5b", fill: true }, { name: "Up", data: b, color: "#6d86a2" }], { labels: lab, full: full, unit: "Mbps", title: "throughput" }));
+    document.getElementById("c1").innerHTML = App.card("Throughput（全体）", App.lineChart([{ name: "Down", data: a, color: "#0b66f0", fill: true }, { name: "Up", data: b, color: "#6d86a2" }], { labels: lab, full: full, unit: "Mbps", title: "throughput" }));
     document.getElementById("c2").innerHTML = App.card("Top Sites（通信量）", App.bars(sites.map(function (s, i) { const v = s.status === "Connected" ? [1210, 520, 0][i] || 80 : 0; return { label: s.name, value: v, text: v + " GB", color: s.status === "Connected" ? "var(--brand)" : "var(--faint)", tip: s.name + "：" + v + " GB" + (s.status !== "Connected" ? "（切断中）" : "") }; })));
     const hrs = [8, 10, 12, 14, 16, 18];
     const q = function (s, h) { if (s.status !== "Connected") return ["ng", "切断中"]; if (s.id === "s2" && h === 14) return ["ng", "ロス 2.4% / ジッタ 14ms"]; if (s.id === "s2" && (h === 12 || h === 16)) return ["warn", "ロス 0.9%"]; return ["ok", "良好"]; };

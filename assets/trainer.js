@@ -1,6 +1,6 @@
 /* =====================================================================
-   CMA Trainer トレーニングエンジン
-   - 課題データ（assets/challenges.js の window.CMA_CHALLENGES）を読み込んで動かす
+   KMC Trainer トレーニングエンジン
+   - 課題データ（assets/challenges.js の window.KMC_CHALLENGES）を読み込んで動かす
    - mode: "guided" … スポットライト（半透明マスク＋ハイライト）で次の操作を案内
              resize / scroll / DOM の変化 / アニメーションに追従して毎フレーム位置を再計算
    - mode: "chat"   … 右側の LINE 風「通知センター」で課題を伝える。誤操作には即時ヒント
@@ -11,7 +11,7 @@
   "use strict";
   const App = window.App;
   if (!App) return;
-  const DATA = window.CMA_CHALLENGES || { tracks: [], challenges: [] };
+  const DATA = window.KMC_CHALLENGES || { tracks: [], challenges: [] };
   const $ = App.$, $$ = App.$$, esc = App.esc;
   const CH = DATA.challenges;
   const byId = (id) => CH.find((c) => c.id === id);
@@ -26,7 +26,7 @@
     if (page === "site.html") return { tab: "network", tabLabel: "Network", home: "sites.html", label: "拠点の詳細", noLink: true };
     return null;
   }
-  const navPath = (page) => { const n = navInfo(page); return n ? (n.noLink ? n.label : n.tabLabel + " > " + n.label) : page; };
+  const navPath = (page) => { const n = navInfo(page); return n ? (n.noLink ? n.label : n.tabLabel + " > " + App.kana(n.label)) : page; };
   const linkTo = (el) => { const a = el && el.closest && el.closest("a[href]"); if (!a) return null; return (a.getAttribute("href") || "").split("#")[0].split("?")[0] || null; };
 
   /* ---------------- 状態（このブラウザに保存） ---------------- */
@@ -116,7 +116,7 @@
       const n = navInfo(s.page);
       return { virtual: true, nav: !(n && n.noLink), page: s.page, id: s.id, label: navPath(s.page) + " を開く", focus: "「" + navPath(s.page) + "」",
         say: n && n.noLink ? "この手順は拠点の詳細画面で行います。前の画面に戻って、拠点を開き直しましょう。" : "この手順は「" + navPath(s.page) + "」の画面で行います。まずはその画面を開きましょう。",
-        hint: n && !n.noLink ? "上部の［" + n.tabLabel + "］タブ → 左メニューの［" + n.label + "］です。" : "ブラウザの［戻る］で前の画面に戻れます。" };
+        hint: n && !n.noLink ? "上部の［" + n.tabLabel + "］タブ → 左メニューの［" + App.kana(n.label) + "］です。" : "ブラウザの［戻る］で前の画面に戻れます。" };
     }
     return s;
   }
@@ -470,7 +470,7 @@
   function shakeCallout() { if (!spot) return; callKey = ""; renderCallout(); spot.call.classList.remove("shake"); void spot.call.offsetWidth; spot.call.classList.add("shake"); }
 
   /* ---------- チャット風 通知センター（ガイドなしモード） ---------- */
-  const AV = '<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="#1f8a5b"/><rect x="8" y="10" width="16" height="13" rx="4" fill="#fff"/><circle cx="13" cy="16.5" r="1.8" fill="#1f8a5b"/><circle cx="19" cy="16.5" r="1.8" fill="#1f8a5b"/><path d="M16 10V6.5" stroke="#fff" stroke-width="1.6"/><circle cx="16" cy="6" r="1.6" fill="#f2c14e"/></svg>';
+  const AV = '<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="#0b66f0"/><rect x="8" y="10" width="16" height="13" rx="4" fill="#fff"/><circle cx="13" cy="16.5" r="1.8" fill="#0b66f0"/><circle cx="19" cy="16.5" r="1.8" fill="#0b66f0"/><path d="M16 10V6.5" stroke="#fff" stroke-width="1.6"/><circle cx="16" cy="6" r="1.6" fill="#f2c14e"/></svg>';
   let chat = null, renderedLog = -1, statusKey = "";
   function buildChat() {
     if (chat) return;
@@ -698,7 +698,7 @@
     document.addEventListener("change", () => { lastInput = now(); schedule(); }, true);
     window.addEventListener("resize", () => { if (chat) render(); });
     window.addEventListener("storage", (e) => {
-      if (e.key !== "cmaTrainer.v1." + KEY) return;
+      if (e.key !== "kmcTrainer.v2." + KEY) return;
       const fresh = App.db.get(KEY, null); if (!fresh) return;
       const same = JSON.stringify(fresh.active && [fresh.active.id, fresh.active.i]) === JSON.stringify(st.active && [st.active.id, st.active.i]);
       st = Object.assign({ active: null, cleared: {}, offered: false, chatMin: false }, fresh);
