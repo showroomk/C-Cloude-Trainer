@@ -30,11 +30,26 @@
   const uid = () => "x" + Math.random().toString(36).slice(2, 9);
   App.uid = uid;
 
+  /* ---------------- ラボ連動（NetLab の中で開かれたとき） ----------------
+     lab/index.html の iframe で開かれると、親ウィンドウの NetLab（window.parent.NL）が見える。
+     そのときはサイト・ユーザー・SDP 範囲・Firewall の保存先をラボのファイル（NL.lab.kmc）に切り替える。 */
+  App.LAB = (() => { try { return window.parent !== window && window.parent.NL && window.parent.NL.lab ? window.parent.NL : null; } catch (e) { return null; } })();
+  const LAB_KEYS = /^(sites|users|sdpRange|pol\.wan|pol\.ifw)$/;
+  const inLab = (key) => !!App.LAB && LAB_KEYS.test(key);
+
   /* ---------------- 保存 ---------------- */
   const PREFIX = "kmcTrainer.v2.";
   const mem = {};
   App.db = {
     get(key, seed) {
+      if (inLab(key)) {
+        const K = App.LAB.lab.kmc = App.LAB.lab.kmc || {};
+        if (key in K) return clone(K[key]);
+        const s = typeof seed === "function" ? seed() : seed;
+        if (s === undefined || s === null) return s;
+        K[key] = clone(key === "sites" ? [] : s);
+        return clone(K[key]);
+      }
       try {
         const v = localStorage.getItem(PREFIX + key);
         if (v !== null) return JSON.parse(v);
@@ -46,6 +61,12 @@
       return clone(s);
     },
     set(key, value) {
+      if (inLab(key)) {
+        App.LAB.lab.kmc = App.LAB.lab.kmc || {};
+        App.LAB.lab.kmc[key] = clone(value);
+        App.LAB.touch("kmc");
+        return;
+      }
       mem[key] = clone(value);
       try { localStorage.setItem(PREFIX + key, JSON.stringify(value)); } catch (e) { /* メモリのみ */ }
     },
@@ -151,7 +172,7 @@
       { t: "ADMINISTRATION", items: [
         ["administrators", "Administrators", "administrators.html", "admin"],
         ["license", "License", "license.html", "key"], ["api", "API Keys", "api-keys.html", "key"]] },
-      { t: "TRAINING", items: [["whats-new", "What's New", "whats-new.html", "bell"]] }
+      { t: "TRAINING", items: [["whats-new", "What's New", "whats-new.html", "bell"], ["netlab", "NetLab（実機ラボ）", "lab/index.html", "nodes"]] }
     ] }
   };
   App.NAV = NAV;

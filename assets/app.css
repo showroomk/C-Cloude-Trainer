@@ -675,3 +675,10 @@ body.tr-on .tracker { display: none; }
   .tr-card { padding: 18px 16px 14px; }
 }
 @media (prefers-reduced-motion: reduce) { .sp-ring, .sp-ring.go, .tc-dots i.cur { animation: none; } .sp-ring, .sp-call { transition: none; } }
+
+/* ラボ連動（NetLab の中で開いたとき） */
+.lab-banner { position: fixed; left: 12px; bottom: 12px; z-index: 900; max-width: min(520px, calc(100vw - 24px)); background: #fff7e6; color: #6b4300; border: 1px solid #f1d49a; border-radius: 6px; box-shadow: 0 4px 14px rgba(0,0,0,.12); padding: 6px 12px; font-size: 12px; line-height: 1.5; pointer-events: none; }
+.lab-banner b { color: #8a5200; margin-right: 4px; }
+.lang-btn { border: 1px solid var(--line-strong, #c9d1da); background: #fff; color: inherit; border-radius: 3px; padding: 3px 10px; font-size: 12px; cursor: pointer; margin-right: 6px; }
+.lang-btn:hover { background: #f2f5f8; }
+.lang-float { position: fixed; right: 12px; top: 8px; z-index: 950; }
