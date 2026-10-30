@@ -530,7 +530,7 @@
         s += B(20, y + 20, 110, 50, "社員の PC\n（拠点 / 在宅）", { f: C.ssoft, s: C.slate, fs: 11 });
         s += '<circle cx="270" cy="' + (y + 45) + '" r="30" fill="none" stroke="' + C.green + '" stroke-width="10"/>' + T(270, y + 92, "PoP（Tokyo）", { a: "middle", fs: 10.5, c: C.green });
         s += A(132, y + 45, 236, y + 45, { c: C.slate });
-        s += B(390, y + 18, 170, 54, ok ? "送信元：Allocated IP\n203.0.113.212（自社専用）" : "送信元：PoP の共有IP\n（他社と共有・変わることがある）", { f: ok ? C.gsoft : C.rsoft, s: ok ? C.green : C.red, fs: 10.5 });
+        s += B(390, y + 18, 170, 54, ok ? "送信元：Allocated IP\n203.0.113.212（自社専用）" : "送信元：PoP の共有IP\n（他社と共有・変わる場合あり）", { f: ok ? C.gsoft : C.rsoft, s: ok ? C.green : C.red, fs: 10.5 });
         s += A(304, y + 45, 388, y + 45, { c: ok ? C.green : C.red });
         s += B(640, y + 12, 190, 66, "取引先ポータル / SaaS\n許可リスト：203.0.113.212", { f: "#fff", s: C.line, fs: 11 });
         s += A(562, y + 45, 638, y + 45, { c: ok ? C.green : C.red, w: 2 });
@@ -549,7 +549,7 @@
         s += '<rect x="420" y="' + (y + 6) + '" width="' + Math.max(20, len) + '" height="20" rx="3" fill="' + r[2] + '" opacity="' + (i ? 0.45 : 0.9) + '"/>';
       });
       s += T(420, 260, "← 先に流れる　　　　　　　　　　　後回し →", { fs: 11, c: C.muted });
-      s += A(806, 50, 806, 236, { c: C.muted, t: "", dx: 0 }) + T(816, 150, "数字が\n大きいほど\n後回し", { fs: 10.5, c: C.muted });
+      s += A(790, 50, 790, 236, { c: C.muted, t: "", dx: 0 }) + T(798, 150, "数字が\n大きいほど\n後回し", { fs: 10.5, c: C.muted });
       return svg(860, 272, s, "優先度");
     },
     tls: function () {

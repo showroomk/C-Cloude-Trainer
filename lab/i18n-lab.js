@@ -242,7 +242,8 @@
     [/^管理者アカウント (.+) を登録しました$/, 'Registered administrator $1'], [/^(.+) がログインしました$/, '$1 logged in'], [/^ログイン失敗（ユーザー名 (.+)）$/, 'Login failed (username $1)'],
     [/^(.+) の形式が正しくありません$/, 'Invalid $1'],
     [/^シリアル (\S+)$/, 'Serial $1'], [/^(WAN[12]) アドレス$/, '$1 address'], [/^(WAN[12]): 確立$/, '$1: up'], [/^(WAN[12]): 未確立$/, '$1: down'],
-    [/^ユーザー名:$/, 'Username:'], [/^URL に http:\/\/<IP アドレス> または https:\/\/<IP アドレス> を入力して「移動」を押します。$/, 'Enter http://<IP address> or https://<IP address> in the URL bar and press "Go".']
+    [/^ユーザー名:$/, 'Username:'],
+    [/^Cisco と Kato（架空の SASE）の操作について何でも聞いてください。今のラボの機器・設定・ログを見たうえで答えます。たとえば「拠点B から PC#2 に ping が通らない」「HA の VIP はどう決まる？」など。$/, 'Ask anything about operating Cisco and Kato (a fictional SASE). Answers take the current lab\'s devices, settings and logs into account. For example: "ping from Site B to PC#2 fails" or "how is the HA VIP chosen?"'], [/^URL に http:\/\/<IP アドレス> または https:\/\/<IP アドレス> を入力して「移動」を押します。$/, 'Enter http://<IP address> or https://<IP address> in the URL bar and press "Go".']
   ], [
     // phrase fragments for strings assembled from pieces
     'トンネル キープアライブ', 'Tunnel keepalive', 'キープアライブ応答', 'Keepalive reply', 'トンネル内データ', 'Tunnel data', 'Kato Client 接続要求', 'Kato Client connect',

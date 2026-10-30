@@ -145,7 +145,6 @@
 
   // KMC shows English menu labels as katakana in Japanese mode; in English mode keep the English
   if (window.App && window.App.kana) window.App.kana = (l) => l;
-  if (window.App && window.App.sideTip) window.App.sideTip = (l) => l;
   const titleT = () => { const t = tr(document.title); if (t) document.title = t; };
   document.addEventListener("DOMContentLoaded", () => {
     titleT();
@@ -258,6 +257,11 @@
     "例：10.30.0.1（空なら .1）": "e.g. 10.30.0.1 (.1 if empty)",
     "LAN 側機器のゲートウェイになる、Sokket（IPsec サイトでは拠点ルーター）の LAN 側アドレス。HA では VIP になります。": "LAN address of the Sokket (the site router for IPsec sites) that LAN devices use as their gateway. With HA it becomes the VIP."
   }, [
+    [/^(.+?)(（接続済み）|（未接続）)$/, (m, a, b) => I.t(a) + " " + I.t(b)],
+    [/^tunnel source <WAN インターフェース>$/, "tunnel source <WAN interface>"],
+    [/^(.+?)\s+! 社内宛てをトンネルへ（(.*) 以外の拠点）$/, "$1   ! internal destinations into the tunnel (sites other than $2)"],
+    [/^WAN1 を Active、WAN2 を Passive にして保存し、RT1 で$/, "Set WAN1 to Active and WAN2 to Passive, save, and run"],
+    [/^を実行します。数秒で In Use が WAN2 に移り、拠点の通信は続きます。Active が複数あるときは WAN1 を優先し、Active がすべて落ちると Passive、最後に Last Resort を使います。$/, "on RT1. Within seconds In Use moves to WAN2 and the site keeps working. With several Active lines WAN1 is preferred; when every Active line is down Passive is used, and Last Resort comes last."],
     [/^どちらも Native Range（(.+)）の中にしてください。$/, "Both must be inside the Native Range ($1)."],
     [/^Gateway は Native Range（(.+)）の中のアドレスにしてください。$/, "The gateway must be inside the Native Range ($1)."],
     [/^サイト「(.+)」の範囲と重なっています。$/, "Overlaps the range of site \"$1\"."],
